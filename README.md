@@ -1,7 +1,11 @@
 # Voiceworks Studio
 
 Web API + workbench that converts a **URL or PDF** into produced audio and
-video content, in one of three modes:
+video content — built in one evening as an AI-assisted development experiment
+by Nikolai Manigoff Rasmussen with Claude (Fable 5).
+[Read the story on LinkedIn](https://www.linkedin.com/posts/nikolai-rasmussen-8420a818_aiassisteddevelopment-softwarearchitecture-activity-7479980301423812608-Pznk).
+
+Three modes:
 
 | mode | what you get | speakers |
 |---|---|---|
