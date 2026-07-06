@@ -1,6 +1,7 @@
-# Podcast API
+# Voiceworks Studio
 
-Web API that converts a **URL or PDF** into audio (MP3), in one of three modes:
+Web API + workbench that converts a **URL or PDF** into produced audio and
+video content, in one of three modes:
 
 | mode | what you get | speakers |
 |---|---|---|
@@ -8,18 +9,32 @@ Web API that converts a **URL or PDF** into audio (MP3), in one of three modes:
 | `summary` (alias: `resume`) | 2-4 min spoken digest of the source | one narrator |
 | `readout` | the full document adapted for listening | one narrator |
 
-Pipeline: extract text → Claude (Opus 4.8) writes the script → edge-tts
-synthesizes each speaker with a neural voice → one MP3.
+Pipeline (five stages): **extract** text + images from the source →
+**script** written by Claude (Opus 4.8), shaped by mode, personalities, and
+audience → **deck** designed against the script (source images placed,
+figures designed by the model as themed SVG) → **voice** synthesized per
+line with edge-tts, honoring per-line delivery direction → **render** into
+MP3, timestamped transcript, captions, a self-contained web slideshow, and
+MP4 video.
 
 ## Setup
+
+Prerequisites (macOS):
+
+```sh
+brew install ffmpeg cairo   # ffmpeg: video rendering · cairo: SVG figure rasterization
+```
+
+Then:
 
 ```sh
 uv venv .venv
 uv pip install -r requirements.txt --python .venv/bin/python
-export ANTHROPIC_API_KEY=sk-ant-...   # required for script generation
+export ANTHROPIC_API_KEY=sk-ant-...   # required for script/deck generation
 ```
 
-(Instead of an API key you can run `ant auth login` — the SDK picks up the profile.)
+(Instead of an API key you can run `ant auth login` — the SDK picks up the
+profile.) Without ffmpeg, everything except `slides=video` works.
 
 ## Run
 
@@ -30,7 +45,8 @@ export ANTHROPIC_API_KEY=sk-ant-...   # required for script generation
 **Workbench UI: http://localhost:8000/** — a full studio for creating and
 managing generations: library of previous productions (persists across
 restarts), the script → slides → voice → outputs pipeline with per-stage
-iteration, a reusable template library, inline players, and downloads.
+iteration, an asset inventory showing which image or figure lands on which
+slide, a reusable template library, inline players, and downloads.
 
 Interactive API docs: http://localhost:8000/docs
 
@@ -74,6 +90,11 @@ curl -X POST localhost:8000/podcasts \
   -F "url=https://example.com/article" -F "slides=video" \
   -F "templates=@corporate_theme.pptx" \
   -F "templates=@brand_guide.md"
+
+# ...or reference a saved template set from the template library
+curl -X POST localhost:8000/templates -F "name=Corporate" -F "files=@theme.pptx"
+curl -X POST localhost:8000/podcasts \
+  -F "url=https://example.com/article" -F "slides=web" -F "template_id=<id>"
 
 # Set expectations for the deck itself
 curl -X POST localhost:8000/podcasts \
@@ -120,7 +141,9 @@ invented.
 List available voices: `.venv/bin/edge-tts --list-voices` (defaults:
 `en-US-GuyNeural`, `en-US-AriaNeural`).
 
-Poll until done (steps: `extracting` → `writing_script` → `synthesizing_audio`):
+Poll until done (steps: `extracting` → `reading_templates` →
+`writing_script` → `designing_slides` → `synthesizing_audio` →
+`rendering_slides` → `rendering_video`, skipping the ones a job doesn't need):
 
 ```sh
 curl localhost:8000/podcasts/<job_id>
@@ -190,8 +213,11 @@ Notes on the loop:
 
 - Every generation lives in its own folder `data/<job_id>/` with everything
   related to it: `audio.mp3`, `transcript.txt`, `captions.srt`, `slides.html`,
-  `video.mp4`, the current `script.json` / `deck.json` / `theme.json` /
-  `meta.json` state, and the uploaded `templates/`.
+  `video.mp4`, the source text (`source.txt`), the current `script.json` /
+  `deck.json` / `theme.json` / `meta.json` state, the uploaded `templates/`,
+  and `assets/` (images extracted from the source plus the model-designed
+  figures as `.svg` + rasterized `.png`, served at
+  `/podcasts/<id>/assets/<name>`).
 - The library persists: on startup the server rehydrates every generation
   from its `data/<job_id>/` folder, so previous work stays browsable and
   revisable across restarts. `GET /podcasts` lists them; `DELETE
