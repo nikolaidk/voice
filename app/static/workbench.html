@@ -184,6 +184,43 @@ legend { font-family: var(--mono); font-size: 10.5px; letter-spacing: .25em;
 .timing-row { display: flex; align-items: center; gap: 6px; margin-top: 10px;
   font-family: var(--mono); font-size: 10.5px; color: var(--muted); }
 .timing-row input { width: 64px; padding: 3px 6px; font-size: 12px; text-align: right; }
+.mini-play { background: none; border: 1px solid var(--line); color: var(--amber);
+  border-radius: 5px; font-size: 9px; padding: 1px 6px; margin-left: 6px; cursor: pointer; }
+.mini-play:hover { border-color: var(--amber); }
+
+/* slide review overlay */
+#review { position: fixed; inset: 0; z-index: 500; display: flex; align-items: center;
+  justify-content: center; flex-direction: column; gap: 16px; }
+#review[hidden] { display: none; }
+.rv-backdrop { position: absolute; inset: 0; background: rgba(8,9,11,.82); }
+.rv-slide {
+  position: relative; width: min(78vw, 130vh); aspect-ratio: 16/9; border-radius: 14px;
+  padding: 4.5% 5.5%; display: flex; flex-direction: column; justify-content: center;
+  box-shadow: 0 24px 80px rgba(0,0,0,.6); overflow: hidden;
+}
+.rv-slide::before { content:""; position: absolute; inset: 0 auto 0 0; width: 7px; background: var(--rv-accent); }
+.rv-slide h1 { font-family: -apple-system, "Segoe UI", Helvetica, sans-serif;
+  font-size: 3.6vmin; line-height: 1.2; color: var(--rv-ink); }
+.rv-slide .rv-st { margin-top: 2.4vmin; font-size: 2.6vmin; font-style: italic; color: var(--rv-muted); }
+.rv-slide ul { margin: 3vmin 0 0 0; list-style: none; padding: 0; }
+.rv-slide li { font-size: 2.4vmin; line-height: 1.45; padding: .9vmin 0 .9vmin 3vmin;
+  position: relative; color: var(--rv-ink); opacity: .9; }
+.rv-slide li::before { content:""; position: absolute; left: 0; top: 1.9vmin; width: 1.2vmin;
+  height: 1.2vmin; border-radius: 50%; background: var(--rv-accent); }
+.rv-body { display: flex; gap: 4%; align-items: center; flex: 1; min-height: 0; }
+.rv-text { flex: 1; min-width: 0; }
+.rv-visual { flex: 0 0 44%; display: flex; align-items: center; justify-content: center; }
+.rv-visual img { max-width: 100%; max-height: 46vmin; border-radius: 10px; object-fit: contain; }
+.rv-bar {
+  position: relative; display: flex; gap: 10px; align-items: center;
+  background: var(--panel); border: 1px solid var(--line); border-radius: 12px;
+  padding: 10px 16px; font-family: var(--mono); font-size: 11.5px; color: var(--muted);
+}
+.rv-bar .seg { min-width: 200px; }
+.rv-bar label { display: inline-flex; gap: 6px; align-items: center; margin: 0;
+  text-transform: none; letter-spacing: 0; font-size: 11.5px; cursor: pointer; }
+.rv-prog { width: 140px; height: 4px; background: var(--bg2); border-radius: 2px; overflow: hidden; }
+.rv-prog > div { height: 100%; background: var(--amber); width: 0; }
 
 /* asset inventory */
 .asset-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: 12px; }
@@ -356,6 +393,20 @@ input[type=file]::file-selector-button { font: inherit; font-size: 12px; margin-
   </section>
 </main>
 
+<div id="review" hidden>
+  <div class="rv-backdrop" onclick="closeReview()"></div>
+  <div class="rv-slide" id="rv-slide"></div>
+  <div class="rv-bar">
+    <button class="btn small" onclick="reviewStep(-1)" title="Previous slide">&#8249;</button>
+    <button class="btn small" id="rv-toggle" onclick="reviewToggle()">Pause</button>
+    <button class="btn small" onclick="reviewReplay()" title="Replay segment">&#10226;</button>
+    <button class="btn small" onclick="reviewStep(1)" title="Next slide">&#8250;</button>
+    <span class="seg" id="rv-info"></span>
+    <div class="rv-prog"><div id="rv-prog"></div></div>
+    <label><input type="checkbox" id="rv-auto"> auto-advance</label>
+    <button class="btn small" onclick="closeReview()">✕</button>
+  </div>
+</div>
 <div id="toast"></div>
 
 <script>
@@ -500,6 +551,7 @@ async function loadJob() {
   if (!state.current) return;
   let j;
   try { j = await api("/podcasts/" + state.current); } catch (e) { return toast(e.message, true); }
+  state.lastJob = j;
   renderJob(j);
   clearTimeout(state.poll);
   if (j.status === "queued" || j.status === "running") {
@@ -599,7 +651,9 @@ function renderTab(j, running) {
       </div>` : ""}
       ${j.slides_deck ? `<div class="deck-grid">${j.slides_deck.map((s, i) => `
         <div class="slide-card">
-          <div class="n"><span>SLIDE ${i + 1}</span><span>${s.start != null ? "▶ " + fmtTime(s.start) : "@ line " + s.first_line}</span></div>
+          <div class="n"><span>SLIDE ${i + 1}</span>
+            <span>${s.start != null ? fmtTime(s.start) : "@ line " + s.first_line}
+            ${j.audio_url && s.start != null ? `<button class="mini-play" onclick="openReview(${i})" title="Play this slide's narration">▶</button>` : ""}</span></div>
           <h4>${esc(s.title)}</h4>
           ${s.statement ? `<div class="st">${esc(s.statement)}</div>` : ""}
           ${s.bullets?.length ? `<ul>${s.bullets.map(b => `<li>${esc(b)}</li>`).join("")}</ul>` : ""}
@@ -689,6 +743,95 @@ function fmtTime(t) {
   const m = Math.floor(t / 60), s = t - m * 60;
   return m + ":" + (s < 10 ? "0" : "") + s.toFixed(1);
 }
+
+/* ---- per-slide voice review ---- */
+const rv = { job: null, idx: 0, audio: null, end: 0 };
+
+function openReview(i) {
+  const j = state.lastJob;
+  if (!j || !j.audio_url) return;
+  rv.job = j;
+  if (!rv.audio || rv.audioSrc !== j.audio_url) {
+    if (rv.audio) rv.audio.pause();
+    rv.audio = new Audio(j.audio_url + "?v=" + state.tick);
+    rv.audioSrc = j.audio_url;
+    rv.audio.addEventListener("timeupdate", reviewTick);
+  }
+  document.getElementById("review").hidden = false;
+  reviewShow(i);
+}
+
+function segEnd(j, i) {
+  const d = j.slides_deck;
+  if (i + 1 < d.length && d[i + 1].start != null) return d[i + 1].start;
+  return rv.audio && rv.audio.duration ? rv.audio.duration : d[i].start + 30;
+}
+
+function reviewShow(i) {
+  const j = rv.job, d = j.slides_deck;
+  rv.idx = Math.max(0, Math.min(i, d.length - 1));
+  const s = d[rv.idx];
+  const t = j.theme || {};
+  const el = document.getElementById("rv-slide");
+  el.style.background = t.panel || "#1e222a";
+  el.style.setProperty("--rv-ink", t.text_color || "#f2f0eb");
+  el.style.setProperty("--rv-muted", t.muted_color || "#9aa0ab");
+  el.style.setProperty("--rv-accent", t.accent || "#e8a13c");
+  let text = "<h1>" + esc(s.title) + "</h1>";
+  if (s.statement) text += '<div class="rv-st">' + esc(s.statement) + "</div>";
+  if (s.bullets && s.bullets.length)
+    text += "<ul>" + s.bullets.map(b => "<li>" + esc(b) + "</li>").join("") + "</ul>";
+  el.innerHTML = s.visual_url
+    ? '<div class="rv-body"><div class="rv-text">' + text + '</div>' +
+      '<div class="rv-visual"><img src="' + s.visual_url + "?v=" + state.tick + '"></div></div>'
+    : text;
+  rv.end = segEnd(j, rv.idx);
+  document.getElementById("rv-info").textContent =
+    `slide ${rv.idx + 1}/${d.length} · ${fmtTime(s.start)} → ${fmtTime(rv.end)}`;
+  rv.audio.currentTime = s.start;
+  rv.audio.play();
+  document.getElementById("rv-toggle").textContent = "Pause";
+}
+
+function reviewTick() {
+  const s = rv.job.slides_deck[rv.idx];
+  const t = rv.audio.currentTime;
+  const frac = Math.max(0, Math.min(1, (t - s.start) / Math.max(0.1, rv.end - s.start)));
+  document.getElementById("rv-prog").style.width = (frac * 100) + "%";
+  if (t >= rv.end - 0.05) {
+    if (document.getElementById("rv-auto").checked && rv.idx < rv.job.slides_deck.length - 1) {
+      reviewShow(rv.idx + 1);
+    } else {
+      rv.audio.pause();
+      document.getElementById("rv-toggle").textContent = "Play";
+    }
+  }
+}
+
+function reviewToggle() {
+  if (!rv.audio) return;
+  if (rv.audio.paused) {
+    if (rv.audio.currentTime >= rv.end - 0.05) rv.audio.currentTime = rv.job.slides_deck[rv.idx].start;
+    rv.audio.play();
+    document.getElementById("rv-toggle").textContent = "Pause";
+  } else {
+    rv.audio.pause();
+    document.getElementById("rv-toggle").textContent = "Play";
+  }
+}
+function reviewReplay() { if (rv.audio) { rv.audio.currentTime = rv.job.slides_deck[rv.idx].start; rv.audio.play(); document.getElementById("rv-toggle").textContent = "Pause"; } }
+function reviewStep(d) { reviewShow(rv.idx + d); }
+function closeReview() {
+  if (rv.audio) rv.audio.pause();
+  document.getElementById("review").hidden = true;
+}
+document.addEventListener("keydown", e => {
+  if (document.getElementById("review").hidden) return;
+  if (e.key === "Escape") closeReview();
+  if (e.key === "ArrowLeft") reviewStep(-1);
+  if (e.key === "ArrowRight") reviewStep(1);
+  if (e.key === " ") { e.preventDefault(); reviewToggle(); }
+});
 
 async function applyTiming() {
   const offsets = {};

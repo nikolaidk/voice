@@ -220,6 +220,10 @@ Notes on the loop:
   clears). Outputs re-render with the new times. In the workbench, every
   slide card shows its start time with an editable offset. Offsets reset
   when the deck is revised (slide indices shift).
+- **Per-slide voice review**: in the workbench Slides tab, the ▶ on any
+  slide card opens a review overlay — the slide rendered large, playing
+  exactly that slide's narration segment, with prev/next, replay, and
+  auto-advance. Review a slide, nudge its offset, apply, listen again.
 
 ## Notes
 
