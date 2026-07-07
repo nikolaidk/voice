@@ -1137,6 +1137,13 @@ async function deleteJob() {
     state.demo = !!cfg.demo;
   } catch (e) { state.demo = false; }
   if (state.demo) document.body.classList.add("demo");
+  // on a demo.* subdomain the landing page lives on the apex domain
+  if (location.hostname.startsWith("demo.")) {
+    const apex = "https://" + location.hostname.replace(/^demo\./, "");
+    document.querySelectorAll('.brand-link, #mobile-gate a').forEach(a => {
+      a.href = apex + "/" + (a.getAttribute("href").split("#")[1] ? "#" + a.getAttribute("href").split("#")[1] : "");
+    });
+  }
   await refreshLibrary();
   loadTemplateOptions();
   if (state.demo && state.jobs.length) openJob(state.jobs[0].job_id);
