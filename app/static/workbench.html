@@ -269,6 +269,8 @@ video { width: 100%; border-radius: 10px; background: #000; }
   animation: rise .2s ease; max-width: 380px; }
 .toast.err { border-left-color: var(--red); }
 
+#source-zone.dragging { border-color: var(--amber); background: var(--amber-soft); }
+#pdf-name:not(:empty) { color: var(--amber); font-weight: 600; }
 .radio-row { display: flex; gap: 14px; margin-bottom: 10px; }
 .radio-row label { display: flex; gap: 6px; align-items: center; text-transform: none;
   letter-spacing: 0; font-size: 13.5px; color: var(--ink); font-weight: 500; cursor: pointer; margin: 0; }
@@ -303,14 +305,18 @@ input[type=file]::file-selector-button { font: inherit; font-size: 12px; margin-
     <p class="hint" style="margin:6px 0 24px">Point at a URL or PDF; choose how far to take it — a transcript draft you iterate on, or the full production in one pass.</p>
 
     <form id="new-form" onsubmit="createJob(event)">
-      <fieldset>
+      <fieldset id="source-zone">
         <legend>Source</legend>
         <div class="radio-row">
           <label><input type="radio" name="srctype" value="url" checked onchange="srcTypeChanged()"> URL</label>
           <label><input type="radio" name="srctype" value="pdf" onchange="srcTypeChanged()"> PDF upload</label>
         </div>
         <div class="field" id="src-url"><input name="url" placeholder="https://example.com/article"></div>
-        <div class="field" id="src-pdf" style="display:none"><input type="file" name="file" accept="application/pdf"></div>
+        <div class="field" id="src-pdf" style="display:none">
+          <input type="file" name="file" accept="application/pdf" onchange="pdfChosen()">
+          <div class="hint" id="pdf-name"></div>
+        </div>
+        <div class="hint">Tip: drag a PDF from your computer anywhere onto this box.</div>
       </fieldset>
 
       <fieldset>
@@ -499,6 +505,33 @@ async function deleteTemplate(id) {
 }
 
 /* ---------------------------------------------------------------- create */
+function pdfChosen() {
+  const f = document.querySelector('#new-form [name="file"]').files[0];
+  $("#pdf-name").textContent = f ? `Selected: ${f.name} (${(f.size/1024/1024).toFixed(1)} MB)` : "";
+}
+
+(function initDropzone() {
+  const zone = $("#source-zone");
+  ["dragenter","dragover"].forEach(ev => zone.addEventListener(ev, e => {
+    e.preventDefault(); zone.classList.add("dragging");
+  }));
+  ["dragleave","drop"].forEach(ev => zone.addEventListener(ev, e => {
+    e.preventDefault(); zone.classList.remove("dragging");
+  }));
+  zone.addEventListener("drop", e => {
+    const f = [...e.dataTransfer.files].find(f =>
+      f.type === "application/pdf" || f.name.toLowerCase().endsWith(".pdf"));
+    if (!f) return toast("Drop a PDF file.", true);
+    const input = document.querySelector('#new-form [name="file"]');
+    const dt = new DataTransfer(); dt.items.add(f);
+    input.files = dt.files;
+    const radio = document.querySelector('input[name="srctype"][value="pdf"]');
+    radio.checked = true;
+    srcTypeChanged(); pdfChosen();
+    toast(`PDF attached: ${f.name}`);
+  });
+})();
+
 function srcTypeChanged() {
   const url = $("input[name=srctype]:checked").value === "url";
   $("#src-url").style.display = url ? "" : "none";
