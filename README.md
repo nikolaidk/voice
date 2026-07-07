@@ -1,6 +1,6 @@
-# Voiceworks Studio
+# Fluent Agents Studio
 
-Web API + workbench that converts a **URL or PDF** into produced audio and
+**fluentagents.com** — web API + workbench that converts a **URL or PDF** into produced audio and
 video content — built in one evening as an AI-assisted development experiment
 by Nikolai Manigoff Rasmussen with Claude (Fable 5).
 [Read the story on LinkedIn](https://www.linkedin.com/posts/nikolai-rasmussen-8420a818_aiassisteddevelopment-softwarearchitecture-activity-7479980301423812608-Pznk).
@@ -46,13 +46,26 @@ profile.) Without ffmpeg, everything except `slides=video` works.
 .venv/bin/uvicorn app.main:app --port 8000
 ```
 
-**Workbench UI: http://localhost:8000/** — a full studio for creating and
+**Workbench UI (Fluent Agents Studio): http://localhost:8000/** — a full studio for creating and
 managing generations: library of previous productions (persists across
 restarts), the script → slides → voice → outputs pipeline with per-stage
 iteration, an asset inventory showing which image or figure lands on which
 slide, a reusable template library, inline players, and downloads.
 
 Interactive API docs: http://localhost:8000/docs
+
+## User guide
+
+**[docs/user-guide.html](docs/user-guide.html)** — a 10-minute video-style
+walkthrough of the entire workbench, from first generation to finished
+production, made for complete beginners. It is a self-contained slideshow
+(voice-over embedded, synced slides, toggleable captions — open it in any
+browser) and was produced by the workbench itself from a written guide, so it
+doubles as a demo of the output quality. Also available:
+[the transcript](docs/user-guide-transcript.txt) and
+[a PowerPoint with the narration as speaker notes](docs/user-guide.pptx).
+The MP4 version lives in the workbench library ("Fluent Agents Studio — the
+complete user guide").
 
 ## Usage
 

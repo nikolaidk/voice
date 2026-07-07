@@ -26,7 +26,7 @@ from . import extract, pptx_out, script_gen, slides as slides_mod, text_out, tts
 from .extract import ExtractionError
 
 app = FastAPI(
-    title="Podcast API",
+    title="Fluent Agents Studio",
     description=(
         "Convert a URL or PDF into audio: a two-host podcast, a spoken "
         "summary, or a full readout — with optional synced slides, captions, "
