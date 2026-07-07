@@ -215,6 +215,11 @@ async def landing():
     return HTMLResponse(page)
 
 
+@app.get("/about", include_in_schema=False)
+async def about() -> FileResponse:
+    return FileResponse(STATIC_DIR / "about.html", media_type="text/html")
+
+
 @app.get("/studio", include_in_schema=False)
 async def workbench() -> FileResponse:
     return FileResponse(STATIC_DIR / "workbench.html", media_type="text/html")

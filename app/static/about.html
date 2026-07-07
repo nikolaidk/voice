@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>About — Fluent Agents Studio</title>
+<meta name="description" content="The experiment behind Fluent Agents Studio: highly specialised agentic workflows, directed by a human architect in plain language.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..700;1,9..144,300..700&family=Spline+Sans:wght@300..700&family=Spline+Sans+Mono:wght@300..700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #131417; --panel: #1c1e24; --line: #2b2e37;
+  --ink: #ece9e2; --muted: #8b909c; --dim: #5c6170;
+  --amber: #e8a13c;
+  --serif: "Fraunces", Georgia, serif;
+  --sans: "Spline Sans", "Helvetica Neue", sans-serif;
+  --mono: "Spline Sans Mono", ui-monospace, monospace;
+}
+* { box-sizing: border-box; margin: 0; }
+body { background: var(--bg); color: var(--ink); font-family: var(--sans);
+  font-size: 17px; line-height: 1.72; -webkit-font-smoothing: antialiased; }
+body::before { content: ""; position: fixed; inset: 0; pointer-events: none;
+  background: radial-gradient(900px 480px at 75% -5%, rgba(232,161,60,.09), transparent 60%); }
+main { position: relative; max-width: 720px; margin: 0 auto; padding: 0 32px 80px; }
+a { color: var(--amber); text-decoration: none; }
+header { display: flex; justify-content: space-between; align-items: center; padding: 26px 0 70px; }
+.wordmark { font-family: var(--serif); font-style: italic; font-weight: 500; font-size: 24px; color: var(--ink); }
+.wordmark .dot { color: var(--amber); font-style: normal; }
+.back { font-family: var(--mono); font-size: 12px; letter-spacing: .12em; color: var(--muted); }
+.back:hover { color: var(--amber); }
+.eyebrow { font-family: var(--mono); font-size: 11px; letter-spacing: .34em;
+  text-transform: uppercase; color: var(--amber); margin-bottom: 16px; }
+h1 { font-family: var(--serif); font-weight: 480; font-size: clamp(32px, 5vw, 46px);
+  line-height: 1.12; letter-spacing: -.01em; margin-bottom: 34px; }
+h1 em { font-style: italic; color: var(--amber); }
+p { color: var(--muted); margin-bottom: 22px; }
+p strong { color: var(--ink); font-weight: 600; }
+.pull { border-left: 3px solid var(--amber); padding: 4px 0 4px 22px; margin: 34px 0;
+  font-family: var(--serif); font-style: italic; font-size: 21px; line-height: 1.5; color: var(--ink); }
+.who { display: flex; gap: 18px; align-items: center; background: var(--panel);
+  border: 1px solid var(--line); border-radius: 16px; padding: 24px; margin: 44px 0 30px; }
+.who .init { flex: 0 0 62px; height: 62px; border-radius: 50%; background: rgba(232,161,60,.14);
+  border: 1px solid rgba(232,161,60,.45); display: flex; align-items: center; justify-content: center;
+  font-family: var(--serif); font-style: italic; font-size: 24px; color: var(--amber); }
+.who h3 { font-size: 17px; font-weight: 650; }
+.who p { font-size: 14px; margin: 4px 0 0; }
+.cta { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 34px; }
+.btn { display: inline-flex; align-items: center; gap: 8px; border: 1px solid var(--line);
+  background: var(--panel); color: var(--ink); border-radius: 10px; padding: 12px 22px;
+  font-weight: 650; font-size: 15px; transition: border-color .15s; }
+.btn:hover { border-color: var(--amber); }
+.btn.primary { background: var(--amber); border-color: var(--amber); color: #17130a; }
+@keyframes rise { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+main > * { animation: rise .6s cubic-bezier(.2,.7,.3,1) both; }
+main > *:nth-child(2) { animation-delay: .07s } main > *:nth-child(3) { animation-delay: .12s }
+main > *:nth-child(4) { animation-delay: .17s } main > *:nth-child(5) { animation-delay: .22s }
+main > *:nth-child(6) { animation-delay: .27s } main > *:nth-child(7) { animation-delay: .32s }
+main > *:nth-child(8) { animation-delay: .37s }
+</style>
+</head>
+<body>
+<main>
+  <header>
+    <a class="wordmark" href="/">fluent<span class="dot">·</span>agents</a>
+    <a class="back" href="/">← BACK TO THE STUDIO</a>
+  </header>
+
+  <div class="eyebrow">Why this exists</div>
+  <h1>Highly specialised agentic workflows, <em>in action</em>.</h1>
+
+  <p>Everything on this site — the production studio, the pipeline behind it, the guide
+  video explaining it, even this page — was built in a running conversation between a
+  human architect and an AI system. The human wrote no code. He directed: one plain-language
+  instruction at a time, each one reviewed, tested, and either accepted or sent back.</p>
+
+  <p><strong>The domain is almost beside the point.</strong> Voice-overs and slide decks made
+  a vivid showcase, but the method transfers to any domain: break the vision into stages an
+  agent can own, keep a skilled human in the loop at every one of them, make every result
+  verifiable and every cost visible — and push the AI to the edge of what it can do, in a
+  human-first, friendly way.</p>
+
+  <div class="pull">The scarce skill was never typing the code. It was knowing what to
+  build, noticing what wasn't right yet, and saying so in one clear sentence.</div>
+
+  <p>That is what this demo quietly demonstrates. Every feature you can see — the revisable
+  script, the self-designing slides, the directable voice, the one-command cloud deployment —
+  began as a sentence like <em>"we should be able to adjust timing in the slide show."</em>
+  The workflow turned each sentence into working, tested, deployed software, usually within
+  the hour, with the spend for every step accounted for on the project itself.</p>
+
+  <div class="who">
+    <div class="init">NR</div>
+    <div>
+      <h3>Nikolai Manigoff Rasmussen</h3>
+      <p>Senior architect &amp; tech philosopher · cand.mag. in philosophy and philosophy of
+      science. Designed, directed and quality-assured this experiment — with Claude (Fable 5)
+      as the sole implementer.</p>
+    </div>
+  </div>
+
+  <p>If this way of working speaks to you — for your domain, your team, your problem —
+  he'd like to hear from you.</p>
+
+  <div class="cta">
+    <a class="btn primary" href="https://www.linkedin.com/in/nikolai-rasmussen-8420a818/">Connect on LinkedIn</a>
+    <a class="btn" href="https://github.com/nikolaidk/voice">Source on GitHub</a>
+    <a class="btn" href="/#guide">Watch the guide</a>
+  </div>
+</main>
+</body>
+</html>
