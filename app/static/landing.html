@@ -123,6 +123,23 @@ footer .fm { font-family: var(--mono); font-size: 11px; letter-spacing: .2em; te
 .hero .eyebrow { animation-delay: .05s } .hero h1 { animation-delay: .12s }
 .hero .sub { animation-delay: .2s } .hero .cta { animation-delay: .28s }
 .hero .hero-note { animation-delay: .34s } .stage > * { animation-delay: .4s }
+
+@media (max-width: 680px) {
+  main { padding: 0 20px; }
+  header { flex-direction: column; align-items: flex-start; gap: 16px; }
+  nav { flex-wrap: wrap; }
+  .btn { padding: 11px 16px; font-size: 14px; }
+  .hero { padding: 48px 0 22px; }
+  .sub { font-size: 16.5px; margin: 20px 0 26px; }
+  .cta { gap: 10px; }
+  .stage { padding: 30px 0 6px; }
+  .stage .after { flex-direction: column; gap: 8px; }
+  .features { padding: 56px 0 10px; }
+  .examples { padding: 46px 0 20px; }
+  h2 { font-size: 27px; }
+  footer { flex-direction: column; }
+  footer div[style] { align-self: flex-start !important; }
+}
 </style>
 </head>
 <body>

@@ -3,6 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Fluent Agents Studio</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -54,6 +55,23 @@ aside {
 .brand h1 .dot { color: var(--amber); font-style: normal; }
 .brand-link { text-decoration: none; color: inherit; }
 .brand-link:hover h1 { color: var(--amber); }
+#mobile-gate { display: none; }
+@media (max-width: 919px), (max-height: 519px) {
+  #mobile-gate { display: flex; position: fixed; inset: 0; z-index: 9999;
+    background: var(--bg); flex-direction: column; justify-content: center;
+    align-items: flex-start; gap: 14px; padding: 36px 28px; }
+  #mobile-gate .mg-brand { font-family: var(--serif); font-style: italic;
+    font-size: 26px; }
+  #mobile-gate .mg-brand .dot { color: var(--amber); font-style: normal; }
+  #mobile-gate .mg-sub { font-family: var(--mono); font-size: 10px;
+    letter-spacing: .38em; color: var(--muted); margin-top: -10px; }
+  #mobile-gate h2 { font-family: var(--serif); font-weight: 500; font-size: 26px;
+    line-height: 1.25; margin-top: 14px; }
+  #mobile-gate p { color: var(--muted); font-size: 15px; line-height: 1.6;
+    max-width: 480px; }
+  #mobile-gate .mg-cta { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 10px; }
+  #mobile-gate a.btn { text-decoration: none; }
+}
 .brand .sub { font-family: var(--mono); font-size: 10px; letter-spacing: .38em;
   color: var(--muted); text-transform: uppercase; margin-top: 2px; }
 .demo-badge { display: none; font-family: var(--mono); font-size: 10px; letter-spacing: .2em;
@@ -290,6 +308,19 @@ input[type=radio] { width: auto; accent-color: var(--amber); }
 </style>
 </head>
 <body>
+<div id="mobile-gate">
+  <div class="mg-brand">fluent<span class="dot">·</span>agents</div>
+  <div class="mg-sub">STUDIO</div>
+  <h2>The studio needs a bigger canvas</h2>
+  <p>This workbench is a production tool — slide decks, timelines and per-slide review
+  need a screen at least <strong>920&nbsp;×&nbsp;520 pixels</strong> and a
+  keyboard-and-pointer setup. On a tablet, landscape with a wide window may be enough.</p>
+  <p>On this device you can still enjoy everything the studio makes:</p>
+  <div class="mg-cta">
+    <a class="btn primary" href="/">Visit the landing page</a>
+    <a class="btn" href="/#guide">▶&nbsp;Watch the guide</a>
+  </div>
+</div>
 
 <aside>
   <div class="brand">

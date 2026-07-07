@@ -57,6 +57,15 @@ main > *:nth-child(2) { animation-delay: .07s } main > *:nth-child(3) { animatio
 main > *:nth-child(4) { animation-delay: .17s } main > *:nth-child(5) { animation-delay: .22s }
 main > *:nth-child(6) { animation-delay: .27s } main > *:nth-child(7) { animation-delay: .32s }
 main > *:nth-child(8) { animation-delay: .37s }
+
+@media (max-width: 680px) {
+  body { font-size: 16px; }
+  main { padding: 0 20px 60px; }
+  header { padding: 22px 0 44px; flex-wrap: wrap; gap: 10px; }
+  .pull { font-size: 18.5px; padding-left: 16px; margin: 26px 0; }
+  .who { flex-direction: column; align-items: flex-start; gap: 12px; }
+  .btn { padding: 11px 16px; font-size: 14px; }
+}
 </style>
 </head>
 <body>
