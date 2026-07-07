@@ -33,6 +33,22 @@
   {
    "target": "script",
    "instructions": "The source document has been completely rewritten (it now describes every screen visually for someone who has never opened the app). Rewrite the ENTIRE script as a faithful readout of the new source, in the same warm instructor voice: one short welcome line naming the product once, then the full document, with headings becoming natural spoken transitions."
+  },
+  {
+   "target": "source",
+   "instructions": "replaced source with http://localhost:8898/userguide.html"
+  },
+  {
+   "target": "script",
+   "instructions": "The source's 'Station four: the outputs' section gained new material: a YouTube card \u2014 one-time five-minute channel connection, then one-button publishing that uploads as private for review first, with the link saved on the project. Update ONLY the outputs line(s) of the script to faithfully include this"
+  },
+  {
+   "target": "source",
+   "instructions": "replaced source with http://localhost:8898/userguide.html"
+  },
+  {
+   "target": "script",
+   "instructions": "The source's 'Your first look at the studio' section gained a new opening paragraph: the studio's web address fluentagents.com greets you with a landing page \u2014 the front door \u2014 where this guide plays as a video with real example productions beneath it, and an amber Open the Studio button leads into the workbench where the tour begins. Insert this faithfully as narration at that point in the script. Keep every other line word-for-word unchanged, including the YouTube material in the outputs line."
   }
  ],
  "cues": [
@@ -54,77 +70,83 @@
   {
    "line": 3,
    "start": 65.952,
-   "duration": 43.104
+   "duration": 20.424
   },
   {
    "line": 4,
-   "start": 109.056,
-   "duration": 28.464
+   "start": 86.376,
+   "duration": 39.72
   },
   {
    "line": 5,
-   "start": 137.51999999999998,
-   "duration": 59.568
+   "start": 126.096,
+   "duration": 28.464
   },
   {
    "line": 6,
-   "start": 197.08799999999997,
-   "duration": 34.488
+   "start": 154.56,
+   "duration": 59.568
   },
   {
    "line": 7,
-   "start": 231.57599999999996,
-   "duration": 55.272
+   "start": 214.128,
+   "duration": 34.488
   },
   {
    "line": 8,
-   "start": 286.84799999999996,
-   "duration": 53.664
+   "start": 248.61599999999999,
+   "duration": 55.272
   },
   {
    "line": 9,
-   "start": 340.51199999999994,
-   "duration": 44.52
+   "start": 303.888,
+   "duration": 53.664
   },
   {
    "line": 10,
-   "start": 385.0319999999999,
-   "duration": 35.544
+   "start": 357.55199999999996,
+   "duration": 44.52
   },
   {
    "line": 11,
-   "start": 420.5759999999999,
-   "duration": 40.536
+   "start": 402.07199999999995,
+   "duration": 35.544
   },
   {
    "line": 12,
-   "start": 461.1119999999999,
-   "duration": 35.28
+   "start": 437.61599999999993,
+   "duration": 40.536
   },
   {
    "line": 13,
-   "start": 496.39199999999994,
-   "duration": 48.12
+   "start": 478.15199999999993,
+   "duration": 35.28
   },
   {
    "line": 14,
-   "start": 544.512,
-   "duration": 33.504
+   "start": 513.4319999999999,
+   "duration": 66.504
   },
   {
    "line": 15,
-   "start": 578.016,
+   "start": 579.9359999999999,
+   "duration": 33.504
+  },
+  {
+   "line": 16,
+   "start": 613.4399999999999,
    "duration": 55.944
   }
  ],
  "timing": {},
  "usage": {
-  "input": 61346,
-  "output": 35798,
+  "input": 85704,
+  "output": 53235,
   "cache_read": 0,
-  "cache_write": 7253,
-  "calls": 6
+  "cache_write": 14978,
+  "calls": 9
  },
+ "youtube": null,
  "stale": {
   "slides": false,
   "audio": false,

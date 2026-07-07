@@ -55,437 +55,465 @@ Keep that in mind throughout: you never edit anything by hand.
 You describe, the studio produces.
 
 15
-00:01:05,952 --> 00:01:08,612
+00:01:05,952 --> 00:01:08,659
 So let's take your first look at the studio.
 
 16
-00:01:08,612 --> 00:01:13,751
-When you open it in your browser, you're looking at a dark page split into two areas.
+00:01:08,659 --> 00:01:13,888
+The studio's web address, fluentagents.com, greets you with its front door: a landing
 
 17
-00:01:13,751 --> 00:01:21,852
-Down the left side runs a narrow column — that's the library, the list of everything you've ever produced, with a search box above it.
+00:01:13,888 --> 00:01:19,855
+page where this very guide plays as a video, with real example productions to explore beneath it.
 
 18
-00:01:21,852 --> 00:01:25,297
-Nothing in the library disappears when you close the app.
+00:01:19,855 --> 00:01:26,376
+Press the amber Open the Studio button there and you're in the workbench — which is where our tour begins.
 
 19
-00:01:25,297 --> 00:01:30,678
-At the top of that column sit two buttons: an amber one labeled New Generation — amber is
+00:01:26,376 --> 00:01:30,627
+Inside the studio, you're looking at a dark page split into two areas.
 
 20
-00:01:30,678 --> 00:01:36,058
-the studio's signature orange-gold color, and that button is where every project begins —
+00:01:30,627 --> 00:01:38,766
+Down the left side runs a narrow column — that's the library, the list of everything you've ever produced, with a search box above it.
 
 21
-00:01:36,058 --> 00:01:39,686
-and a plain one labeled Templates, which we'll come back to.
+00:01:38,766 --> 00:01:42,228
+Nothing in the library disappears when you close the app.
 
 22
-00:01:39,686 --> 00:01:45,066
-The large area to the right is your workspace, and it opens on a form titled "From source
+00:01:42,228 --> 00:01:47,633
+At the top of that column sit two buttons: an amber one labeled New Generation — amber is
 
 23
-00:01:45,066 --> 00:01:49,056
-to sound." That form is what you're seeing on the slide right now.
+00:01:47,633 --> 00:01:53,038
+the studio's signature orange-gold color, and that button is where every project begins —
 
 24
-00:01:49,056 --> 00:01:53,921
-Now let's fill in the form, top to bottom. It reads in three boxes.
+00:01:53,038 --> 00:01:56,682
+and a plain one labeled Templates, which we'll come back to.
 
 25
-00:01:53,921 --> 00:01:56,245
-The first box is labeled Source.
+00:01:56,682 --> 00:02:02,088
+The large area to the right is your workspace, and it opens on a form titled "From source
 
 26
-00:01:56,245 --> 00:02:01,763
-It has two small round buttons — URL and PDF upload — and a wide text field.
+00:02:02,088 --> 00:02:06,096
+to sound." That form is what you're seeing on the slide right now.
 
 27
-00:02:01,763 --> 00:02:07,136
-Paste a web address into the field, or click PDF upload and choose a file.
+00:02:06,096 --> 00:02:10,961
+Now let's fill in the form, top to bottom. It reads in three boxes.
 
 28
-00:02:07,136 --> 00:02:13,091
-Easier still: drag a PDF from your computer anywhere onto that box and it attaches
+00:02:10,961 --> 00:02:13,285
+The first box is labeled Source.
 
 29
-00:02:13,091 --> 00:02:17,520
-itself, showing the file's name in amber so you know it took.
+00:02:13,285 --> 00:02:18,803
+It has two small round buttons — URL and PDF upload — and a wide text field.
 
 30
-00:02:17,520 --> 00:02:22,176
-The second box, Production, is where you make the three decisions that matter.
+00:02:18,803 --> 00:02:24,176
+Paste a web address into the field, or click PDF upload and choose a file.
 
 31
-00:02:22,176 --> 00:02:27,428
-The Mode menu decides the kind of listening experience: Podcast turns your source into a
+00:02:24,176 --> 00:02:30,131
+Easier still: drag a PDF from your computer anywhere onto that box and it attaches
 
 32
-00:02:27,428 --> 00:02:32,442
-lively conversation between two hosts; Summary gives you one narrator delivering the
+00:02:30,131 --> 00:02:34,560
+itself, showing the file's name in amber so you know it took.
 
 33
-00:02:32,442 --> 00:02:38,590
-short version in a few minutes; Readout is the whole document read aloud faithfully, like an audiobook.
+00:02:34,560 --> 00:02:39,216
+The second box, Production, is where you make the three decisions that matter.
 
 34
-00:02:38,590 --> 00:02:43,842
-The Run Until menu decides how far the studio goes before pausing for you: choose Script
+00:02:39,216 --> 00:02:44,468
+The Mode menu decides the kind of listening experience: Podcast turns your source into a
 
 35
-00:02:43,842 --> 00:02:51,243
-Draft and it stops after writing the words — the cheap, safe place to start; choose Full Production and it goes all the way.
+00:02:44,468 --> 00:02:49,482
+lively conversation between two hosts; Summary gives you one narrator delivering the
 
 36
-00:02:51,243 --> 00:02:56,257
-And the Audience field is a plain-text box where you describe who will listen — type
+00:02:49,482 --> 00:02:55,630
+short version in a few minutes; Readout is the whole document read aloud faithfully, like an audiobook.
 
 37
-00:02:56,257 --> 00:03:01,032
-"complete beginners" or "busy executives who want numbers," and the writing, the
+00:02:55,630 --> 00:03:00,882
+The Run Until menu decides how far the studio goes before pausing for you: choose Script
 
 38
-00:03:01,032 --> 00:03:05,151
-examples, and the level of explanation all shift to fit those people.
+00:03:00,882 --> 00:03:08,283
+Draft and it stops after writing the words — the cheap, safe place to start; choose Full Production and it goes all the way.
 
 39
-00:03:05,151 --> 00:03:10,463
-Below these sit optional personality fields — describe a host as "an enthusiastic teacher
+00:03:08,283 --> 00:03:13,297
+And the Audience field is a plain-text box where you describe who will listen — type
 
 40
-00:03:10,463 --> 00:03:17,088
-who loves analogies" and that is exactly who you'll hear — and voice pickers, which you can safely leave empty.
+00:03:13,297 --> 00:03:18,072
+"complete beginners" or "busy executives who want numbers," and the writing, the
 
 41
-00:03:17,088 --> 00:03:20,818
-The third box, Slides and Captions, chooses your outputs.
+00:03:18,072 --> 00:03:22,191
+examples, and the level of explanation all shift to fit those people.
 
 42
-00:03:20,818 --> 00:03:25,857
-Slides picks the formats: web slideshow, video, PowerPoint, or a combination.
+00:03:22,191 --> 00:03:27,503
+Below these sit optional personality fields — describe a host as "an enthusiastic teacher
 
 43
-00:03:25,857 --> 00:03:31,158
-Captions are the spoken words shown as text on screen — pick Burned to print them
+00:03:27,503 --> 00:03:34,128
+who loves analogies" and that is exactly who you'll hear — and voice pickers, which you can safely leave empty.
 
 44
-00:03:31,158 --> 00:03:36,263
-permanently into the video, or Toggle so each viewer can turn them on and off.
+00:03:34,128 --> 00:03:37,858
+The third box, Slides and Captions, chooses your outputs.
 
 45
-00:03:36,263 --> 00:03:42,021
-Animations, when switched on, makes slide content glide in element by element instead of
+00:03:37,858 --> 00:03:42,897
+Slides picks the formats: web slideshow, video, PowerPoint, or a combination.
 
 46
-00:03:42,021 --> 00:03:46,668
-appearing all at once — you're seeing that effect on these very slides.
+00:03:42,897 --> 00:03:48,198
+Captions are the spoken words shown as text on screen — pick Burned to print them
 
 47
-00:03:46,668 --> 00:03:51,576
-Then the amber Start Generation button at the bottom sets it all in motion.
+00:03:48,198 --> 00:03:53,303
+permanently into the video, or Toggle so each viewer can turn them on and off.
 
 48
-00:03:51,576 --> 00:03:55,190
-Now let's talk about the project page and the four lights.
+00:03:53,303 --> 00:03:59,061
+Animations, when switched on, makes slide content glide in element by element instead of
 
 49
-00:03:55,190 --> 00:03:59,116
-The moment you start, the studio opens your project's own page.
+00:03:59,061 --> 00:04:03,708
+appearing all at once — you're seeing that effect on these very slides.
 
 50
-00:03:59,116 --> 00:04:06,780
-The project's title sits large at the top, with a small status capsule on the right that says whether it's working or done.
+00:04:03,708 --> 00:04:08,616
+Then the amber Start Generation button at the bottom sets it all in motion.
 
 51
-00:04:06,780 --> 00:04:12,139
-And just below the title runs the most important thing on the page: a horizontal strip
+00:04:08,616 --> 00:04:12,230
+Now let's talk about the project page and the four lights.
 
 52
-00:04:12,139 --> 00:04:17,062
-with four dots connected by a line, labeled Script, Slides, Voice, and Outputs.
+00:04:12,230 --> 00:04:16,156
+The moment you start, the studio opens your project's own page.
 
 53
-00:04:17,062 --> 00:04:22,546
-Think of it as four stations on an assembly line — first the words get written, then the
+00:04:16,156 --> 00:04:23,820
+The project's title sits large at the top, with a small status capsule on the right that says whether it's working or done.
 
 54
-00:04:22,546 --> 00:04:27,655
-visuals get designed, then the voice gets recorded, then everything gets packaged.
+00:04:23,820 --> 00:04:29,179
+And just below the title runs the most important thing on the page: a horizontal strip
 
 55
-00:04:27,655 --> 00:04:33,451
-A solid amber dot means that station is finished; a pulsing dot means it's working right now.
+00:04:29,179 --> 00:04:34,102
+with four dots connected by a line, labeled Script, Slides, Voice, and Outputs.
 
 56
-00:04:33,451 --> 00:04:37,252
-Each label is clickable and takes you to that station's page.
+00:04:34,102 --> 00:04:39,586
+Think of it as four stations on an assembly line — first the words get written, then the
 
 57
-00:04:37,252 --> 00:04:42,735
-The studio's whole philosophy lives in this strip: you can stop at any station, say what
+00:04:39,586 --> 00:04:44,695
+visuals get designed, then the voice gets recorded, then everything gets packaged.
 
 58
-00:04:42,735 --> 00:04:46,848
-you'd like changed, and everything after it updates automatically.
+00:04:44,695 --> 00:04:50,491
+A solid amber dot means that station is finished; a pulsing dot means it's working right now.
 
 59
-00:04:46,848 --> 00:04:49,043
-Let's visit station one: the script.
+00:04:50,491 --> 00:04:54,292
+Each label is clickable and takes you to that station's page.
 
 60
-00:04:49,043 --> 00:04:54,227
-Click Script — the first light — and you see the transcript: every sentence the voice
+00:04:54,292 --> 00:04:59,775
+The studio's whole philosophy lives in this strip: you can stop at any station, say what
 
 61
-00:04:54,227 --> 00:05:00,996
-will speak, laid out as a numbered list, each line carrying a small letter badge showing which speaker says it.
+00:04:59,775 --> 00:05:03,888
+you'd like changed, and everything after it updates automatically.
 
 62
-00:05:00,996 --> 00:05:06,362
-What's on the slide now is a real script page. Read it the way a director reads a draft.
+00:05:03,888 --> 00:05:06,083
+Let's visit station one: the script.
 
 63
-00:05:06,362 --> 00:05:11,668
-When you want changes, look at the bottom of the page: there's a large text box labeled
+00:05:06,083 --> 00:05:11,267
+Click Script — the first light — and you see the transcript: every sentence the voice
 
 64
-00:05:11,668 --> 00:05:15,753
-Revision Instructions with an amber Revise Script button beside it.
+00:05:11,267 --> 00:05:18,036
+will speak, laid out as a numbered list, each line carrying a small letter badge showing which speaker says it.
 
 65
-00:05:15,753 --> 00:05:20,998
-Type what you want in plain words — "Open with a question instead of an announcement,"
+00:05:18,036 --> 00:05:23,402
+What's on the slide now is a real script page. Read it the way a director reads a draft.
 
 66
-00:05:20,998 --> 00:05:26,242
-"Cut the part about pricing," "Make the second host funnier" — and the studio rewrites
+00:05:23,402 --> 00:05:28,708
+When you want changes, look at the bottom of the page: there's a large text box labeled
 
 67
-00:05:26,242 --> 00:05:30,938
-exactly what you asked for, leaving every other line word-for-word untouched.
+00:05:28,708 --> 00:05:32,793
+Revision Instructions with an amber Revise Script button beside it.
 
 68
-00:05:30,938 --> 00:05:36,182
-A revision takes about a minute, and this is the single most important habit to learn:
+00:05:32,793 --> 00:05:38,038
+Type what you want in plain words — "Open with a question instead of an announcement,"
 
 69
-00:05:36,182 --> 00:05:40,512
-polish the words while they're cheap, before any audio or video exists.
+00:05:38,038 --> 00:05:43,282
+"Cut the part about pricing," "Make the second host funnier" — and the studio rewrites
 
 70
-00:05:40,512 --> 00:05:42,329
-On to station two: the slides.
+00:05:43,282 --> 00:05:47,978
+exactly what you asked for, leaving every other line word-for-word untouched.
 
 71
-00:05:42,329 --> 00:05:48,265
-Click Slides and the deck appears as a grid of small cards, one card per slide, like a storyboard.
+00:05:47,978 --> 00:05:53,222
+A revision takes about a minute, and this is the single most important habit to learn:
 
 72
-00:05:48,265 --> 00:05:53,353
-Each card shows the slide's number, the moment in the audio when it will appear, its
+00:05:53,222 --> 00:05:57,552
+polish the words while they're cheap, before any audio or video exists.
 
 73
-00:05:53,353 --> 00:05:59,350
-title and bullet points, and — when the slide carries a picture or a chart — a small preview of it.
+00:05:57,552 --> 00:05:59,369
+On to station two: the slides.
 
 74
-00:05:59,350 --> 00:06:04,680
-The pictures aren't decoration pulled from a stock library: the studio lifts real images
+00:05:59,369 --> 00:06:05,305
+Click Slides and the deck appears as a grid of small cards, one card per slide, like a storyboard.
 
 75
-00:06:04,680 --> 00:06:12,675
-out of your source document, and it draws its own charts, timelines, and diagrams whenever the material contains data worth showing.
+00:06:05,305 --> 00:06:10,393
+Each card shows the slide's number, the moment in the audio when it will appear, its
 
 76
-00:06:12,675 --> 00:06:17,763
-Scroll to the bottom of this page and you'll find the Asset Inventory — a gallery of
+00:06:10,393 --> 00:06:16,390
+title and bullet points, and — when the slide carries a picture or a chart — a small preview of it.
 
 77
-00:06:17,763 --> 00:06:25,032
-every image and figure with a note saying exactly which slide uses each one, so nothing in your production is a mystery.
+00:06:16,390 --> 00:06:21,720
+The pictures aren't decoration pulled from a stock library: the studio lifts real images
 
 78
-00:06:25,032 --> 00:06:30,066
-Slides revise exactly like the script — same kind of box at the bottom, same plain
+00:06:21,720 --> 00:06:29,715
+out of your source document, and it draws its own charts, timelines, and diagrams whenever the material contains data worth showing.
 
 79
-00:06:30,066 --> 00:06:35,100
-English: "Make every title a question." "Merge slides three and four." And if your
+00:06:29,715 --> 00:06:34,803
+Scroll to the bottom of this page and you'll find the Asset Inventory — a gallery of
 
 80
-00:06:35,100 --> 00:06:40,441
-company has a visual identity, click that Templates button back in the top-left corner:
+00:06:34,803 --> 00:06:42,072
+every image and figure with a note saying exactly which slide uses each one, so nothing in your production is a mystery.
 
 81
-00:06:40,441 --> 00:06:47,807
-it opens a page where you upload a PowerPoint template, a style-guide document, or even a screenshot of slides you like.
+00:06:42,072 --> 00:06:47,106
+Slides revise exactly like the script — same kind of box at the bottom, same plain
 
 82
-00:06:47,807 --> 00:06:54,437
-The studio reads the colors and fonts out of whatever you give it and applies them to everything it renders.
+00:06:47,106 --> 00:06:52,140
+English: "Make every title a question." "Merge slides three and four." And if your
 
 83
-00:06:54,437 --> 00:07:00,576
-Save the files once as a named set, and every future project can use it from a simple dropdown menu.
+00:06:52,140 --> 00:06:57,481
+company has a visual identity, click that Templates button back in the top-left corner:
 
 84
-00:07:00,576 --> 00:07:05,177
-Now for station three: the voice — the part that sounds hardest and isn't.
+00:06:57,481 --> 00:07:04,847
+it opens a page where you upload a PowerPoint template, a style-guide document, or even a screenshot of slides you like.
 
 85
-00:07:05,177 --> 00:07:08,969
-Each slide card carries a tiny play symbol in its top corner.
+00:07:04,847 --> 00:07:11,477
+The studio reads the colors and fonts out of whatever you give it and applies them to everything it renders.
 
 86
-00:07:08,969 --> 00:07:14,440
-Click it and the screen dims: your slide appears large in the middle, and a slim control
+00:07:11,477 --> 00:07:17,616
+Save the files once as a named set, and every future project can use it from a simple dropdown menu.
 
 87
-00:07:14,440 --> 00:07:20,782
-bar sits beneath it with pause, previous and next arrows, a progress line, and an auto-advance switch.
+00:07:17,616 --> 00:07:22,217
+Now for station three: the voice — the part that sounds hardest and isn't.
 
 88
-00:07:20,782 --> 00:07:27,186
-What you hear is precisely the stretch of narration that belongs to that slide — not the whole episode.
+00:07:22,217 --> 00:07:26,009
+Each slide card carries a tiny play symbol in its top corner.
 
 89
-00:07:27,186 --> 00:07:32,408
-That's what's on screen now: one slide, under review, with its own segment of voice.
+00:07:26,009 --> 00:07:31,480
+Click it and the screen dims: your slide appears large in the middle, and a slim control
 
 90
-00:07:32,408 --> 00:07:37,755
-Step through your whole production this way; it's how you catch the slide that arrives
+00:07:31,480 --> 00:07:37,822
+bar sits beneath it with pause, previous and next arrows, a progress line, and an auto-advance switch.
 
 91
-00:07:37,755 --> 00:07:41,112
-one beat too late or the sentence that needs more air.
+00:07:37,822 --> 00:07:44,226
+What you hear is precisely the stretch of narration that belongs to that slide — not the whole episode.
 
 92
-00:07:41,112 --> 00:07:46,601
-When something sounds off, go to the Voice page — the third light — and give instructions
+00:07:44,226 --> 00:07:49,448
+That's what's on screen now: one slide, under review, with its own segment of voice.
 
 93
-00:07:46,601 --> 00:07:52,091
-that mention line numbers from the script: "Line 4, slow down ten percent and pause after
+00:07:49,448 --> 00:07:54,795
+Step through your whole production this way; it's how you catch the slide that arrives
 
 94
-00:07:52,091 --> 00:07:57,395
-the question." "Pronounce Nguyen as win, everywhere." The written transcript keeps the
+00:07:54,795 --> 00:07:58,152
+one beat too late or the sentence that needs more air.
 
 95
-00:07:57,395 --> 00:08:03,871
-correct spelling; only the pronunciation changes, and the audio re-records itself within a minute or two.
+00:07:58,152 --> 00:08:03,641
+When something sounds off, go to the Voice page — the third light — and give instructions
 
 96
-00:08:03,871 --> 00:08:09,361
-And if a slide appears at the wrong moment, every card has a small offset box: type minus
+00:08:03,641 --> 00:08:09,131
+that mention line numbers from the script: "Line 4, slow down ten percent and pause after
 
 97
-00:08:09,361 --> 00:08:16,392
-two to bring it in two seconds earlier, press Apply Timing, and the visuals re-sync without re-recording anything.
+00:08:09,131 --> 00:08:14,435
+the question." "Pronounce Nguyen as win, everywhere." The written transcript keeps the
 
 98
-00:08:16,392 --> 00:08:20,443
-And finally, station four: the outputs — the packaging department.
+00:08:14,435 --> 00:08:20,911
+correct spelling; only the pronunciation changes, and the audio re-records itself within a minute or two.
 
 99
-00:08:20,443 --> 00:08:25,476
-At the top sits an amber Render Production button with menus beside it for slides,
+00:08:20,911 --> 00:08:26,401
+And if a slide appears at the wrong moment, every card has a small offset box: type minus
 
 100
-00:08:25,476 --> 00:08:33,087
-captions and animations — press it and the studio assembles everything from your current script, slides and voice direction.
+00:08:26,401 --> 00:08:33,432
+two to bring it in two seconds earlier, press Apply Timing, and the visuals re-sync without re-recording anything.
 
 101
-00:08:33,087 --> 00:08:38,549
-Below, each finished file gets its own card: the Audio card holds the episode with a play
+00:08:33,432 --> 00:08:37,481
+And finally, station four: the outputs — the packaging department.
 
 102
-00:08:38,549 --> 00:08:43,705
-bar and a download link; the Transcript card shows the full text with a timestamp on
+00:08:37,481 --> 00:08:42,512
+At the top sits an amber Render Production button with menus beside it for slides,
 
 103
-00:08:43,705 --> 00:08:49,045
-every line; the Web Slideshow card opens the synced presentation — a single file, sound
+00:08:42,512 --> 00:08:50,119
+captions and animations — press it and the studio assembles everything from your current script, slides and voice direction.
 
 104
-00:08:49,045 --> 00:08:54,323
-included, that you can send to anyone; the Video card previews the movie file; and the
+00:08:50,119 --> 00:08:55,580
+Below, each finished file gets its own card: the Audio card holds the episode with a play
 
 105
-00:08:54,323 --> 00:08:59,725
-PowerPoint card downloads a deck that carries the narration as speaker notes under every
+00:08:55,580 --> 00:09:00,733
+bar and a download link; the Transcript card shows the full text with a timestamp on
 
 106
-00:08:59,725 --> 00:09:04,512
-slide, so you can present it yourself and read what the voice would have said.
+00:09:00,733 --> 00:09:06,070
+every line; the Web Slideshow card opens the synced presentation — a single file, sound
 
 107
-00:09:04,512 --> 00:09:06,233
-One honest note about money.
+00:09:06,070 --> 00:09:11,347
+included, that you can send to anyone; the Video card previews the movie file; and the
 
 108
-00:09:06,233 --> 00:09:11,028
-The studio's writing and design run on a paid artificial-intelligence service.
+00:09:11,347 --> 00:09:16,745
+PowerPoint card downloads a deck that carries the narration as speaker notes under every
 
 109
-00:09:11,028 --> 00:09:15,885
-Next to each project's title you'll find a small capsule reading something like
+00:09:16,745 --> 00:09:21,531
+slide, so you can present it yourself and read what the voice would have said.
 
 110
-00:09:15,885 --> 00:09:24,000
-"approximately forty cents model spend" — that's the project's real running cost, usually well under a dollar for a full production.
+00:09:21,531 --> 00:09:24,230
+There's one more card on this page: YouTube.
 
 111
-00:09:24,000 --> 00:09:29,471
-The studio also makes repeat revisions cheap: when you iterate several times within a few
+00:09:24,230 --> 00:09:29,445
+Once you've connected your channel — a one-time, five-minute setup the card walks you
 
 112
-00:09:29,471 --> 00:09:34,143
-minutes, the repeated material is billed at roughly a tenth of normal price.
+00:09:29,445 --> 00:09:32,574
+through — publishing your video is a single button.
 
 113
-00:09:34,143 --> 00:09:38,016
-So work the way good producers work anyway — in focused bursts.
+00:09:32,574 --> 00:09:39,936
+It uploads as private, so you review it on YouTube before anyone else can see it, and the link is saved on your project.
 
 114
-00:09:38,016 --> 00:09:42,007
-Let's bring it all together — the whole method in one breath.
+00:09:39,936 --> 00:09:41,657
+One honest note about money.
 
 115
-00:09:42,007 --> 00:09:47,831
-Start a project with a source, a mode, and an audience, and run it only until the script.
+00:09:41,657 --> 00:09:46,452
+The studio's writing and design run on a paid artificial-intelligence service.
 
 116
-00:09:47,831 --> 00:09:52,869
-Read the script and revise it in plain sentences until it says what you mean.
+00:09:46,452 --> 00:09:51,309
+Next to each project's title you'll find a small capsule reading something like
 
 117
-00:09:52,869 --> 00:09:57,711
-Shape the slides the same way, with your template if you have one. Render.
+00:09:51,309 --> 00:09:59,424
+"approximately forty cents model spend" — that's the project's real running cost, usually well under a dollar for a full production.
 
 118
-00:09:57,711 --> 00:10:04,974
-Review slide by slide with the little play buttons, fix pronunciation and pacing by line number, nudge timings.
+00:09:59,424 --> 00:10:04,895
+The studio also makes repeat revisions cheap: when you iterate several times within a few
 
 119
-00:10:04,974 --> 00:10:08,245
-Collect five finished files from the Outputs page.
+00:10:04,895 --> 00:10:09,567
+minutes, the repeated material is billed at roughly a tenth of normal price.
 
 120
-00:10:08,245 --> 00:10:13,742
-Notice what never happened: no audio editing, no slide designing, no video software.
+00:10:09,567 --> 00:10:13,440
+So work the way good producers work anyway — in focused bursts.
 
 121
-00:10:13,742 --> 00:10:21,921
-The production skills are built into the studio — the only skill you brought was knowing what you wanted to say, and to whom.
+00:10:13,440 --> 00:10:17,431
+Let's bring it all together — the whole method in one breath.
 
 122
-00:10:21,921 --> 00:10:30,688
-Everything you've just watched and heard, including these very slides and this voice, was produced by the studio this guide describes.
+00:10:17,431 --> 00:10:23,255
+Start a project with a source, a mode, and an audience, and run it only until the script.
 
 123
-00:10:30,688 --> 00:10:33,960
+00:10:23,255 --> 00:10:28,293
+Read the script and revise it in plain sentences until it says what you mean.
+
+124
+00:10:28,293 --> 00:10:33,135
+Shape the slides the same way, with your template if you have one. Render.
+
+125
+00:10:33,135 --> 00:10:40,398
+Review slide by slide with the little play buttons, fix pronunciation and pacing by line number, nudge timings.
+
+126
+00:10:40,398 --> 00:10:43,669
+Collect five finished files from the Outputs page.
+
+127
+00:10:43,669 --> 00:10:49,166
+Notice what never happened: no audio editing, no slide designing, no video software.
+
+128
+00:10:49,166 --> 00:10:57,345
+The production skills are built into the studio — the only skill you brought was knowing what you wanted to say, and to whom.
+
+129
+00:10:57,345 --> 00:11:06,112
+Everything you've just watched and heard, including these very slides and this voice, was produced by the studio this guide describes.
+
+130
+00:11:06,112 --> 00:11:09,384
 Your turn: one pasted link, and you're a producer.

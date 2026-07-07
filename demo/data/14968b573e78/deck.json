@@ -8,32 +8,29 @@
   "first_line": 0
  },
  {
-  "title": "The core idea",
+  "title": "What the studio makes",
   "bullets": [],
-  "big_statement": "You describe. The studio produces.",
+  "big_statement": null,
   "image": null,
-  "figure_svg": null,
+  "figure_svg": "<svg viewBox=\"0 0 1000 620\" xmlns=\"http://www.w3.org/2000/svg\"><style>.c{opacity:1;animation:f .6s ease both}.c2{animation-delay:.15s}.c3{animation-delay:.3s}.c4{animation-delay:.45s}@keyframes f{from{opacity:0}to{opacity:1}}</style><text x=\"40\" y=\"90\" font-family=\"sans-serif\" font-size=\"34\" fill=\"#f2f0eb\">Give it a link or PDF \u2014 it produces four things</text><g class=\"c\"><rect x=\"40\" y=\"170\" width=\"210\" height=\"300\" rx=\"12\" fill=\"#1e222a\" stroke=\"#e8a13c\" stroke-width=\"2\"/><text x=\"145\" y=\"260\" font-family=\"sans-serif\" font-size=\"28\" fill=\"#e8a13c\" text-anchor=\"middle\">Audio</text><text x=\"145\" y=\"300\" font-family=\"sans-serif\" font-size=\"24\" fill=\"#f2f0eb\" text-anchor=\"middle\">episode</text><text x=\"145\" y=\"360\" font-family=\"sans-serif\" font-size=\"22\" fill=\"#9aa0ab\" text-anchor=\"middle\">spoken</text><text x=\"145\" y=\"388\" font-family=\"sans-serif\" font-size=\"22\" fill=\"#9aa0ab\" text-anchor=\"middle\">voice-over</text></g><g class=\"c c2\"><rect x=\"270\" y=\"170\" width=\"210\" height=\"300\" rx=\"12\" fill=\"#1e222a\" stroke=\"#c98a34\" stroke-width=\"2\"/><text x=\"375\" y=\"260\" font-family=\"sans-serif\" font-size=\"28\" fill=\"#e8a13c\" text-anchor=\"middle\">Slideshow</text><text x=\"375\" y=\"360\" font-family=\"sans-serif\" font-size=\"22\" fill=\"#9aa0ab\" text-anchor=\"middle\">slides synced</text><text x=\"375\" y=\"388\" font-family=\"sans-serif\" font-size=\"22\" fill=\"#9aa0ab\" text-anchor=\"middle\">to the voice</text></g><g class=\"c c3\"><rect x=\"500\" y=\"170\" width=\"210\" height=\"300\" rx=\"12\" fill=\"#1e222a\" stroke=\"#c98a34\" stroke-width=\"2\"/><text x=\"605\" y=\"260\" font-family=\"sans-serif\" font-size=\"28\" fill=\"#e8a13c\" text-anchor=\"middle\">Video</text><text x=\"605\" y=\"300\" font-family=\"sans-serif\" font-size=\"24\" fill=\"#f2f0eb\" text-anchor=\"middle\">file</text><text x=\"605\" y=\"360\" font-family=\"sans-serif\" font-size=\"22\" fill=\"#9aa0ab\" text-anchor=\"middle\">upload</text><text x=\"605\" y=\"388\" font-family=\"sans-serif\" font-size=\"22\" fill=\"#9aa0ab\" text-anchor=\"middle\">anywhere</text></g><g class=\"c c4\"><rect x=\"730\" y=\"170\" width=\"210\" height=\"300\" rx=\"12\" fill=\"#1e222a\" stroke=\"#e8a13c\" stroke-width=\"2\"/><text x=\"835\" y=\"260\" font-family=\"sans-serif\" font-size=\"28\" fill=\"#e8a13c\" text-anchor=\"middle\">PowerPoint</text><text x=\"835\" y=\"360\" font-family=\"sans-serif\" font-size=\"22\" fill=\"#9aa0ab\" text-anchor=\"middle\">present it</text><text x=\"835\" y=\"388\" font-family=\"sans-serif\" font-size=\"22\" fill=\"#9aa0ab\" text-anchor=\"middle\">yourself</text></g></svg>",
   "first_line": 2
  },
  {
-  "title": "Your first look",
-  "bullets": [
-   "Left: library of everything you've made",
-   "Amber New Generation starts every project",
-   "Right: workspace \u2014 \"From source to sound\""
-  ],
-  "big_statement": null,
-  "image": "img_01.jpg",
+  "title": "The core idea",
+  "bullets": [],
+  "big_statement": "You describe. The studio produces. You never edit by hand.",
+  "image": null,
   "figure_svg": null,
   "first_line": 3
  },
  {
-  "title": "Step 1 \u2014 the Source box",
+  "title": "Your first look",
   "bullets": [
-   "Choose URL or PDF upload",
-   "Paste a web address in the field",
-   "Or drag a PDF onto the box",
-   "Filename shows in amber when attached"
+   "Dark page, split in two",
+   "Left: library of all your work",
+   "Search box always on top",
+   "Amber New Generation starts projects",
+   "Right: workspace opens on the form"
   ],
   "big_statement": null,
   "image": null,
@@ -41,25 +38,24 @@
   "first_line": 4
  },
  {
-  "title": "Step 2 \u2014 the three decisions",
+  "title": "The form: from source to sound",
   "bullets": [
-   "Mode: Podcast, Summary, or Readout",
-   "Run Until: Script Draft (cheap start) or Full",
-   "Audience: describe who's listening",
-   "Personality & voices \u2014 optional"
+   "Box one is Source",
+   "Paste a URL, or upload a PDF",
+   "Or drag a PDF onto the box"
   ],
   "big_statement": null,
-  "image": null,
+  "image": "img_01.jpg",
   "figure_svg": null,
   "first_line": 5
  },
  {
-  "title": "Step 3 \u2014 Slides & Captions",
+  "title": "The three decisions that matter",
   "bullets": [
-   "Slides: web, video, PowerPoint, or combo",
-   "Captions: Burned in, or Toggle on/off",
-   "Animations glide content in element by element",
-   "Amber Start Generation begins it all"
+   "Mode: Podcast, Summary, or Readout",
+   "Run Until: Script Draft (cheap start) or Full",
+   "Audience: describe who's listening",
+   "Personality & voices are optional"
   ],
   "big_statement": null,
   "image": null,
@@ -67,98 +63,112 @@
   "first_line": 6
  },
  {
-  "title": "The four stations",
+  "title": "Slides and captions",
   "bullets": [
-   "Stop anywhere; later stations update automatically"
+   "Slides: web, video, PowerPoint, or mix",
+   "Captions: Burned in, or Toggle on/off",
+   "Animations: content glides in piece by piece",
+   "Then press Start Generation"
   ],
   "big_statement": null,
   "image": null,
-  "figure_svg": "<svg viewBox=\"0 0 1000 620\" xmlns=\"http://www.w3.org/2000/svg\"><style>.b{opacity:0;animation:f .5s ease forwards}.b1{animation-delay:.1s}.b2{animation-delay:.5s}.b3{animation-delay:.9s}.b4{animation-delay:1.3s}@keyframes f{to{opacity:1}}</style><line x1=\"60\" y1=\"310\" x2=\"940\" y2=\"310\" stroke=\"#9aa0ab\" stroke-width=\"2\" opacity=\"0.4\"/><g class=\"b b1\"><rect x=\"50\" y=\"250\" width=\"180\" height=\"120\" rx=\"14\" fill=\"#1e222a\" stroke=\"#e8a13c\" stroke-width=\"2\"/><text x=\"140\" y=\"300\" fill=\"#f2f0eb\" font-family=\"sans-serif\" font-size=\"30\" text-anchor=\"middle\">Script</text><text x=\"140\" y=\"338\" fill=\"#9aa0ab\" font-family=\"sans-serif\" font-size=\"22\" text-anchor=\"middle\">words written</text></g><g class=\"b b2\"><rect x=\"290\" y=\"250\" width=\"180\" height=\"120\" rx=\"14\" fill=\"#1e222a\" stroke=\"#e8a13c\" stroke-width=\"2\"/><text x=\"380\" y=\"300\" fill=\"#f2f0eb\" font-family=\"sans-serif\" font-size=\"30\" text-anchor=\"middle\">Slides</text><text x=\"380\" y=\"338\" fill=\"#9aa0ab\" font-family=\"sans-serif\" font-size=\"22\" text-anchor=\"middle\">visuals designed</text></g><g class=\"b b3\"><rect x=\"530\" y=\"250\" width=\"180\" height=\"120\" rx=\"14\" fill=\"#1e222a\" stroke=\"#e8a13c\" stroke-width=\"2\"/><text x=\"620\" y=\"300\" fill=\"#f2f0eb\" font-family=\"sans-serif\" font-size=\"30\" text-anchor=\"middle\">Voice</text><text x=\"620\" y=\"338\" fill=\"#9aa0ab\" font-family=\"sans-serif\" font-size=\"22\" text-anchor=\"middle\">voice recorded</text></g><g class=\"b b4\"><rect x=\"770\" y=\"250\" width=\"180\" height=\"120\" rx=\"14\" fill=\"#1e222a\" stroke=\"#e8a13c\" stroke-width=\"2\"/><text x=\"860\" y=\"300\" fill=\"#f2f0eb\" font-family=\"sans-serif\" font-size=\"30\" text-anchor=\"middle\">Outputs</text><text x=\"860\" y=\"338\" fill=\"#9aa0ab\" font-family=\"sans-serif\" font-size=\"22\" text-anchor=\"middle\">packaged</text></g><g fill=\"#e8a13c\"><path d=\"M232 310 l30 0 M258 304 l10 6 -10 6 z\"/><path d=\"M472 310 l30 0 M498 304 l10 6 -10 6 z\"/><path d=\"M712 310 l30 0 M738 304 l10 6 -10 6 z\"/></g></svg>",
+  "figure_svg": null,
   "first_line": 7
  },
  {
-  "title": "Station 1 \u2014 Script",
+  "title": "The four stations",
+  "bullets": [],
+  "big_statement": null,
+  "image": null,
+  "figure_svg": "<svg viewBox=\"0 0 1000 620\" xmlns=\"http://www.w3.org/2000/svg\"><style>.ln{stroke-dasharray:760;stroke-dashoffset:0;animation:draw 1.6s ease both}@keyframes draw{from{stroke-dashoffset:760}to{stroke-dashoffset:0}}.d{opacity:1;animation:pop .5s ease both}.d2{animation-delay:.4s}.d3{animation-delay:.8s}.d4{animation-delay:1.2s}@keyframes pop{from{opacity:0}to{opacity:1}}</style><text x=\"500\" y=\"110\" font-family=\"sans-serif\" font-size=\"34\" fill=\"#f2f0eb\" text-anchor=\"middle\">One assembly line, four stations</text><line class=\"ln\" x1=\"110\" y1=\"300\" x2=\"890\" y2=\"300\" stroke=\"#9aa0ab\" stroke-width=\"2\" opacity=\"0.5\"/><g class=\"d\"><circle cx=\"140\" cy=\"300\" r=\"22\" fill=\"#e8a13c\"/><text x=\"140\" y=\"370\" font-family=\"sans-serif\" font-size=\"26\" fill=\"#f2f0eb\" text-anchor=\"middle\">Script</text><text x=\"140\" y=\"405\" font-family=\"sans-serif\" font-size=\"22\" fill=\"#9aa0ab\" text-anchor=\"middle\">words written</text></g><g class=\"d d2\"><circle cx=\"380\" cy=\"300\" r=\"22\" fill=\"#e8a13c\"/><text x=\"380\" y=\"370\" font-family=\"sans-serif\" font-size=\"26\" fill=\"#f2f0eb\" text-anchor=\"middle\">Slides</text><text x=\"380\" y=\"405\" font-family=\"sans-serif\" font-size=\"22\" fill=\"#9aa0ab\" text-anchor=\"middle\">visuals designed</text></g><g class=\"d d3\"><circle cx=\"620\" cy=\"300\" r=\"22\" fill=\"#e8a13c\"/><text x=\"620\" y=\"370\" font-family=\"sans-serif\" font-size=\"26\" fill=\"#f2f0eb\" text-anchor=\"middle\">Voice</text><text x=\"620\" y=\"405\" font-family=\"sans-serif\" font-size=\"22\" fill=\"#9aa0ab\" text-anchor=\"middle\">voice recorded</text></g><g class=\"d d4\"><circle cx=\"860\" cy=\"300\" r=\"22\" fill=\"#e8a13c\"/><text x=\"860\" y=\"370\" font-family=\"sans-serif\" font-size=\"26\" fill=\"#f2f0eb\" text-anchor=\"middle\">Outputs</text><text x=\"860\" y=\"405\" font-family=\"sans-serif\" font-size=\"22\" fill=\"#9aa0ab\" text-anchor=\"middle\">packaged</text></g><text x=\"500\" y=\"500\" font-family=\"sans-serif\" font-size=\"24\" fill=\"#9aa0ab\" text-anchor=\"middle\">Change any station \u2014 everything after it updates</text></svg>",
+  "first_line": 8
+ },
+ {
+  "title": "Station 1 \u2014 the script",
   "bullets": [
-   "Every spoken line, numbered, with speaker badges",
-   "Revise in plain words; other lines stay untouched"
+   "Every line the voice will speak",
+   "Revise in plain words at the bottom",
+   "Only the lines you name change",
+   "Polish while words are cheap"
   ],
   "big_statement": null,
   "image": "img_02.jpg",
   "figure_svg": null,
-  "first_line": 8
+  "first_line": 9
  },
  {
-  "title": "Station 2 \u2014 Slides",
+  "title": "Station 2 \u2014 the slides",
   "bullets": [
-   "Storyboard of cards, one per slide",
-   "Real images and auto-drawn charts",
-   "Asset Inventory lists every visual"
+   "A storyboard grid of cards",
+   "Real images pulled from your source",
+   "Charts and diagrams drawn from data",
+   "Asset Inventory maps every image"
   ],
   "big_statement": null,
   "image": "img_03.jpg",
   "figure_svg": null,
-  "first_line": 9
+  "first_line": 10
  },
  {
-  "title": "Templates \u2014 your brand",
+  "title": "Templates: your brand identity",
   "bullets": [
    "Upload a theme, style guide, or screenshot",
-   "Studio reads your colors and fonts",
+   "Studio reads colors and fonts",
    "Save once, reuse from a dropdown"
   ],
   "big_statement": null,
   "image": "img_04.jpg",
   "figure_svg": null,
-  "first_line": 10
+  "first_line": 11
  },
  {
-  "title": "Station 3 \u2014 Voice review",
+  "title": "Station 3 \u2014 the voice",
   "bullets": [
-   "Play button dims screen, shows slide large",
-   "You hear only that slide's narration"
+   "Click a card's play symbol",
+   "Screen dims, one slide plays big",
+   "You hear only that slide's narration",
+   "Step through to catch timing slips"
   ],
   "big_statement": null,
   "image": "img_05.jpg",
   "figure_svg": null,
-  "first_line": 11
- },
- {
-  "title": "Fixing what's off",
-  "bullets": [
-   "Direct by line number; audio re-records in ~1 min"
-  ],
-  "big_statement": null,
-  "image": null,
-  "figure_svg": "<svg viewBox=\"0 0 1000 620\" xmlns=\"http://www.w3.org/2000/svg\"><style>.n{opacity:0;animation:f .6s ease forwards}.n1{animation-delay:.1s}.n2{animation-delay:.6s}.n3{animation-delay:1.1s}@keyframes f{to{opacity:1}}</style><g fill=\"none\" stroke=\"#e8a13c\" stroke-width=\"2\" opacity=\"0.5\"><path d=\"M500 170 A150 150 0 0 1 630 400\"/><path d=\"M630 400 A150 150 0 0 1 370 400\"/><path d=\"M370 400 A150 150 0 0 1 500 170\"/></g><g class=\"n n1\"><circle cx=\"500\" cy=\"160\" r=\"70\" fill=\"#1e222a\" stroke=\"#e8a13c\" stroke-width=\"2\"/><text x=\"500\" y=\"155\" fill=\"#f2f0eb\" font-family=\"sans-serif\" font-size=\"26\" text-anchor=\"middle\">Review</text><text x=\"500\" y=\"185\" fill=\"#9aa0ab\" font-family=\"sans-serif\" font-size=\"22\" text-anchor=\"middle\">slide by slide</text></g><g class=\"n n2\"><circle cx=\"665\" cy=\"415\" r=\"70\" fill=\"#1e222a\" stroke=\"#e8a13c\" stroke-width=\"2\"/><text x=\"665\" y=\"410\" fill=\"#f2f0eb\" font-family=\"sans-serif\" font-size=\"26\" text-anchor=\"middle\">Revise</text><text x=\"665\" y=\"440\" fill=\"#9aa0ab\" font-family=\"sans-serif\" font-size=\"22\" text-anchor=\"middle\">plain English</text></g><g class=\"n n3\"><circle cx=\"335\" cy=\"415\" r=\"70\" fill=\"#1e222a\" stroke=\"#e8a13c\" stroke-width=\"2\"/><text x=\"335\" y=\"410\" fill=\"#f2f0eb\" font-family=\"sans-serif\" font-size=\"26\" text-anchor=\"middle\">Re-render</text><text x=\"335\" y=\"440\" fill=\"#9aa0ab\" font-family=\"sans-serif\" font-size=\"22\" text-anchor=\"middle\">~1 min</text></g><g fill=\"#e8a13c\"><path d=\"M604 300 l12 -6 -2 14 z\"/><path d=\"M500 486 l-8 -12 16 0 z\"/><path d=\"M396 300 l-10 8 -2 -14 z\"/></g></svg>",
   "first_line": 12
  },
  {
-  "title": "Station 4 \u2014 Outputs",
+  "title": "How you fix the voice",
+  "bullets": [],
+  "big_statement": null,
+  "image": null,
+  "figure_svg": "<svg viewBox=\"0 0 1000 620\" xmlns=\"http://www.w3.org/2000/svg\"><style>.n{opacity:1;animation:f .6s ease both}.n2{animation-delay:.3s}.n3{animation-delay:.6s}@keyframes f{from{opacity:0}to{opacity:1}}.ar{stroke-dasharray:300;stroke-dashoffset:0;animation:dr 1.4s ease both}@keyframes dr{from{stroke-dashoffset:300}to{stroke-dashoffset:0}}</style><text x=\"500\" y=\"80\" font-family=\"sans-serif\" font-size=\"32\" fill=\"#f2f0eb\" text-anchor=\"middle\">Review \u2192 Revise \u2192 Re-render</text><path class=\"ar\" d=\"M 340 210 A 220 220 0 0 1 660 210\" fill=\"none\" stroke=\"#9aa0ab\" stroke-width=\"2\" opacity=\"0.6\"/><path class=\"ar\" d=\"M 690 250 A 220 220 0 0 1 560 490\" fill=\"none\" stroke=\"#9aa0ab\" stroke-width=\"2\" opacity=\"0.6\"/><path class=\"ar\" d=\"M 440 490 A 220 220 0 0 1 310 250\" fill=\"none\" stroke=\"#9aa0ab\" stroke-width=\"2\" opacity=\"0.6\"/><g class=\"n\"><circle cx=\"260\" cy=\"210\" r=\"85\" fill=\"#1e222a\" stroke=\"#e8a13c\" stroke-width=\"2\"/><text x=\"260\" y=\"215\" font-family=\"sans-serif\" font-size=\"25\" fill=\"#f2f0eb\" text-anchor=\"middle\">Review</text><text x=\"260\" y=\"245\" font-family=\"sans-serif\" font-size=\"20\" fill=\"#9aa0ab\" text-anchor=\"middle\">slide by slide</text></g><g class=\"n n2\"><circle cx=\"740\" cy=\"210\" r=\"85\" fill=\"#1e222a\" stroke=\"#e8a13c\" stroke-width=\"2\"/><text x=\"740\" y=\"205\" font-family=\"sans-serif\" font-size=\"25\" fill=\"#f2f0eb\" text-anchor=\"middle\">Revise</text><text x=\"740\" y=\"235\" font-family=\"sans-serif\" font-size=\"20\" fill=\"#9aa0ab\" text-anchor=\"middle\">by line number</text></g><g class=\"n n3\"><circle cx=\"500\" cy=\"500\" r=\"85\" fill=\"#1e222a\" stroke=\"#e8a13c\" stroke-width=\"2\"/><text x=\"500\" y=\"495\" font-family=\"sans-serif\" font-size=\"25\" fill=\"#f2f0eb\" text-anchor=\"middle\">Re-record</text><text x=\"500\" y=\"525\" font-family=\"sans-serif\" font-size=\"20\" fill=\"#9aa0ab\" text-anchor=\"middle\">in ~1\u20132 min</text></g></svg>",
+  "first_line": 13
+ },
+ {
+  "title": "Station 4 \u2014 the outputs",
   "bullets": [
-   "Five finished files, each on its own card",
-   "~40\u00a2 per full production; quick reruns ~1/10 cost"
+   "Render Production packages everything",
+   "Audio, Transcript, Slideshow cards",
+   "Video preview and PowerPoint download",
+   "YouTube: publish private in one click"
   ],
   "big_statement": null,
   "image": "img_06.jpg",
   "figure_svg": null,
-  "first_line": 13
+  "first_line": 14
  },
  {
-  "title": "Which output do I need?",
-  "bullets": [
-   "Render assembles all five from your current work"
-  ],
+  "title": "An honest note on cost",
+  "bullets": [],
   "big_statement": null,
   "image": null,
-  "figure_svg": "<svg viewBox=\"0 0 1000 620\" xmlns=\"http://www.w3.org/2000/svg\"><style>.r{opacity:0;animation:f .5s ease forwards}.r1{animation-delay:.1s}.r2{animation-delay:.4s}.r3{animation-delay:.7s}.r4{animation-delay:1s}.r5{animation-delay:1.3s}@keyframes f{to{opacity:1}}</style><g font-family=\"sans-serif\"><g class=\"r r1\"><rect x=\"60\" y=\"70\" width=\"260\" height=\"70\" rx=\"10\" fill=\"#1e222a\" stroke=\"#e8a13c\" stroke-width=\"2\"/><text x=\"85\" y=\"115\" fill=\"#e8a13c\" font-size=\"28\">Audio</text><text x=\"360\" y=\"115\" fill=\"#f2f0eb\" font-size=\"26\">just listen to the episode</text></g><g class=\"r r2\"><rect x=\"60\" y=\"165\" width=\"260\" height=\"70\" rx=\"10\" fill=\"#1e222a\" stroke=\"#e8a13c\" stroke-width=\"2\"/><text x=\"85\" y=\"210\" fill=\"#e8a13c\" font-size=\"28\">Transcript</text><text x=\"360\" y=\"210\" fill=\"#f2f0eb\" font-size=\"26\">read it, timestamped</text></g><g class=\"r r3\"><rect x=\"60\" y=\"260\" width=\"260\" height=\"70\" rx=\"10\" fill=\"#1e222a\" stroke=\"#e8a13c\" stroke-width=\"2\"/><text x=\"85\" y=\"305\" fill=\"#e8a13c\" font-size=\"28\">Web show</text><text x=\"360\" y=\"305\" fill=\"#f2f0eb\" font-size=\"26\">send one file to anyone</text></g><g class=\"r r4\"><rect x=\"60\" y=\"355\" width=\"260\" height=\"70\" rx=\"10\" fill=\"#1e222a\" stroke=\"#e8a13c\" stroke-width=\"2\"/><text x=\"85\" y=\"400\" fill=\"#e8a13c\" font-size=\"28\">Video</text><text x=\"360\" y=\"400\" fill=\"#f2f0eb\" font-size=\"26\">upload anywhere</text></g><g class=\"r r5\"><rect x=\"60\" y=\"450\" width=\"260\" height=\"70\" rx=\"10\" fill=\"#1e222a\" stroke=\"#e8a13c\" stroke-width=\"2\"/><text x=\"85\" y=\"495\" fill=\"#e8a13c\" font-size=\"28\">PowerPoint</text><text x=\"360\" y=\"495\" fill=\"#f2f0eb\" font-size=\"26\">present it yourself</text></g></g></svg>",
-  "first_line": 14
+  "figure_svg": "<svg viewBox=\"0 0 1000 620\" xmlns=\"http://www.w3.org/2000/svg\"><style>.big{opacity:1;animation:f 1s ease both}.sub{opacity:1;animation:f 1s ease .5s both}@keyframes f{from{opacity:0}to{opacity:1}}</style><text x=\"500\" y=\"120\" font-family=\"sans-serif\" font-size=\"30\" fill=\"#9aa0ab\" text-anchor=\"middle\">Typical model spend, full production</text><text class=\"big\" x=\"500\" y=\"320\" font-family=\"sans-serif\" font-size=\"150\" fill=\"#e8a13c\" text-anchor=\"middle\" font-weight=\"bold\">~40\u00a2</text><text x=\"500\" y=\"390\" font-family=\"sans-serif\" font-size=\"28\" fill=\"#f2f0eb\" text-anchor=\"middle\">usually well under a dollar</text><text class=\"sub\" x=\"500\" y=\"490\" font-family=\"sans-serif\" font-size=\"26\" fill=\"#9aa0ab\" text-anchor=\"middle\">Repeat revisions within minutes \u2248 1/10 price</text><text class=\"sub\" x=\"500\" y=\"530\" font-family=\"sans-serif\" font-size=\"26\" fill=\"#9aa0ab\" text-anchor=\"middle\">So work in focused bursts</text></svg>",
+  "first_line": 15
  },
  {
   "title": "Your turn",
   "bullets": [],
-  "big_statement": "One pasted link, and you're a producer.",
+  "big_statement": "One pasted link \u2014 and you're a producer.",
   "image": null,
   "figure_svg": null,
-  "first_line": 15
+  "first_line": 16
  }
 ]
