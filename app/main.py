@@ -166,6 +166,51 @@ async def config() -> dict:
 
 
 @app.get("/", include_in_schema=False)
+async def landing():
+    """Landing page featuring the guide video and the library's productions."""
+    import html as _html
+    from fastapi.responses import HTMLResponse
+
+    page = (STATIC_DIR / "landing.html").read_text(encoding="utf-8")
+
+    # featured video: the user guide if present, else the newest with a video
+    ordered = sorted(jobs.items(), key=lambda kv: kv[1].get("created_at") or 0,
+                     reverse=True)
+    featured = next(
+        (jid for jid, j in ordered
+         if j["video_path"] and "user guide" in (j["title"] or "").lower()),
+        next((jid for jid, j in ordered if j["video_path"]), None),
+    )
+    video_url = f"/podcasts/{featured}/video" if featured else ""
+    slides_url = f"/podcasts/{featured}/slides" if featured else "/studio"
+
+    cards = []
+    for jid, j in ordered:
+        if not j["slides_path"] or jid == featured:
+            continue
+        mins = ""
+        if j.get("cues"):
+            total = j["cues"][-1]["start"] + j["cues"][-1]["duration"]
+            mins = f"{round(total / 60)} min · "
+        cards.append(
+            f'<a class="ex" href="/podcasts/{jid}/slides">'
+            f'<div class="mode">{_html.escape(j["mode"])}</div>'
+            f'<h3>{_html.escape(j["title"] or "Untitled")}</h3>'
+            f'<p>{mins}synced slideshow with voice-over</p></a>'
+        )
+
+    note = ("Demo instance — browse every production read-only."
+            if DEMO else "Runs locally · your sources never leave your machine "
+            "except to the Claude API.")
+    page = (page.replace("__VIDEO_URL__", video_url)
+                .replace("__SLIDES_URL__", slides_url)
+                .replace("__EXAMPLES__", "".join(cards) or
+                         '<p style="color:var(--dim)">Productions appear here once created.</p>')
+                .replace("__HERO_NOTE__", note))
+    return HTMLResponse(page)
+
+
+@app.get("/studio", include_in_schema=False)
 async def workbench() -> FileResponse:
     return FileResponse(STATIC_DIR / "workbench.html", media_type="text/html")
 

@@ -46,7 +46,11 @@ profile.) Without ffmpeg, everything except `slides=video` works.
 .venv/bin/uvicorn app.main:app --port 8000
 ```
 
-**Workbench UI (Fluent Agents Studio): http://localhost:8000/** — a full studio for creating and
+**Landing page: http://localhost:8000/** — the public front door: the guide
+video as a hero demo, a feature tour, and links into every production as a
+synced slideshow. In demo mode this is what visitors see first.
+
+**Workbench UI (Fluent Agents Studio): http://localhost:8000/studio** — a full studio for creating and
 managing generations: library of previous productions (persists across
 restarts), the script → slides → voice → outputs pipeline with per-stage
 iteration, an asset inventory showing which image or figure lands on which
