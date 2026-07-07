@@ -227,6 +227,11 @@ Notes on the loop:
   mark slides/audio stale; the next `/render` brings everything back in sync.
 - Slide revisions re-render the slideshow/video immediately when audio
   already exists.
+- **Source replacement**: `POST /podcasts/<id>/source` (or the "Replace
+  source" button on the job page) re-extracts a new URL or replacement PDF
+  into the *same* project — identity, options, templates, revision history
+  and spend all survive; text and images are replaced, the deck is marked
+  stale, and a script revision brings the words in line with the new source.
 - **Timing**: nudge when slides appear relative to the narration without
   touching the audio — `POST /podcasts/<id>/timing -F 'offsets={"4": -2,
   "7": 1.5}'` (0-based slide index → seconds, negative = earlier; `0`

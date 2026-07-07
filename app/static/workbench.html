@@ -633,10 +633,19 @@ function renderJob(j) {
       <div class="job-actions">
         <span class="status-pill"><span class="dot ${j.status}"></span>${esc(j.status)}${j.step ? " · " + esc(j.step) : ""}</span>
         ${j.slides_url ? `<a class="btn" href="${j.slides_url}?v=${state.tick}" target="_blank">Open slideshow ↗</a>` : ""}
+        <button class="btn" onclick="toggleSrcSwap()">Replace source</button>
         <button class="btn danger" onclick="deleteJob()">Delete</button>
       </div>
     </div>
     ${j.error ? `<div class="card" style="border-color:var(--red);margin-bottom:18px;color:var(--red)">${esc(j.error)}</div>` : ""}
+    <div class="card" id="src-swap" hidden style="margin-bottom:18px">
+      <div class="grid2">
+        <div class="field"><label>New source URL</label><input id="swap-url" placeholder="https://example.com/article"></div>
+        <div class="field"><label>Or replacement PDF</label><input type="file" id="swap-file" accept="application/pdf"></div>
+      </div>
+      <button class="btn primary" onclick="replaceSource()" ${running ? "disabled" : ""}>Re-extract into this project</button>
+      <span class="hint" style="margin-left:10px">Keeps the project's history, options and templates; replaces text + images. Slides are marked stale — revise the script afterwards if the content changed.</span>
+    </div>
     <div class="pipeline">${pipeline}</div>
     <div id="tabpanel"></div>`;
 
@@ -947,6 +956,24 @@ async function renderJobNow() {
     state.tab = "outputs"; loadJob();
   } catch (e) { toast(e.message, true); }
 }
+function toggleSrcSwap() {
+  const el = $("#src-swap");
+  el.hidden = !el.hidden;
+}
+
+async function replaceSource() {
+  const url = $("#swap-url").value.trim();
+  const f = $("#swap-file").files[0];
+  if (!url && !f) return toast("Give a URL or choose a PDF.", true);
+  const fd = new FormData();
+  if (f) fd.append("file", f); else fd.append("url", url);
+  try {
+    await api(`/podcasts/${state.current}/source`, { method: "POST", body: fd });
+    toast("Re-extracting source…");
+    loadJob();
+  } catch (e) { toast(e.message, true); }
+}
+
 async function deleteJob() {
   if (!confirm("Delete this generation and all its files?")) return;
   try {

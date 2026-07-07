@@ -633,6 +633,94 @@ async def _revise_task(job_id: str, target: str, instructions: str) -> None:
         job["error"] = f"revision failed — {type(e).__name__}: {e}"
 
 
+# ------------------------------------------------------------------ source
+
+@app.post("/podcasts/{job_id}/source", status_code=202)
+async def replace_source(
+    job_id: str,
+    url: Optional[str] = Form(None),
+    file: Optional[UploadFile] = File(None),
+) -> dict:
+    """Re-extract the project's source (new URL or replacement PDF) in place.
+
+    Keeps the project's identity — ID, options, templates, revision history,
+    spend — and replaces the source text and extracted images. The slide deck
+    is marked stale (its assets changed); revise the script afterwards if the
+    content itself changed.
+    """
+    job = _get_job(job_id)
+    _require_idle(job)
+    if (url is None) == (file is None):
+        raise HTTPException(
+            status_code=422,
+            detail="Provide exactly one of: `url` or a PDF `file`.",
+        )
+    pdf_bytes = None
+    pdf_name = None
+    if file is not None:
+        if file.content_type not in (None, "application/pdf", "application/octet-stream"):
+            raise HTTPException(status_code=422, detail="Only PDF uploads are supported.")
+        pdf_bytes = await file.read()
+        pdf_name = file.filename or "Uploaded PDF"
+
+    job["status"] = "queued"
+    job["error"] = None
+    task = asyncio.create_task(_source_task(job_id, url, pdf_bytes, pdf_name))
+    job["_task"] = task
+    return {"job_id": job_id, "status": "queued", "status_url": f"/podcasts/{job_id}"}
+
+
+async def _source_task(
+    job_id: str,
+    url: Optional[str],
+    pdf_bytes: Optional[bytes],
+    pdf_name: Optional[str],
+) -> None:
+    job = jobs[job_id]
+    try:
+        job["status"] = "running"
+        job["step"] = "extracting"
+        if url is not None:
+            title, text, images = await extract.extract_from_url(url)
+        else:
+            title, text, images = await asyncio.to_thread(
+                extract.extract_from_pdf, pdf_bytes, pdf_name
+            )
+        job["source"] = url or pdf_name
+        job["source_text"] = text
+        if job["script_obj"] is None:
+            job["title"] = title  # otherwise the script's title stays
+
+        job_dir = Path(job["job_dir"])
+        (job_dir / "source.txt").write_text(text, encoding="utf-8")
+        assets_dir = job_dir / "assets"
+        assets_dir.mkdir(exist_ok=True)
+        for old in assets_dir.glob("img_*.jpg"):
+            old.unlink()
+        for name, data in images:
+            (assets_dir / name).write_bytes(data)
+        job["assets"] = [name for name, _ in images]
+
+        if job["deck_obj"] is not None:
+            job["stale"]["slides"] = True   # deck may reference replaced assets
+            job["stale"]["outputs"] = True
+        job["revisions"].append({
+            "target": "source",
+            "instructions": f"replaced source with {job['source']}",
+        })
+        _save_state(job)
+        job["step"] = None
+        job["status"] = "done"
+    except ExtractionError as e:
+        job["step"] = None
+        job["status"] = "done"
+        job["error"] = f"source replacement failed — {e}"
+    except Exception as e:
+        job["step"] = None
+        job["status"] = "done"
+        job["error"] = f"source replacement failed — {type(e).__name__}: {e}"
+
+
 # ------------------------------------------------------------------ timing
 
 @app.post("/podcasts/{job_id}/timing", status_code=202)
