@@ -244,3 +244,10 @@ Notes on the loop:
 - Sources over 400k characters are rejected — split large documents. Very long
   documents may exceed the readout script budget; use `mode=summary` instead.
 - Scanned PDFs without a text layer and JavaScript-only pages can't be extracted.
+- **Cost control**: every job tracks its Claude usage — `usage` in the status
+  response (and a spend chip in the workbench) shows tokens, calls, and an
+  estimated cost in USD. Revisions use prompt caching: the large stable
+  context (source text, script, image assets) is cached across iterations of
+  the same job, so a second and third revision within a few minutes bill the
+  repeated prefix at ~10% of the input price. Iterate in bursts to stay
+  inside the 5-minute cache window.

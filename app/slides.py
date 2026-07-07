@@ -19,7 +19,7 @@ from pathlib import Path
 
 from pydantic import BaseModel
 
-from .script_gen import MODEL, PodcastScript, client
+from .script_gen import MODEL, PodcastScript, client, record_usage
 
 
 class Slide(BaseModel):
@@ -214,6 +214,7 @@ async def derive_theme(digests: list[dict]) -> SlideTheme:
         messages=[{"role": "user", "content": content}],
         output_format=SlideTheme,
     )
+    record_usage(response)
     theme = response.parsed_output
     if theme is None:
         raise RuntimeError("Claude did not return a usable slide theme.")
@@ -348,6 +349,7 @@ async def generate_slide_deck(
         messages=[{"role": "user", "content": content}],
         output_format=SlideDeck,
     )
+    record_usage(response)
     deck = response.parsed_output
     if deck is None or not deck.slides:
         raise RuntimeError("Claude did not return a usable slide deck.")
@@ -381,18 +383,25 @@ async def revise_deck(
     numbered = "\n".join(
         f"{i}: [{line.speaker}] {line.text}" for i, line in enumerate(script.lines)
     )
+    # Stable blocks first, cache breakpoint on the last of them: successive
+    # deck revisions reuse the large source/assets/script prefix at ~10% of
+    # input price. Only the current deck + instructions vary per iteration.
     content: list[dict] = [
         {"type": "text", "text": f"Episode title: {script.title}"},
         {"type": "text", "text": _palette_block(theme)},
-        {"type": "text", "text": f"Narration script:\n{numbered}"},
-        {"type": "text", "text": "Current deck:\n" + json.dumps(
-            [s.model_dump() for s in deck.slides], indent=1)},
     ]
     content.extend(_asset_blocks(assets))
-    if style:
-        content.append({"type": "text", "text": f"Standing expectations for the deck: {style}"})
     if source_text:
         content.append({"type": "text", "text": f"Original source material:\n\n{source_text}"})
+    if style:
+        content.append({"type": "text", "text": f"Standing expectations for the deck: {style}"})
+    content.append({
+        "type": "text",
+        "text": f"Narration script:\n{numbered}",
+        "cache_control": {"type": "ephemeral"},
+    })
+    content.append({"type": "text", "text": "Current deck:\n" + json.dumps(
+        [s.model_dump() for s in deck.slides], indent=1)})
     content.append({"type": "text", "text": f"Revision instructions:\n{instructions}"})
 
     response = await client.messages.parse(
@@ -403,6 +412,7 @@ async def revise_deck(
         messages=[{"role": "user", "content": content}],
         output_format=SlideDeck,
     )
+    record_usage(response)
     revised = response.parsed_output
     if revised is None or not revised.slides:
         raise RuntimeError("Claude did not return a usable revised deck.")

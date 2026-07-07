@@ -594,6 +594,7 @@ function renderJob(j) {
           <span class="chip ${j.mode}">${j.mode}</span>
           ${(j.templates || []).map(t => `<span class="chip">${esc(t)}</span>`).join("")}
           ${j.revisions?.length ? `<span class="chip">${j.revisions.length} revision${j.revisions.length > 1 ? "s" : ""}</span>` : ""}
+          ${j.usage ? `<span class="chip" title="${j.usage.calls} model calls · ${(j.usage.input/1000).toFixed(0)}k in / ${(j.usage.output/1000).toFixed(0)}k out · ${(j.usage.cache_read/1000).toFixed(0)}k cached">≈ $${j.usage.est_cost_usd.toFixed(2)} model spend</span>` : ""}
         </div>
       </div>
       <div class="job-actions">

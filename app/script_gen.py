@@ -6,6 +6,7 @@ Three modes:
 - readout: the full document adapted for listening, single narrator
 """
 
+from contextvars import ContextVar
 from typing import Literal
 
 from anthropic import AsyncAnthropic
@@ -16,6 +17,23 @@ MODEL = "claude-opus-4-8"
 # Zero-arg client: resolves ANTHROPIC_API_KEY, ANTHROPIC_AUTH_TOKEN,
 # or an `ant auth login` profile from the environment.
 client = AsyncAnthropic()
+
+# Per-task usage sink: each pipeline/revision task installs a list here and
+# every Claude call appends its token usage, so jobs can account for spend.
+usage_events: ContextVar[list | None] = ContextVar("usage_events", default=None)
+
+
+def record_usage(response) -> None:
+    sink = usage_events.get()
+    if sink is None:
+        return
+    u = response.usage
+    sink.append({
+        "input": u.input_tokens,
+        "output": u.output_tokens,
+        "cache_read": getattr(u, "cache_read_input_tokens", 0) or 0,
+        "cache_write": getattr(u, "cache_creation_input_tokens", 0) or 0,
+    })
 
 
 class ScriptLine(BaseModel):
@@ -111,6 +129,7 @@ async def generate_podcast_script(
         ],
         output_format=PodcastScript,
     )
+    record_usage(response)
     script = response.parsed_output
     if script is None or not script.lines:
         raise RuntimeError("Claude did not return a usable podcast script.")
@@ -153,6 +172,7 @@ takeaway."""
         ],
         output_format=Narration,
     )
+    record_usage(response)
     narration = response.parsed_output
     if narration is None or not narration.text.strip():
         raise RuntimeError("Claude did not return a usable summary.")
@@ -210,6 +230,7 @@ one-line sign-off."""
         ],
     ) as stream:
         message = await stream.get_final_message()
+    record_usage(message)
 
     if message.stop_reason == "max_tokens":
         raise RuntimeError(
@@ -243,19 +264,30 @@ async def revise_script(
     numbered = "\n".join(
         f"{i}: [{line.speaker}] {line.text}" for i, line in enumerate(script.lines)
     )
-    parts = [f"Current title: {script.title}", f"Current script:\n{numbered}"]
+    # Stable content first with a cache breakpoint: successive revisions of
+    # the same job reuse the (large) source prefix at ~10% of input price.
+    content: list[dict] = []
     if source_text:
-        parts.append(f"Original source material:\n\n{source_text}")
-    parts.append(f"Revision instructions:\n{instructions}")
+        content.append({
+            "type": "text",
+            "text": f"Original source material:\n\n{source_text}",
+            "cache_control": {"type": "ephemeral"},
+        })
+    content.append({
+        "type": "text",
+        "text": f"Current title: {script.title}\n\nCurrent script:\n{numbered}"
+                f"\n\nRevision instructions:\n{instructions}",
+    })
 
     response = await client.messages.parse(
         model=MODEL,
         max_tokens=16000,
         thinking={"type": "adaptive"},
         system=_REVISE_SYSTEM,
-        messages=[{"role": "user", "content": "\n\n".join(parts)}],
+        messages=[{"role": "user", "content": content}],
         output_format=PodcastScript,
     )
+    record_usage(response)
     revised = response.parsed_output
     if revised is None or not revised.lines:
         raise RuntimeError("Claude did not return a usable revised script.")
@@ -330,6 +362,7 @@ async def plan_voice(
         ],
         output_format=VoicePlan,
     )
+    record_usage(response)
     plan = response.parsed_output
     if plan is None:
         raise RuntimeError("Claude did not return a usable voice plan.")

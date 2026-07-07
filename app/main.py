@@ -92,6 +92,8 @@ def _load_job_from_disk(job_dir: Path) -> None:
         "deck_obj": None,
         "delivery": {},
         "timing": {int(k): v for k, v in (meta.get("timing") or {}).items()},
+        "usage": meta.get("usage") or {"input": 0, "output": 0, "cache_read": 0,
+                                       "cache_write": 0, "calls": 0},
         "cues": meta.get("cues"),
         "stale": meta.get("stale", {"slides": False, "audio": False, "outputs": False}),
         "revisions": meta.get("revisions", []),
@@ -278,6 +280,7 @@ async def create_podcast(
         "assets": [],
         "delivery": {},        # line index -> {spoken, rate, pitch, volume, voice}
         "timing": {},          # slide index -> offset seconds (negative = earlier)
+        "usage": {"input": 0, "output": 0, "cache_read": 0, "cache_write": 0, "calls": 0},
         "cues": None,
         "stale": {"slides": False, "audio": False, "outputs": False},
         "revisions": [],
@@ -487,6 +490,9 @@ async def get_podcast(job_id: str) -> dict:
         ]
     if job["delivery"]:
         body["voice_delivery"] = job["delivery"]
+    usage = _usage_body(job)
+    if usage:
+        body["usage"] = usage
     if job["template_names"]:
         body["templates"] = job["template_names"]
     if job["theme_obj"] is not None:
@@ -544,6 +550,7 @@ async def revise(
 
 async def _revise_task(job_id: str, target: str, instructions: str) -> None:
     job = jobs[job_id]
+    sink = _begin_usage()
     try:
         job["status"] = "running"
         script = job["script_obj"]
@@ -614,11 +621,13 @@ async def _revise_task(job_id: str, target: str, instructions: str) -> None:
                 await _render_outputs(job_id)
 
         job["revisions"].append({"target": target, "instructions": instructions})
+        _collect_usage(job, sink)
         _save_state(job)
         job["step"] = None
         job["status"] = "done"
     except Exception as e:
         # Keep prior artifacts usable; surface the failure in `error`.
+        _collect_usage(job, sink)
         job["step"] = None
         job["status"] = "done"
         job["error"] = f"revision failed — {type(e).__name__}: {e}"
@@ -722,6 +731,7 @@ async def render(
 
 async def _render_task(job_id: str) -> None:
     job = jobs[job_id]
+    sink = _begin_usage()
     try:
         job["status"] = "running"
         opts = job["options"]
@@ -740,10 +750,12 @@ async def _render_task(job_id: str) -> None:
         if opts["slides"]:
             await _render_outputs(job_id)
 
+        _collect_usage(job, sink)
         _save_state(job)
         job["step"] = None
         job["status"] = "done"
     except Exception as e:
+        _collect_usage(job, sink)
         job["step"] = None
         job["status"] = "done"
         job["error"] = f"render failed — {type(e).__name__}: {e}"
@@ -760,6 +772,7 @@ async def _create_pipeline(
 ) -> None:
     job = jobs[job_id]
     opts = job["options"]
+    sink = _begin_usage()
     try:
         job["status"] = "running"
 
@@ -801,6 +814,7 @@ async def _create_pipeline(
         job["title"] = script.title
 
         if until == "script":
+            _collect_usage(job, sink)
             _save_state(job)
             job["step"] = None
             job["status"] = "done"
@@ -815,6 +829,7 @@ async def _create_pipeline(
             _refresh_figure_assets(job)
 
         if until == "slides":
+            _collect_usage(job, sink)
             _save_state(job)
             job["step"] = None
             job["status"] = "done"
@@ -824,14 +839,17 @@ async def _create_pipeline(
         if opts["slides"]:
             await _render_outputs(job_id)
 
+        _collect_usage(job, sink)
         _save_state(job)
         job["step"] = None
         job["status"] = "done"
     except ExtractionError as e:
+        _collect_usage(job, sink)
         job["status"] = "failed"
         job["step"] = None
         job["error"] = str(e)
     except Exception as e:
+        _collect_usage(job, sink)
         job["status"] = "failed"
         job["step"] = None
         job["error"] = f"{type(e).__name__}: {e}"
@@ -996,6 +1014,36 @@ def _refresh_figure_assets(job: dict) -> None:
         )
 
 
+# Opus 4.8 pricing, USD per million tokens.
+_PRICE = {"input": 5.00, "output": 25.00, "cache_read": 0.50, "cache_write": 6.25}
+
+
+def _begin_usage() -> list:
+    """Install a fresh usage sink for the current task; returns the sink."""
+    sink: list = []
+    script_gen.usage_events.set(sink)
+    return sink
+
+
+def _collect_usage(job: dict, sink: list) -> None:
+    """Fold a task's Claude usage into the job's running totals."""
+    u = job.setdefault("usage", {"input": 0, "output": 0, "cache_read": 0,
+                                 "cache_write": 0, "calls": 0})
+    for ev in sink:
+        for k in ("input", "output", "cache_read", "cache_write"):
+            u[k] += ev[k]
+        u["calls"] += 1
+    sink.clear()
+
+
+def _usage_body(job: dict) -> Optional[dict]:
+    u = job.get("usage")
+    if not u or not u["calls"]:
+        return None
+    cost = sum(u[k] * _PRICE[k] for k in _PRICE) / 1_000_000
+    return {**u, "est_cost_usd": round(cost, 4)}
+
+
 def _effective_slide_style(job: dict) -> Optional[str]:
     """User slide_style combined with content guidelines from the templates."""
     parts = [job["options"]["slide_style"]]
@@ -1047,6 +1095,7 @@ def _save_state(job: dict) -> None:
                 "revisions": job["revisions"],
                 "cues": job["cues"],
                 "timing": job["timing"],
+                "usage": job.get("usage"),
                 "stale": job["stale"],
             },
             indent=1,
