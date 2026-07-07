@@ -337,3 +337,7 @@ Notes on the loop:
   the same job, so a second and third revision within a few minutes bill the
   repeated prefix at ~10% of the input price. Iterate in bursts to stay
   inside the 5-minute cache window.
+
+## License
+
+[MIT](LICENSE) © 2026 Nikolai Manigoff Rasmussen
