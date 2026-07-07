@@ -200,10 +200,14 @@ async def landing():
             f'<p>{mins}synced slideshow with voice-over</p></a>'
         )
 
+    studio_url = "https://demo.fluentagents.com/studio" if DEMO else "/studio"
+    studio_label = "Open the demo" if DEMO else "Open the studio"
     note = ("Demo instance — browse every production read-only."
             if DEMO else "Runs locally · your sources never leave your machine "
             "except to the Claude API.")
-    page = (page.replace("__VIDEO_URL__", video_url)
+    page = (page.replace("__STUDIO_URL__", studio_url)
+                .replace("__STUDIO_LABEL__", studio_label)
+                .replace("__VIDEO_URL__", video_url)
                 .replace("__SLIDES_URL__", slides_url)
                 .replace("__EXAMPLES__", "".join(cards) or
                          '<p style="color:var(--dim)">Productions appear here once created.</p>')
