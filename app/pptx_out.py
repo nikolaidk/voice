@@ -34,6 +34,7 @@ def build_pptx(
     theme: SlideTheme | None,
     assets_dir: Path,
     out_path: Path,
+    footer: str | None = None,
 ) -> None:
     theme = theme or DEFAULT_THEME
     panel = _rgb(theme.panel)
@@ -126,6 +127,15 @@ def build_pptx(
                 Inches(box_y + (box_h - h_in) / 2),
                 Inches(w_in), Inches(h_in),
             )
+
+        if footer:
+            fb = s.shapes.add_textbox(Inches(0.9), Inches(_H_IN - 0.55),
+                                      Inches(5.5), Inches(0.4))
+            fp_ = fb.text_frame.paragraphs[0]
+            fp_.text = footer
+            fp_.font.size = Pt(10)
+            fp_.font.name = body_font
+            fp_.font.color.rgb = muted
 
         num = s.shapes.add_textbox(Inches(_W_IN - 1.5), Inches(_H_IN - 0.55),
                                    Inches(1.1), Inches(0.4))

@@ -257,6 +257,11 @@ async def create_podcast(
         description="'on' animates the slides: staggered entrances in the web "
         "slideshow, bullet build-in in the video, and figures may animate",
     ),
+    footer: Optional[str] = Form(
+        None,
+        description="traceability stamp rendered on every slide (web, video, "
+        "PowerPoint) — e.g. your domain or attribution line",
+    ),
     until: str = Form(
         "full",
         description="How far to run before pausing for iteration: 'script' "
@@ -358,7 +363,7 @@ async def create_podcast(
             "host_a": host_a, "host_b": host_b, "reader": reader,
             "audience": audience, "voices": voices,
             "slides": slides, "slide_style": slide_style, "captions": captions,
-            "animations": animations,
+            "animations": animations, "footer": (footer or "").strip() or None,
         },
         "script_obj": None,
         "deck_obj": None,
@@ -980,6 +985,7 @@ async def render(
     slide_style: Optional[str] = Form(None),
     captions: Optional[str] = Form(None),
     animations: Optional[str] = Form(None),
+    footer: Optional[str] = Form(None),
 ) -> dict:
     """(Re)produce voice-over + outputs from the current script/deck/delivery.
 
@@ -1000,6 +1006,8 @@ async def render(
         opts["captions"] = _validate_captions(captions, opts["slides"])
     if animations is not None:
         opts["animations"] = _validate_animations(animations)
+    if footer is not None:
+        opts["footer"] = footer.strip() or None
 
     job["status"] = "queued"
     job["error"] = None
@@ -1186,6 +1194,7 @@ async def _render_outputs(job_id: str) -> None:
         theme=job["theme_obj"],
         assets_dir=Path(job["job_dir"]) / "assets",
         animations=bool(opts.get("animations")),
+        footer=opts.get("footer"),
     )
     job["slides_path"] = str(slides_path)
 
@@ -1209,6 +1218,7 @@ async def _render_outputs(job_id: str) -> None:
             theme=job["theme_obj"],
             assets_dir=Path(job["job_dir"]) / "assets",
             animations=bool(opts.get("animations")),
+            footer=opts.get("footer"),
         )
         job["video_path"] = str(video_path)
     job["stale"]["outputs"] = False

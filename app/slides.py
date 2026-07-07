@@ -583,6 +583,7 @@ def render_html(
     theme: SlideTheme | None = None,
     assets_dir: Path | None = None,
     animations: bool = False,
+    footer: str | None = None,
 ) -> None:
     theme = theme or DEFAULT_THEME
     audio_b64 = base64.b64encode(audio_path.read_bytes()).decode()
@@ -612,6 +613,7 @@ def render_html(
     page = page.replace("__ACCENT__", theme.accent)
     page = page.replace("__FONT__", theme.font_family)
     page = page.replace("__HEADFONT__", theme.heading_font_family)
+    page = page.replace("__STAMP__", footer or "")
     page = page.replace("__ANIM__", "true" if animations else "false")
     page = page.replace("__AUDIO__", audio_b64)
     out_path.write_text(page, encoding="utf-8")
@@ -690,6 +692,9 @@ _HTML_TEMPLATE = """<!doctype html>
     line-height: 1.35; text-align: center; display: none;
   }
   #cc.active { border-color: var(--accent); color: var(--accent); }
+  #stamp { font-family: var(--mono, monospace); font-size: 11px; color: var(--muted);
+    letter-spacing: .06em; opacity: .8; }
+  #stamp:empty { display: none; }
   @keyframes aIn { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
   .a-in { animation: aIn .55s cubic-bezier(.2,.7,.3,1) both; }
 </style>
@@ -703,6 +708,7 @@ _HTML_TEMPLATE = """<!doctype html>
   <button id="cc" title="Toggle captions" style="width:auto;padding:0 12px">CC</button>
   <button id="next" title="Next slide">&#8250;</button>
   <span id="counter"></span>
+  <span id="stamp">__STAMP__</span>
 </footer>
 <script>
 const SLIDES = __SLIDES__;
@@ -815,6 +821,7 @@ async def render_video(
     theme: SlideTheme | None = None,
     assets_dir: Path | None = None,
     animations: bool = False,
+    footer: str | None = None,
 ) -> None:
     if not ffmpeg_available():
         raise RuntimeError(
@@ -824,6 +831,7 @@ async def render_video(
     await asyncio.to_thread(
         _render_video_sync, deck, times, total_duration, audio_path, out_path,
         srt_path, caption_chunks, burn_captions, theme, assets_dir, animations,
+        footer,
     )
 
 
@@ -857,7 +865,7 @@ def _segments(times, total, chunks):
 
 def _render_video_sync(deck, times, total_duration, audio_path, out_path,
                        srt_path=None, caption_chunks=None, burn_captions=False,
-                       theme=None, assets_dir=None, animations=False):
+                       theme=None, assets_dir=None, animations=False, footer=None):
     from PIL import Image, ImageDraw, ImageFont
 
     theme = theme or DEFAULT_THEME
@@ -875,7 +883,16 @@ def _render_video_sync(deck, times, total_duration, audio_path, out_path,
                 continue
         return ImageFont.load_default()
 
+    def _glyph_safe(t):
+        """The video font lacks some symbols the model likes — substitute."""
+        for bad, good in (("→", "->"), ("←", "<-"), ("↑", "^"), ("↓", "v"),
+                          ("≈", "~"), ("≥", ">="), ("≤", "<="), ("✓", "+"),
+                          ("×", "x"), ("•", "·")):
+            t = t.replace(bad, good)
+        return t
+
     def wrap(draw, text, fnt, max_w):
+        text = _glyph_safe(text)
         words, lines, cur = text.split(), [], ""
         for w in words:
             trial = (cur + " " + w).strip()
@@ -939,7 +956,7 @@ def _render_video_sync(deck, times, total_duration, audio_path, out_path,
                 y += st_font.size + gap
         dot = round(14 * scale)
         bullets = slide.bullets if max_bullets is None else slide.bullets[:max_bullets]
-        for bullet in bullets:
+        for bullet in map(_glyph_safe, bullets):
             d.ellipse([x, y + dot, x + dot, y + 2 * dot], fill=accent)
             for line in wrap(d, bullet, body_font, max_w - 40):
                 d.text((x + 36, y), line, font=body_font, fill=body_ink)
@@ -953,6 +970,8 @@ def _render_video_sync(deck, times, total_duration, audio_path, out_path,
             fill=muted,
             anchor="ra",
         )
+        if footer:
+            d.text((90, _H - 60), footer, font=font(22), fill=muted, anchor="la")
         return img, y <= _H - 70
 
     def draw_caption(base, text):

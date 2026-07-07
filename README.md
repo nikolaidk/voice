@@ -205,6 +205,7 @@ curl -X POST localhost:8000/podcasts \
 | `captions` | with `slides` | on-screen text of the narration: `burned` (baked in at generation, always visible) or `toggle` (choose while playing — CC button in the web player, subtitle track in the video) |
 | `animations` | with `slides` | `on` animates the production: staggered entrance of titles/bullets/visuals in the web slideshow, bullet-by-bullet build-in in the video, and the model may animate its SVG figures (bars growing, lines drawing). PPTX stays static. |
 | `template_id` | with `slides` | reference a saved template set from the template library instead of (or alongside) uploading files |
+| `footer` | with `slides` | traceability stamp rendered on every slide across web, video and PowerPoint — e.g. `footer=https://fluentagents.com` |
 | `templates` | with `slides` | zero or more template/style-guide files (repeat the field): `.pptx`/`.potx` (theme colors + fonts extracted), HTML/CSS, images/screenshots of slides you like, `.pdf`, `.md`/`.txt` style guides. A visual theme (colors, fonts) and content rules are derived and applied to the web slideshow and video. |
 
 Slides are not text-only: images found in the source (article images,
