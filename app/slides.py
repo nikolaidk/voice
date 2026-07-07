@@ -432,6 +432,10 @@ def _sanitize(
             s.first_line = prev + 1
             if s.first_line >= n_lines:
                 continue
+        s.title = _unescape(s.title)
+        s.bullets = [_unescape(b) for b in s.bullets]
+        if s.big_statement:
+            s.big_statement = _unescape(s.big_statement)
         if s.image and s.image not in (asset_names or set()):
             s.image = None
         if s.figure_svg is not None:
