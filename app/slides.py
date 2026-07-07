@@ -582,6 +582,7 @@ def render_html(
     captions_default_on: bool = False,
     theme: SlideTheme | None = None,
     assets_dir: Path | None = None,
+    animations: bool = False,
 ) -> None:
     theme = theme or DEFAULT_THEME
     audio_b64 = base64.b64encode(audio_path.read_bytes()).decode()
@@ -611,6 +612,7 @@ def render_html(
     page = page.replace("__ACCENT__", theme.accent)
     page = page.replace("__FONT__", theme.font_family)
     page = page.replace("__HEADFONT__", theme.heading_font_family)
+    page = page.replace("__ANIM__", "true" if animations else "false")
     page = page.replace("__AUDIO__", audio_b64)
     out_path.write_text(page, encoding="utf-8")
 
@@ -688,6 +690,8 @@ _HTML_TEMPLATE = """<!doctype html>
     line-height: 1.35; text-align: center; display: none;
   }
   #cc.active { border-color: var(--accent); color: var(--accent); }
+  @keyframes aIn { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+  .a-in { animation: aIn .55s cubic-bezier(.2,.7,.3,1) both; }
 </style>
 </head>
 <body>
@@ -703,6 +707,7 @@ _HTML_TEMPLATE = """<!doctype html>
 <script>
 const SLIDES = __SLIDES__;
 const CAPS = __CAPS__;
+const ANIM = __ANIM__;
 let capsOn = __CAPSON__;
 const audio = document.getElementById("audio");
 const slideEl = document.getElementById("slide");
@@ -730,6 +735,13 @@ function show(i) {
   slideEl.className = "slide" + (i === 0 ? " cover" : "") +
     (dense ? " dense" : "") + (s.visual ? " has-visual" : "");
   slideEl.innerHTML = inner;
+  if (ANIM) {
+    slideEl.querySelectorAll("h1, .statement, .rv-st, li, .slide-visual img")
+      .forEach((el, k) => {
+        el.classList.add("a-in");
+        el.style.animationDelay = (0.08 + k * 0.14).toFixed(2) + "s";
+      });
+  }
   counter.textContent = (i + 1) + " / " + SLIDES.length;
 }
 
@@ -802,6 +814,7 @@ async def render_video(
     burn_captions: bool = False,
     theme: SlideTheme | None = None,
     assets_dir: Path | None = None,
+    animations: bool = False,
 ) -> None:
     if not ffmpeg_available():
         raise RuntimeError(
@@ -810,7 +823,7 @@ async def render_video(
         )
     await asyncio.to_thread(
         _render_video_sync, deck, times, total_duration, audio_path, out_path,
-        srt_path, caption_chunks, burn_captions, theme, assets_dir,
+        srt_path, caption_chunks, burn_captions, theme, assets_dir, animations,
     )
 
 
@@ -844,7 +857,7 @@ def _segments(times, total, chunks):
 
 def _render_video_sync(deck, times, total_duration, audio_path, out_path,
                        srt_path=None, caption_chunks=None, burn_captions=False,
-                       theme=None, assets_dir=None):
+                       theme=None, assets_dir=None, animations=False):
     from PIL import Image, ImageDraw, ImageFont
 
     theme = theme or DEFAULT_THEME
@@ -876,8 +889,11 @@ def _render_video_sync(deck, times, total_duration, audio_path, out_path,
             lines.append(cur)
         return lines
 
-    def draw_slide(slide, i, scale):
-        """Render one slide at the given font scale; returns (img, fits)."""
+    def draw_slide(slide, i, scale, max_bullets=None):
+        """Render one slide at the given font scale; returns (img, fits).
+
+        max_bullets limits how many bullets are drawn — used for the
+        animated build-in frames."""
         img = Image.new("RGB", (_W, _H), bg)
         d = ImageDraw.Draw(img)
         d.rectangle([0, 0, 8, _H], fill=accent)
@@ -922,7 +938,8 @@ def _render_video_sync(deck, times, total_duration, audio_path, out_path,
                 d.text((x, y), line, font=st_font, fill=fill)
                 y += st_font.size + gap
         dot = round(14 * scale)
-        for bullet in slide.bullets:
+        bullets = slide.bullets if max_bullets is None else slide.bullets[:max_bullets]
+        for bullet in bullets:
             d.ellipse([x, y + dot, x + dot, y + 2 * dot], fill=accent)
             for line in wrap(d, bullet, body_font, max_w - 40):
                 d.text((x + 36, y), line, font=body_font, fill=body_ink)
@@ -964,12 +981,14 @@ def _render_video_sync(deck, times, total_duration, audio_path, out_path,
     with tempfile.TemporaryDirectory() as tmp:
         tmp = Path(tmp)
         base_images = []
+        base_scales = []
         for i, slide in enumerate(deck.slides):
             for scale in (1.0, 0.85, 0.72, 0.6, 0.5):
                 img, fits = draw_slide(slide, i, scale)
                 if fits:
                     break
             base_images.append(img)
+            base_scales.append(scale)
 
         lines = ["ffconcat version 1.0"]
         if burn_captions and caption_chunks:
@@ -992,12 +1011,27 @@ def _render_video_sync(deck, times, total_duration, audio_path, out_path,
                 lines.append(f"duration {duration:.3f}")
             lines.append(f"file '{frame_ids[key]}'")
         else:
-            # One frame per slide, shown until the next slide starts.
+            # One frame per slide — or, with animations, a short bullet
+            # build-in: progressive frames revealing one bullet at a time.
             for i, img in enumerate(base_images):
-                img.save(tmp / f"slide_{i:03d}.png")
                 end = times[i + 1] if i + 1 < len(deck.slides) else total_duration
-                lines.append(f"file 'slide_{i:03d}.png'")
-                lines.append(f"duration {max(0.5, end - times[i]):.3f}")
+                duration = max(0.5, end - times[i])
+                slide = deck.slides[i]
+                n = len(slide.bullets)
+                if animations and n >= 2 and duration > 3.0:
+                    build_dt = min(0.7, (duration * 0.45) / n)
+                    for k in range(n):
+                        frame, _ = draw_slide(slide, i, base_scales[i], max_bullets=k)
+                        frame.save(tmp / f"slide_{i:03d}_b{k:02d}.png")
+                        lines.append(f"file 'slide_{i:03d}_b{k:02d}.png'")
+                        lines.append(f"duration {build_dt:.3f}")
+                    img.save(tmp / f"slide_{i:03d}.png")
+                    lines.append(f"file 'slide_{i:03d}.png'")
+                    lines.append(f"duration {duration - n * build_dt:.3f}")
+                else:
+                    img.save(tmp / f"slide_{i:03d}.png")
+                    lines.append(f"file 'slide_{i:03d}.png'")
+                    lines.append(f"duration {duration:.3f}")
             lines.append(f"file 'slide_{len(deck.slides) - 1:03d}.png'")
         (tmp / "list.txt").write_text("\n".join(lines))
 

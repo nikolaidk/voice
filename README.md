@@ -146,6 +146,7 @@ curl -X POST localhost:8000/podcasts \
 | `slides` | all | comma-separated output formats: `web` (synced HTML slideshow), `video` (MP4 with voice-over; needs ffmpeg), `pptx` (PowerPoint with the narration as speaker notes per slide) — e.g. `slides=video,pptx`. Any format includes the web slideshow. |
 | `slide_style` | with `slides` | expectations for the deck — e.g. `minimal, one phrase per slide` or `much more informative than the voice-over, with data and quotes from the source` |
 | `captions` | with `slides` | on-screen text of the narration: `burned` (baked in at generation, always visible) or `toggle` (choose while playing — CC button in the web player, subtitle track in the video) |
+| `animations` | with `slides` | `on` animates the production: staggered entrance of titles/bullets/visuals in the web slideshow, bullet-by-bullet build-in in the video, and the model may animate its SVG figures (bars growing, lines drawing). PPTX stays static. |
 | `templates` | with `slides` | zero or more template/style-guide files (repeat the field): `.pptx`/`.potx` (theme colors + fonts extracted), HTML/CSS, images/screenshots of slides you like, `.pdf`, `.md`/`.txt` style guides. A visual theme (colors, fonts) and content rules are derived and applied to the web slideshow and video. |
 
 Slides are not text-only: images found in the source (article images,

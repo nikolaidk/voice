@@ -175,6 +175,11 @@ async def create_podcast(
         description="On-screen text for slides/video: 'burned' (baked in at "
         "generation, always visible) or 'toggle' (switch on/off while playing)",
     ),
+    animations: Optional[str] = Form(
+        None,
+        description="'on' animates the slides: staggered entrances in the web "
+        "slideshow, bullet build-in in the video, and figures may animate",
+    ),
     until: str = Form(
         "full",
         description="How far to run before pausing for iteration: 'script' "
@@ -214,6 +219,7 @@ async def create_podcast(
     if until == "slides" and slides is None:
         slides = ["web"]
     captions = _validate_captions(captions, slides)
+    animations = _validate_animations(animations)
 
     pdf_bytes = None
     pdf_name = None
@@ -274,6 +280,7 @@ async def create_podcast(
             "host_a": host_a, "host_b": host_b, "reader": reader,
             "audience": audience, "voices": voices,
             "slides": slides, "slide_style": slide_style, "captions": captions,
+            "animations": animations,
         },
         "script_obj": None,
         "deck_obj": None,
@@ -324,6 +331,17 @@ def _validate_slides(slides: Optional[str]) -> Optional[list[str]]:
     if "web" not in wanted:
         wanted.append("web")  # the web slideshow is free alongside any format
     return wanted
+
+
+def _validate_animations(value: Optional[str]) -> Optional[str]:
+    if value is None:
+        return None
+    v = value.lower().strip()
+    if v in ("", "none", "off", "false", "no"):
+        return None
+    if v in ("on", "true", "yes", "build", "subtle"):
+        return "on"
+    raise HTTPException(status_code=422, detail="`animations` must be 'on' or 'off'.")
 
 
 def _validate_captions(captions: Optional[str], slides: Optional[list]) -> Optional[str]:
@@ -792,6 +810,7 @@ async def render(
     slides: Optional[str] = Form(None),
     slide_style: Optional[str] = Form(None),
     captions: Optional[str] = Form(None),
+    animations: Optional[str] = Form(None),
 ) -> dict:
     """(Re)produce voice-over + outputs from the current script/deck/delivery.
 
@@ -809,6 +828,8 @@ async def render(
         opts["slide_style"] = slide_style
     if captions is not None:
         opts["captions"] = _validate_captions(captions, opts["slides"])
+    if animations is not None:
+        opts["animations"] = _validate_animations(animations)
 
     job["status"] = "queued"
     job["error"] = None
@@ -994,6 +1015,7 @@ async def _render_outputs(job_id: str) -> None:
         captions_default_on=(opts["captions"] == "burned"),
         theme=job["theme_obj"],
         assets_dir=Path(job["job_dir"]) / "assets",
+        animations=bool(opts.get("animations")),
     )
     job["slides_path"] = str(slides_path)
 
@@ -1016,6 +1038,7 @@ async def _render_outputs(job_id: str) -> None:
             burn_captions=(opts["captions"] == "burned"),
             theme=job["theme_obj"],
             assets_dir=Path(job["job_dir"]) / "assets",
+            animations=bool(opts.get("animations")),
         )
         job["video_path"] = str(video_path)
     job["stale"]["outputs"] = False
@@ -1138,6 +1161,16 @@ def _effective_slide_style(job: dict) -> Optional[str]:
     theme = job["theme_obj"]
     if theme is not None and theme.content_guidelines:
         parts.append(f"From the provided templates: {theme.content_guidelines}")
+    if job["options"].get("animations"):
+        parts.append(
+            "Animations are enabled: figures MAY include tasteful CSS keyframe "
+            "animations inside the SVG (a <style> block) — bars growing, lines "
+            "drawing in via stroke-dashoffset, labels fading in. Animate only "
+            "transform, opacity, and stroke-dashoffset; no SMIL, no scripts; "
+            "settle within ~3 seconds. IMPORTANT: author the SVG so its static, "
+            "non-animated rendering already shows the complete final state — "
+            "the video uses a static snapshot of the figure."
+        )
     combined = " ".join(p for p in parts if p)
     return combined or None
 

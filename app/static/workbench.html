@@ -373,6 +373,10 @@ input[type=radio] { width: auto; accent-color: var(--amber); }
             <select name="captions"><option value="">None</option><option value="toggle">Toggle at runtime</option><option value="burned">Burned in</option></select></div>
           <div class="field"><label>Template set</label><select name="template_id" id="tpl-select"><option value="">None</option></select></div>
         </div>
+        <div class="grid3">
+          <div class="field"><label>Animations</label>
+            <select name="animations"><option value="">None</option><option value="on">On — build-ins &amp; animated figures</option></select></div>
+        </div>
         <div class="field"><label>Slide expectations</label>
           <input name="slide_style" placeholder="e.g. minimal one-phrase slides / much more informative than the voice-over"></div>
         <div class="field"><label>Ad-hoc template files</label>
@@ -583,7 +587,7 @@ async function createJob(ev) {
     if (!f.file.files[0]) return toast("Choose a PDF.", true);
     fd.append("file", f.file.files[0]);
   }
-  for (const k of ["mode","until","audience","host_a","host_b","reader","voice_a","voice_b","voice","slides","captions","slide_style","template_id"]) {
+  for (const k of ["mode","until","audience","host_a","host_b","reader","voice_a","voice_b","voice","slides","captions","slide_style","template_id","animations"]) {
     const v = f[k] && f[k].value.trim();
     if (v) fd.append(k, v);
   }
@@ -782,6 +786,8 @@ function renderTab(j, running) {
           <div class="field"><label>Captions</label>
             <select id="r-captions">${caps.map(o => `<option value="${o}">${o || "none"}</option>`).join("")}</select></div>
           <div class="field"><label>Slide expectations</label><input id="r-style" placeholder="(keep current)"></div>
+          <div class="field"><label>Animations</label>
+            <select id="r-anim"><option value="">(keep current)</option><option value="on">on</option><option value="off">off</option></select></div>
         </div>
         <button class="btn primary" onclick="renderJobNow()" ${running ? "disabled" : ""}>Render production</button>
         <span class="hint" style="margin-left:10px">Re-synthesizes audio and rebuilds all outputs from the current script, deck, theme and voice direction.</span>
@@ -978,9 +984,11 @@ async function sendRevision(target) {
 async function renderJobNow() {
   const fd = new FormData();
   const s = $("#r-slides").value, c = $("#r-captions").value, st = $("#r-style").value.trim();
+  const an = $("#r-anim").value;
   if (s) fd.append("slides", s);
   if (c) fd.append("captions", c);
   if (st) fd.append("slide_style", st);
+  if (an) fd.append("animations", an);
   try {
     await api(`/podcasts/${state.current}/render`, { method: "POST", body: fd });
     toast("Rendering production…");
