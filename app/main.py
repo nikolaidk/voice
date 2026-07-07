@@ -91,6 +91,7 @@ def _load_job_from_disk(job_dir: Path) -> None:
         "script_obj": None,
         "deck_obj": None,
         "delivery": {},
+        "timing": {int(k): v for k, v in (meta.get("timing") or {}).items()},
         "cues": meta.get("cues"),
         "stale": meta.get("stale", {"slides": False, "audio": False, "outputs": False}),
         "revisions": meta.get("revisions", []),
@@ -276,6 +277,7 @@ async def create_podcast(
         "deck_obj": None,
         "assets": [],
         "delivery": {},        # line index -> {spoken, rate, pitch, volume, voice}
+        "timing": {},          # slide index -> offset seconds (negative = earlier)
         "cues": None,
         "stale": {"slides": False, "audio": False, "outputs": False},
         "revisions": [],
@@ -458,12 +460,18 @@ async def get_podcast(job_id: str) -> dict:
         ]
     if deck is not None:
         assets_dir = Path(job["job_dir"]) / "assets"
+        starts = (
+            slides_mod.slide_times(deck, job["cues"], job["timing"])
+            if job["cues"] else None
+        )
         body["slides_deck"] = [
             {
                 "title": s.title,
                 "bullets": s.bullets,
                 "statement": s.big_statement,
                 "first_line": s.first_line,
+                "start": starts[i] if starts else None,
+                "offset": job["timing"].get(i, 0),
                 "image": s.image,
                 "figure": bool(s.figure_svg),
                 "visual_url": (
@@ -579,6 +587,7 @@ async def _revise_task(job_id: str, target: str, instructions: str) -> None:
                     style, job["source_text"], assets, job["theme_obj"],
                 )
             _refresh_figure_assets(job)
+            job["timing"] = {}  # slide indices may have shifted
             job["stale"]["slides"] = False
             # Re-render visual outputs immediately if audio already exists.
             if job["audio_path"] and not job["stale"]["audio"]:
@@ -613,6 +622,69 @@ async def _revise_task(job_id: str, target: str, instructions: str) -> None:
         job["step"] = None
         job["status"] = "done"
         job["error"] = f"revision failed — {type(e).__name__}: {e}"
+
+
+# ------------------------------------------------------------------ timing
+
+@app.post("/podcasts/{job_id}/timing", status_code=202)
+async def adjust_timing(
+    job_id: str,
+    offsets: str = Form(
+        ...,
+        description='JSON object of per-slide offsets in seconds, e.g. '
+        '{"4": -2, "7": 1.5}. Slide indices are 0-based; 0 clears an offset.',
+    ),
+) -> dict:
+    """Nudge when slides appear relative to the narration, then re-render
+    the slideshow/video (audio is untouched)."""
+    job = _get_job(job_id)
+    _require_idle(job)
+    if job["deck_obj"] is None:
+        raise HTTPException(status_code=409, detail="No slide deck yet.")
+
+    try:
+        parsed = json.loads(offsets)
+        assert isinstance(parsed, dict)
+        parsed = {int(k): float(v) for k, v in parsed.items()}
+    except (ValueError, AssertionError):
+        raise HTTPException(
+            status_code=422,
+            detail='`offsets` must be a JSON object like {"4": -2, "7": 1.5}.',
+        )
+    n = len(job["deck_obj"].slides)
+    for k, v in parsed.items():
+        if not 0 <= k < n:
+            raise HTTPException(status_code=422, detail=f"No slide index {k}.")
+        if abs(v) > 120:
+            raise HTTPException(status_code=422, detail="Offsets over ±120s rejected.")
+
+    for k, v in parsed.items():
+        if v == 0:
+            job["timing"].pop(k, None)
+        else:
+            job["timing"][k] = v
+
+    job["status"] = "queued"
+    job["error"] = None
+    task = asyncio.create_task(_timing_task(job_id))
+    job["_task"] = task
+    return {"job_id": job_id, "status": "queued", "timing": job["timing"],
+            "status_url": f"/podcasts/{job_id}"}
+
+
+async def _timing_task(job_id: str) -> None:
+    job = jobs[job_id]
+    try:
+        job["status"] = "running"
+        if job["audio_path"] and job["options"]["slides"] and not job["stale"]["audio"]:
+            await _render_outputs(job_id)
+        _save_state(job)
+        job["step"] = None
+        job["status"] = "done"
+    except Exception as e:
+        job["step"] = None
+        job["status"] = "done"
+        job["error"] = f"timing update failed — {type(e).__name__}: {e}"
 
 
 # ------------------------------------------------------------------ render
@@ -661,6 +733,7 @@ async def _render_task(job_id: str) -> None:
                 _job_assets(job), job["theme_obj"],
             )
             _refresh_figure_assets(job)
+            job["timing"] = {}
             job["stale"]["slides"] = False
 
         await _render_audio(job_id)
@@ -797,7 +870,7 @@ async def _render_outputs(job_id: str) -> None:
     cues = job["cues"]
     audio_path = Path(job["audio_path"])
 
-    times = slides_mod.slide_times(deck, cues)
+    times = slides_mod.slide_times(deck, cues, job["timing"])
     total = cues[-1]["start"] + cues[-1]["duration"] if cues else 0.0
 
     caption_chunks = None
@@ -973,6 +1046,7 @@ def _save_state(job: dict) -> None:
                 "templates": job["template_names"],
                 "revisions": job["revisions"],
                 "cues": job["cues"],
+                "timing": job["timing"],
                 "stale": job["stale"],
             },
             indent=1,

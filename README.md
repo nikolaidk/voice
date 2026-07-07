@@ -214,6 +214,12 @@ Notes on the loop:
   mark slides/audio stale; the next `/render` brings everything back in sync.
 - Slide revisions re-render the slideshow/video immediately when audio
   already exists.
+- **Timing**: nudge when slides appear relative to the narration without
+  touching the audio — `POST /podcasts/<id>/timing -F 'offsets={"4": -2,
+  "7": 1.5}'` (0-based slide index → seconds, negative = earlier; `0`
+  clears). Outputs re-render with the new times. In the workbench, every
+  slide card shows its start time with an editable offset. Offsets reset
+  when the deck is revised (slide indices shift).
 
 ## Notes
 

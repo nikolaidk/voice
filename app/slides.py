@@ -435,15 +435,33 @@ def _sanitize(
     return SlideDeck(slides=cleaned)
 
 
-def slide_times(deck: SlideDeck, cues: list[dict]) -> list[float]:
-    """Absolute start time (s) of each slide, from per-line TTS cues."""
+def slide_times(
+    deck: SlideDeck,
+    cues: list[dict],
+    timing: dict[int, float] | None = None,
+) -> list[float]:
+    """Absolute start time (s) of each slide, from per-line TTS cues.
+
+    `timing` holds per-slide offsets in seconds ({slide_index: offset},
+    negative = earlier). Slide 1 is pinned to 0 and order is preserved —
+    offsets are clamped so a slide can't jump past its neighbors.
+    """
     start_by_line = {c["line"]: c["start"] for c in cues}
-    times = []
-    for slide in deck.slides:
+    total = cues[-1]["start"] + cues[-1]["duration"] if cues else 0.0
+    timing = timing or {}
+    times: list[float] = []
+    for i, slide in enumerate(deck.slides):
         line = slide.first_line
         while line not in start_by_line and line > 0:
             line -= 1
-        times.append(start_by_line.get(line, 0.0))
+        t = start_by_line.get(line, 0.0) + timing.get(i, 0.0)
+        if i == 0:
+            t = 0.0
+        else:
+            t = max(t, times[-1] + 0.1)
+            if total:
+                t = min(t, max(total - 0.5, times[-1] + 0.1))
+        times.append(round(t, 2))
     return times
 
 
