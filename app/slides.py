@@ -429,6 +429,14 @@ async def revise_deck(
     return _sanitize(revised, len(script.lines), {n for n, _ in assets or []})
 
 
+_ESCAPE_RE = re.compile(r"\\u([0-9a-fA-F]{4})")
+
+
+def _unescape(text: str) -> str:
+    """Models occasionally emit literal \uXXXX sequences in text fields."""
+    return _ESCAPE_RE.sub(lambda m: chr(int(m.group(1), 16)), text)
+
+
 def _sanitize(
     deck: SlideDeck, n_lines: int, asset_names: set[str] | None = None
 ) -> SlideDeck:
