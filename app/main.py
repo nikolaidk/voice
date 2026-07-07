@@ -22,7 +22,7 @@ from typing import Optional
 from fastapi import FastAPI, File, Form, HTTPException, UploadFile
 from fastapi.responses import FileResponse
 
-from . import extract, script_gen, slides as slides_mod, text_out, tts
+from . import extract, pptx_out, script_gen, slides as slides_mod, text_out, tts
 from .extract import ExtractionError
 
 app = FastAPI(
@@ -124,8 +124,12 @@ def _load_job_from_disk(job_dir: Path) -> None:
     theme_file = job_dir / "theme.json"
     if theme_file.exists():
         job["theme_obj"] = slides_mod.SlideTheme(**json.loads(theme_file.read_text()))
+    if isinstance(job["options"].get("slides"), str):
+        job["options"]["slides"] = [job["options"]["slides"]]
+    job["pptx_path"] = None
     for key, name in (("audio_path", "audio.mp3"), ("transcript_path", "transcript.txt"),
-                      ("slides_path", "slides.html"), ("video_path", "video.mp4")):
+                      ("slides_path", "slides.html"), ("video_path", "video.mp4"),
+                      ("pptx_path", "slides.pptx")):
         if (job_dir / name).exists():
             job[key] = str(job_dir / name)
     jobs[job_id] = job
@@ -205,7 +209,7 @@ async def create_podcast(
 
     slides = _validate_slides(slides)
     if until == "slides" and slides is None:
-        slides = "web"
+        slides = ["web"]
     captions = _validate_captions(captions, slides)
 
     pdf_bytes = None
@@ -279,6 +283,7 @@ async def create_podcast(
         "transcript_path": None,
         "slides_path": None,
         "video_path": None,
+        "pptx_path": None,
     }
     task = asyncio.create_task(_create_pipeline(job_id, until, url, pdf_bytes, pdf_name))
     jobs[job_id]["_task"] = task
@@ -292,23 +297,31 @@ async def create_podcast(
     }
 
 
-def _validate_slides(slides: Optional[str]) -> Optional[str]:
-    if slides is not None:
-        slides = slides.lower().strip() or None
-    if slides not in (None, "web", "video"):
-        raise HTTPException(
-            status_code=422, detail="`slides` must be 'web' or 'video' (or omitted)."
-        )
-    if slides == "video" and not slides_mod.ffmpeg_available():
+def _validate_slides(slides: Optional[str]) -> Optional[list[str]]:
+    """Parse `slides` into a list of formats: web, video, pptx (comma-separated)."""
+    if slides is None:
+        return None
+    wanted = [v.strip() for v in slides.lower().split(",") if v.strip()]
+    if not wanted:
+        return None
+    for v in wanted:
+        if v not in ("web", "video", "pptx"):
+            raise HTTPException(
+                status_code=422,
+                detail="`slides` must be a comma-separated list of: web, video, pptx.",
+            )
+    if "video" in wanted and not slides_mod.ffmpeg_available():
         raise HTTPException(
             status_code=422,
             detail="slides=video requires ffmpeg on the server (brew install ffmpeg); "
-            "slides=web works without it.",
+            "web and pptx work without it.",
         )
-    return slides
+    if "web" not in wanted:
+        wanted.append("web")  # the web slideshow is free alongside any format
+    return wanted
 
 
-def _validate_captions(captions: Optional[str], slides: Optional[str]) -> Optional[str]:
+def _validate_captions(captions: Optional[str], slides: Optional[list]) -> Optional[str]:
     if captions is not None:
         captions = captions.lower().strip() or None
         captions = CAPTION_ALIASES.get(captions, captions)
@@ -345,6 +358,7 @@ async def list_podcasts() -> list[dict]:
             "has_audio": bool(job["audio_path"]),
             "has_slides": bool(job["slides_path"]),
             "has_video": bool(job["video_path"]),
+            "has_pptx": bool(job.get("pptx_path")),
             "templates": job["template_names"],
             "revision_count": len(job["revisions"]),
         })
@@ -476,6 +490,8 @@ async def get_podcast(job_id: str) -> dict:
         body["slides_url"] = f"/podcasts/{job_id}/slides"
     if job["video_path"]:
         body["video_url"] = f"/podcasts/{job_id}/video"
+    if job["pptx_path"]:
+        body["pptx_url"] = f"/podcasts/{job_id}/pptx"
     return body
 
 
@@ -544,7 +560,7 @@ async def _revise_task(job_id: str, target: str, instructions: str) -> None:
 
         elif target == "slides":
             if opts["slides"] is None:
-                opts["slides"] = "web"
+                opts["slides"] = ["web"]
             job["step"] = "revising_slides"
             style = _effective_slide_style(job)
             assets = _job_assets(job)
@@ -802,7 +818,16 @@ async def _render_outputs(job_id: str) -> None:
     )
     job["slides_path"] = str(slides_path)
 
-    if opts["slides"] == "video":
+    if "pptx" in opts["slides"]:
+        job["step"] = "rendering_pptx"
+        pptx_path = Path(job["job_dir"]) / "slides.pptx"
+        await asyncio.to_thread(
+            pptx_out.build_pptx, script.title, deck, script, job["theme_obj"],
+            Path(job["job_dir"]) / "assets", pptx_path,
+        )
+        job["pptx_path"] = str(pptx_path)
+
+    if "video" in opts["slides"]:
         job["step"] = "rendering_video"
         video_path = Path(job["job_dir"]) / "video.mp4"
         await slides_mod.render_video(
@@ -857,6 +882,18 @@ async def get_slides(job_id: str) -> FileResponse:
     _require_artifact(job, "slides_path",
                       hint=" (request it with slides=web or slides=video)")
     return FileResponse(job["slides_path"], media_type="text/html")
+
+
+@app.get("/podcasts/{job_id}/pptx")
+async def get_pptx(job_id: str) -> FileResponse:
+    job = _get_job(job_id)
+    _require_artifact(job, "pptx_path", hint=" (request it with slides=pptx)")
+    return FileResponse(
+        job["pptx_path"],
+        media_type="application/vnd.openxmlformats-officedocument"
+        ".presentationml.presentation",
+        filename=f"{_safe_title(job)}.pptx",
+    )
 
 
 @app.get("/podcasts/{job_id}/video")

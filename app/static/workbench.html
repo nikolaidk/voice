@@ -312,7 +312,13 @@ input[type=file]::file-selector-button { font: inherit; font-size: 12px; margin-
         <legend>Slides &amp; captions</legend>
         <div class="grid3">
           <div class="field"><label>Slides</label>
-            <select name="slides"><option value="">None</option><option value="web">Web slideshow</option><option value="video">Video (MP4) + web</option></select></div>
+            <select name="slides">
+              <option value="">None</option>
+              <option value="web">Web slideshow</option>
+              <option value="video">Video (MP4) + web</option>
+              <option value="pptx">PowerPoint + web</option>
+              <option value="video,pptx">Video + PowerPoint + web</option>
+            </select></div>
           <div class="field"><label>Captions</label>
             <select name="captions"><option value="">None</option><option value="toggle">Toggle at runtime</option><option value="burned">Burned in</option></select></div>
           <div class="field"><label>Template set</label><select name="template_id" id="tpl-select"><option value="">None</option></select></div>
@@ -630,7 +636,7 @@ function renderTab(j, running) {
   }
 
   if (t === "outputs") {
-    const opts = ["", "web", "video"], caps = ["", "toggle", "burned"];
+    const opts = ["", "web", "video", "pptx", "video,pptx"], caps = ["", "toggle", "burned"];
     el.innerHTML = `
       <div class="panel-title"><h3>Render &amp; outputs</h3></div>
       <div class="card">
@@ -655,6 +661,10 @@ function renderTab(j, running) {
           : `<div class="empty">—</div>`}</div>
         <div class="out-card"><h4>Video ${j.video_url ? `<a href="${j.video_url}?v=${state.tick}">download</a>` : ""}</h4>
           ${j.video_url ? `<video controls preload="metadata" src="${j.video_url}?v=${state.tick}"></video>` : `<div class="empty">—</div>`}</div>
+        <div class="out-card"><h4>PowerPoint ${j.pptx_url ? `<a href="${j.pptx_url}?v=${state.tick}">download</a>` : ""}</h4>
+          ${j.pptx_url ? `<a class="btn" href="${j.pptx_url}?v=${state.tick}">Download .pptx</a>
+            <div class="hint" style="margin-top:8px">Themed deck with the narration as speaker notes per slide.</div>`
+          : `<div class="empty">—</div>`}</div>
       </div>
       ${j.revisions?.length ? `<div class="panel-title"><h3>Revision history</h3></div>
         <div class="card" style="padding:8px 16px">${j.revisions.map(r =>

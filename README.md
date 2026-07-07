@@ -77,11 +77,11 @@ curl -X POST localhost:8000/podcasts \
   -F "mode=summary" \
   -F "audience=startup founders dealing with stress and the fear of failure"
 
-# Any mode + a slide deck synced to the audio (web slideshow and/or MP4 video)
+# Any mode + a slide deck synced to the audio (web slideshow, MP4 video, PowerPoint)
 curl -X POST localhost:8000/podcasts \
   -F "url=https://example.com/article" -F "slides=web"     # -> /podcasts/<id>/slides
 curl -X POST localhost:8000/podcasts \
-  -F "file=@paper.pdf" -F "slides=video"                   # -> /podcasts/<id>/video (+ /slides)
+  -F "file=@paper.pdf" -F "slides=video,pptx"              # -> /video + /pptx (+ /slides)
 
 # Captions: burned into the output, or toggleable while playing
 curl -X POST localhost:8000/podcasts \
@@ -130,7 +130,7 @@ curl -X POST localhost:8000/podcasts \
 | `audience` | all | who's listening and what they care about — shifts emphasis, examples, and level of explanation |
 | `voice_a`, `voice_b` | podcast | edge-tts voice per host |
 | `voice` | summary, readout | edge-tts voice of the narrator |
-| `slides` | all | `web` — synced HTML slideshow; `video` — MP4 with voice-over (also includes the web version). Requires ffmpeg for video. |
+| `slides` | all | comma-separated output formats: `web` (synced HTML slideshow), `video` (MP4 with voice-over; needs ffmpeg), `pptx` (PowerPoint with the narration as speaker notes per slide) — e.g. `slides=video,pptx`. Any format includes the web slideshow. |
 | `slide_style` | with `slides` | expectations for the deck — e.g. `minimal, one phrase per slide` or `much more informative than the voice-over, with data and quotes from the source` |
 | `captions` | with `slides` | on-screen text of the narration: `burned` (baked in at generation, always visible) or `toggle` (choose while playing — CC button in the web player, subtitle track in the video) |
 | `templates` | with `slides` | zero or more template/style-guide files (repeat the field): `.pptx`/`.potx` (theme colors + fonts extracted), HTML/CSS, images/screenshots of slides you like, `.pdf`, `.md`/`.txt` style guides. A visual theme (colors, fonts) and content rules are derived and applied to the web slideshow and video. |
@@ -147,7 +147,8 @@ List available voices: `.venv/bin/edge-tts --list-voices` (defaults:
 
 Poll until done (steps: `extracting` → `reading_templates` →
 `writing_script` → `designing_slides` → `synthesizing_audio` →
-`rendering_slides` → `rendering_video`, skipping the ones a job doesn't need):
+`rendering_slides` → `rendering_pptx` → `rendering_video`, skipping the ones
+a job doesn't need):
 
 ```sh
 curl localhost:8000/podcasts/<job_id>
@@ -159,7 +160,8 @@ Download the results:
 curl -OJ localhost:8000/podcasts/<job_id>/audio        # MP3
 curl -OJ localhost:8000/podcasts/<job_id>/transcript   # timestamped transcript (.txt, every job)
 open  http://localhost:8000/podcasts/<job_id>/slides   # synced web slideshow
-curl -OJ localhost:8000/podcasts/<job_id>/video        # MP4 (slides=video only)
+curl -OJ localhost:8000/podcasts/<job_id>/video        # MP4 (slides=video)
+curl -OJ localhost:8000/podcasts/<job_id>/pptx         # PowerPoint (slides=pptx)
 ```
 
 The finished status response also includes the full script (speaker + text per
