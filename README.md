@@ -67,6 +67,23 @@ doubles as a demo of the output quality. Also available:
 The MP4 version lives in the workbench library ("Fluent Agents Studio — the
 complete user guide").
 
+## Demo mode
+
+Deploy a read-only showcase with the bundled example productions — no API
+key, no ffmpeg, no LLM calls:
+
+```sh
+FLUENT_DEMO=1 .venv/bin/uvicorn app.main:app --port 8000
+```
+
+The workbench serves the projects in `demo/data/` (a snapshot of real
+productions, ~55 MB, committed with the repo): visitors can browse the
+library, read scripts and decks, play audio, watch the slideshows and
+videos, and download everything — but every create/edit/delete action is
+disabled in the UI and rejected by the server with 403. A "DEMO ·
+READ-ONLY" badge shows in the sidebar. To refresh the demo content, copy
+`data/` to `demo/data/` and commit.
+
 ## Usage
 
 Start a job (`url` form field or PDF `file` upload — exactly one):

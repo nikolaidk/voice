@@ -54,6 +54,11 @@ aside {
 .brand h1 .dot { color: var(--amber); font-style: normal; }
 .brand .sub { font-family: var(--mono); font-size: 10px; letter-spacing: .38em;
   color: var(--muted); text-transform: uppercase; margin-top: 2px; }
+.demo-badge { display: none; font-family: var(--mono); font-size: 10px; letter-spacing: .2em;
+  color: var(--amber); border: 1px solid rgba(232,161,60,.5); border-radius: 20px;
+  padding: 3px 10px; margin-top: 10px; }
+body.demo .demo-badge { display: inline-block; }
+body.demo .demo-hide { display: none !important; }
 .rail-actions { display: flex; gap: 8px; padding: 14px 16px 6px; }
 .btn {
   border: 1px solid var(--line); background: var(--panel); color: var(--ink);
@@ -288,9 +293,10 @@ input[type=radio] { width: auto; accent-color: var(--amber); }
   <div class="brand">
     <h1>fluent<span class="dot">·</span>agents</h1>
     <div class="sub">Studio</div>
+    <span class="demo-badge">DEMO · READ-ONLY</span>
   </div>
   <div class="rail-actions">
-    <button class="btn primary" onclick="showNew()">＋ New generation</button>
+    <button class="btn primary demo-hide" onclick="showNew()">＋ New generation</button>
     <button class="btn" onclick="showTemplates()">Templates</button>
   </div>
   <div class="rail-search"><input id="search" placeholder="Search library…" oninput="renderLibrary()"></div>
@@ -400,7 +406,7 @@ input[type=radio] { width: auto; accent-color: var(--amber); }
     <div class="eyebrow">Template library</div>
     <h2>Reusable slide identities</h2>
     <p class="hint" style="margin:6px 0 22px">Upload brand templates once — PowerPoint themes, CSS, style-guide docs, screenshots — and apply them to any generation.</p>
-    <div class="card" style="max-width:560px">
+    <div class="card demo-hide" style="max-width:560px">
       <form onsubmit="createTemplate(event)">
         <div class="field"><label>Set name</label><input name="name" placeholder="e.g. Nordlys corporate" required></div>
         <div class="field"><label>Files</label><div class="filewrap">
@@ -499,7 +505,7 @@ async function refreshTemplates() {
     <div class="card">
       <div style="display:flex;justify-content:space-between;align-items:center">
         <strong>${esc(t.name)}</strong>
-        <button class="btn small danger" onclick="deleteTemplate('${t.template_id}')">Delete</button>
+        ${state.demo ? "" : `<button class="btn small danger" onclick="deleteTemplate('${t.template_id}')">Delete</button>`}
       </div>
       <div style="margin-top:8px">${t.files.map(f => `<span class="file-chip">${esc(f)}</span>`).join("")}</div>
       <div class="hint" style="margin-top:8px">${t.created_at ? fmtDate(t.created_at) : ""}</div>
@@ -663,8 +669,8 @@ function renderJob(j) {
       <div class="job-actions">
         <span class="status-pill"><span class="dot ${j.status}"></span>${esc(j.status)}${j.step ? " · " + esc(j.step) : ""}</span>
         ${j.slides_url ? `<a class="btn" href="${j.slides_url}?v=${state.tick}" target="_blank">Open slideshow ↗</a>` : ""}
-        <button class="btn" onclick="toggleSrcSwap()">Replace source</button>
-        <button class="btn danger" onclick="deleteJob()">Delete</button>
+        <button class="btn demo-hide" onclick="toggleSrcSwap()">Replace source</button>
+        <button class="btn danger demo-hide" onclick="deleteJob()">Delete</button>
       </div>
     </div>
     ${j.error ? `<div class="card" style="border-color:var(--red);margin-bottom:18px;color:var(--red)">${esc(j.error)}</div>` : ""}
@@ -689,6 +695,7 @@ function renderJob(j) {
 function setTab(t) { state.tab = t; loadJob(); }
 
 function composer(target, placeholder, btn, extra="") {
+  if (state.demo) return "";
   return `<div class="composer">
     <label>${target === "voice" ? "Direct the voice-over" : "Revision instructions"}</label>
     <textarea id="composer-text" placeholder="${esc(placeholder)}"></textarea>
@@ -738,10 +745,10 @@ function renderTab(j, running) {
           ${s.visual_url ? `<img class="thumb" src="${s.visual_url}?v=${state.tick}" alt="">` : ""}
           ${s.figure && !s.visual_url ? `<span class="chip" style="margin-top:8px">figure (svg)</span>` : ""}
           ${s.image && !s.visual_url ? `<span class="chip" style="margin-top:8px">image · ${esc(s.image)}</span>` : ""}
-          ${s.start != null && i > 0 ? `<div class="timing-row">offset
+          ${s.start != null && i > 0 && !state.demo ? `<div class="timing-row">offset
             <input type="number" step="0.5" class="offset-in" data-slide="${i}" value="${s.offset || 0}"> s</div>` : ""}
         </div>`).join("")}</div>
-      ${j.slides_deck.some(s => s.start != null) ? `<div class="composer" style="margin-top:14px">
+      ${j.slides_deck.some(s => s.start != null) && !state.demo ? `<div class="composer" style="margin-top:14px">
         <div class="row"><span class="hint">Nudge when slides appear relative to the narration (negative = earlier). Audio is untouched; the slideshow${(j.video_url ? " and video" : "")} re-render.</span>
         <button class="btn primary" onclick="applyTiming()">Apply timing</button></div></div>` : ""}`
       : `<div class="card"><div class="empty">${running ? "Working…" : "No deck yet — revise below to create one, or render with slides enabled."}</div></div>`}
@@ -779,7 +786,7 @@ function renderTab(j, running) {
     const opts = ["", "web", "video", "pptx", "video,pptx"], caps = ["", "toggle", "burned"];
     el.innerHTML = `
       <div class="panel-title"><h3>Render &amp; outputs</h3></div>
-      <div class="card">
+      <div class="card demo-hide">
         <div class="grid3">
           <div class="field"><label>Slides</label>
             <select id="r-slides">${opts.map(o => `<option value="${o}">${o || "none"}</option>`).join("")}</select></div>
@@ -1023,10 +1030,18 @@ async function deleteJob() {
 }
 
 /* ------------------------------------------------------------------ boot */
-refreshLibrary();
-loadTemplateOptions();
-showNew();
-setInterval(refreshLibrary, 15000);
+(async function boot() {
+  try {
+    const cfg = await api("/config");
+    state.demo = !!cfg.demo;
+  } catch (e) { state.demo = false; }
+  if (state.demo) document.body.classList.add("demo");
+  await refreshLibrary();
+  loadTemplateOptions();
+  if (state.demo && state.jobs.length) openJob(state.jobs[0].job_id);
+  else showNew();
+  setInterval(refreshLibrary, 15000);
+})();
 </script>
 </body>
 </html>

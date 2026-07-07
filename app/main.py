@@ -13,6 +13,7 @@ One-shot generation still works: create with the default until=full.
 
 import asyncio
 import json
+import os
 import shutil
 import time
 import uuid
@@ -34,7 +35,14 @@ app = FastAPI(
     ),
 )
 
-DATA_DIR = Path(__file__).resolve().parent.parent / "data"
+# Demo mode: read-only deployment serving bundled demo content — no LLM
+# integration required. Enable with FLUENT_DEMO=1.
+DEMO = os.environ.get("FLUENT_DEMO", "").lower() in ("1", "true", "yes", "on")
+
+_BASE = Path(__file__).resolve().parent.parent
+DATA_DIR = _BASE / "data"
+if DEMO and (_BASE / "demo" / "data").exists():
+    DATA_DIR = _BASE / "demo" / "data"
 
 MODES = {"podcast", "summary", "readout"}
 MODE_ALIASES = {"resume": "summary"}
@@ -138,9 +146,23 @@ def _load_job_from_disk(job_dir: Path) -> None:
     jobs[job_id] = job
 
 
+def _block_in_demo() -> None:
+    if DEMO:
+        raise HTTPException(
+            status_code=403,
+            detail="Demo mode: the studio is read-only. Run without FLUENT_DEMO "
+            "and with an ANTHROPIC_API_KEY to create and edit productions.",
+        )
+
+
 @app.get("/health")
 async def health() -> dict:
-    return {"status": "ok"}
+    return {"status": "ok", "demo": DEMO}
+
+
+@app.get("/config")
+async def config() -> dict:
+    return {"demo": DEMO}
 
 
 @app.get("/", include_in_schema=False)
@@ -196,6 +218,7 @@ async def create_podcast(
     ),
 ) -> dict:
     """Start a conversion job. Provide either `url` or a PDF `file` (multipart form)."""
+    _block_in_demo()
     if (url is None) == (file is None):
         raise HTTPException(
             status_code=422,
@@ -391,6 +414,7 @@ async def list_podcasts() -> list[dict]:
 
 @app.delete("/podcasts/{job_id}")
 async def delete_podcast(job_id: str) -> dict:
+    _block_in_demo()
     job = _get_job(job_id)
     _require_idle(job)
     shutil.rmtree(job["job_dir"], ignore_errors=True)
@@ -424,6 +448,7 @@ async def create_template(
     name: str = Form(...),
     files: list[UploadFile] = File(...),
 ) -> dict:
+    _block_in_demo()
     if not name.strip():
         raise HTTPException(status_code=422, detail="`name` is empty.")
     stored = []
@@ -448,6 +473,7 @@ async def create_template(
 
 @app.delete("/templates/{template_id}")
 async def delete_template(template_id: str) -> dict:
+    _block_in_demo()
     tpl_dir = TPL_DIR / template_id
     if not (tpl_dir / "meta.json").exists():
         raise HTTPException(status_code=404, detail="Unknown template_id.")
@@ -546,6 +572,7 @@ async def revise(
     instructions: str = Form(..., description="Revision instructions; for "
                              "target=voice, reference transcript lines by number"),
 ) -> dict:
+    _block_in_demo()
     job = _get_job(job_id)
     _require_idle(job)
     target = target.lower().strip()
@@ -666,6 +693,7 @@ async def replace_source(
     is marked stale (its assets changed); revise the script afterwards if the
     content itself changed.
     """
+    _block_in_demo()
     job = _get_job(job_id)
     _require_idle(job)
     if (url is None) == (file is None):
@@ -752,6 +780,7 @@ async def adjust_timing(
 ) -> dict:
     """Nudge when slides appear relative to the narration, then re-render
     the slideshow/video (audio is untouched)."""
+    _block_in_demo()
     job = _get_job(job_id)
     _require_idle(job)
     if job["deck_obj"] is None:
@@ -816,6 +845,7 @@ async def render(
 
     Optionally updates the slides/captions/slide_style options first.
     """
+    _block_in_demo()
     job = _get_job(job_id)
     _require_idle(job)
     if job["script_obj"] is None:
