@@ -1,9 +1,12 @@
 # Fluent Agents Studio
 
-**fluentagents.com** — web API + workbench that converts a **URL or PDF** into produced audio and
-video content — built in one evening as an AI-assisted development experiment
-by Nikolai Manigoff Rasmussen with Claude (Fable 5).
-[Read the story on LinkedIn](https://www.linkedin.com/posts/nikolai-rasmussen-8420a818_aiassisteddevelopment-softwarearchitecture-activity-7479980301423812608-Pznk).
+**[fluentagents.com](https://fluentagents.com)** — an agentic workflow, humanised: a multi-agent
+production pipeline (extract → script → deck → voice → render) dressed up
+for human interaction, converting a **URL or PDF** into produced audio and
+video content. Built as an AI-assisted development experiment directed by
+Nikolai Manigoff Rasmussen, with Claude (Fable 5) as the implementer —
+[the story on LinkedIn](https://www.linkedin.com/posts/nikolai-rasmussen-8420a818_aiassisteddevelopment-softwarearchitecture-activity-7479980301423812608-Pznk),
+[the live demo](https://demo.fluentagents.com/studio).
 
 Three modes:
 
@@ -56,11 +59,18 @@ restarts), the script → slides → voice → outputs pipeline with per-stage
 iteration, an asset inventory showing which image or figure lands on which
 slide, a reusable template library, inline players, and downloads.
 
+**About page: http://localhost:8000/about** — the story behind the
+experiment, with the author card and LinkedIn/GitHub links.
+
 Interactive API docs: http://localhost:8000/docs
+
+Landing and about pages are responsive; the workbench is a desktop tool and
+shows a minimum-requirements gate (with links to the landing page and guide)
+on screens smaller than 920×520.
 
 ## User guide
 
-**[docs/user-guide.html](docs/user-guide.html)** — a 10-minute video-style
+**[docs/user-guide.html](docs/user-guide.html)** — an 11-minute video-style
 walkthrough of the entire workbench, from first generation to finished
 production, made for complete beginners. It is a self-contained slideshow
 (voice-over embedded, synced slides, toggleable captions — open it in any
@@ -83,10 +93,12 @@ FLUENT_DEMO=1 .venv/bin/uvicorn app.main:app --port 8000
 The workbench serves the projects in `demo/data/` (a snapshot of real
 productions, ~55 MB, committed with the repo): visitors can browse the
 library, read scripts and decks, play audio, watch the slideshows and
-videos, and download everything — but every create/edit/delete action is
-disabled in the UI and rejected by the server with 403. A "DEMO ·
-READ-ONLY" badge shows in the sidebar. To refresh the demo content, copy
-`data/` to `demo/data/` and commit.
+videos, and download everything. Every editing control stays **visible but
+locked** — activating one shows a toast explaining what it would do in the
+full studio ("agentic pain relief" as a guided tour) — and the server
+rejects all mutations with 403 regardless. A "DEMO · READ-ONLY" badge shows
+in the sidebar. To refresh the demo content, copy `data/` to `demo/data/`
+and commit.
 
 ### Deploy the demo to Azure
 
@@ -101,11 +113,16 @@ uvicorn startup command, zips `app/` + `demo/` + `requirements.txt`, deploys
 with a remote build, and verifies the live `/config` endpoint reports demo
 mode before declaring success.
 
-The public demo runs at **https://demo.fluentagents.com** (custom domain on
-the web app: GoDaddy `CNAME demo -> fluentagents-demo.azurewebsites.net` +
-`TXT asuid.demo` for ownership, free App Service managed certificate,
-HTTPS enforced). The certificate auto-renews; redeploys via the script
-don't touch the domain setup.
+The public deployment spans two domains on the same web app, both with
+free auto-renewing App Service managed certificates and HTTPS enforced:
+
+| URL | serves |
+|---|---|
+| **https://fluentagents.com** | landing page + about (GoDaddy `A @ -> app inbound IP`, `TXT asuid`) |
+| **https://demo.fluentagents.com** | the read-only demo studio (`CNAME demo -> fluentagents-demo.azurewebsites.net`, `TXT asuid.demo`) |
+
+The studio's logo links back to the apex landing when running on the demo
+subdomain. Redeploys via the script don't touch the domain setup.
 
 ## Usage
 
@@ -187,6 +204,7 @@ curl -X POST localhost:8000/podcasts \
 | `slide_style` | with `slides` | expectations for the deck — e.g. `minimal, one phrase per slide` or `much more informative than the voice-over, with data and quotes from the source` |
 | `captions` | with `slides` | on-screen text of the narration: `burned` (baked in at generation, always visible) or `toggle` (choose while playing — CC button in the web player, subtitle track in the video) |
 | `animations` | with `slides` | `on` animates the production: staggered entrance of titles/bullets/visuals in the web slideshow, bullet-by-bullet build-in in the video, and the model may animate its SVG figures (bars growing, lines drawing). PPTX stays static. |
+| `template_id` | with `slides` | reference a saved template set from the template library instead of (or alongside) uploading files |
 | `templates` | with `slides` | zero or more template/style-guide files (repeat the field): `.pptx`/`.potx` (theme colors + fonts extracted), HTML/CSS, images/screenshots of slides you like, `.pdf`, `.md`/`.txt` style guides. A visual theme (colors, fonts) and content rules are derived and applied to the web slideshow and video. |
 
 Slides are not text-only: images found in the source (article images,
