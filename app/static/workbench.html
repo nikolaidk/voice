@@ -296,7 +296,7 @@ input[type=radio] { width: auto; accent-color: var(--amber); }
     <span class="demo-badge">DEMO · READ-ONLY</span>
   </div>
   <div class="rail-actions">
-    <button class="btn primary demo-hide" onclick="showNew()">＋ New generation</button>
+    <button class="btn primary" onclick="showNew()">＋ New generation</button>
     <button class="btn" onclick="showTemplates()">Templates</button>
   </div>
   <div class="rail-search"><input id="search" placeholder="Search library…" oninput="renderLibrary()"></div>
@@ -406,7 +406,7 @@ input[type=radio] { width: auto; accent-color: var(--amber); }
     <div class="eyebrow">Template library</div>
     <h2>Reusable slide identities</h2>
     <p class="hint" style="margin:6px 0 22px">Upload brand templates once — PowerPoint themes, CSS, style-guide docs, screenshots — and apply them to any generation.</p>
-    <div class="card demo-hide" style="max-width:560px">
+    <div class="card" style="max-width:560px">
       <form onsubmit="createTemplate(event)">
         <div class="field"><label>Set name</label><input name="name" placeholder="e.g. Nordlys corporate" required></div>
         <div class="field"><label>Files</label><div class="filewrap">
@@ -442,6 +442,12 @@ input[type=radio] { width: auto; accent-color: var(--amber); }
 const $ = (s, el=document) => el.querySelector(s);
 const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 const state = { jobs: [], templates: [], current: null, tab: "script", poll: null, tick: Date.now() };
+
+function demoLock(action) {
+  if (!state.demo) return false;
+  toast(`Read-only demo — in the full studio this would ${action}.`, false);
+  return true;
+}
 
 function fmtDate(epoch) {
   return new Date(epoch * 1000).toLocaleDateString("en-GB",
@@ -505,7 +511,7 @@ async function refreshTemplates() {
     <div class="card">
       <div style="display:flex;justify-content:space-between;align-items:center">
         <strong>${esc(t.name)}</strong>
-        ${state.demo ? "" : `<button class="btn small danger" onclick="deleteTemplate('${t.template_id}')">Delete</button>`}
+        <button class="btn small danger" onclick="deleteTemplate('${t.template_id}')">Delete</button>
       </div>
       <div style="margin-top:8px">${t.files.map(f => `<span class="file-chip">${esc(f)}</span>`).join("")}</div>
       <div class="hint" style="margin-top:8px">${t.created_at ? fmtDate(t.created_at) : ""}</div>
@@ -517,7 +523,8 @@ async function loadTemplateOptions() {
     state.templates.map(t => `<option value="${t.template_id}">${esc(t.name)}</option>`).join("");
 }
 async function createTemplate(ev) {
-  ev.preventDefault();
+  if (ev && ev.preventDefault) ev.preventDefault();
+  if (demoLock("save these files as a reusable template set")) return;
   const fd = new FormData(ev.target);
   try {
     const t = await api("/templates", { method: "POST", body: fd });
@@ -526,6 +533,7 @@ async function createTemplate(ev) {
   } catch (e) { toast("Could not save template set: " + e.message, true); }
 }
 async function deleteTemplate(id) {
+  if (demoLock("delete this template set")) return;
   if (!confirm("Delete this template set?")) return;
   try { await api("/templates/" + id, { method: "DELETE" }); refreshTemplates(); toast("Template set deleted"); }
   catch (e) { toast(e.message, true); }
@@ -584,6 +592,7 @@ function modeChanged() {
 }
 async function createJob(ev) {
   ev.preventDefault();
+  if (demoLock("start a brand-new production from your source")) return;
   const f = ev.target, fd = new FormData();
   const srcUrl = $("input[name=srctype]:checked").value === "url";
   if (srcUrl) {
@@ -669,8 +678,8 @@ function renderJob(j) {
       <div class="job-actions">
         <span class="status-pill"><span class="dot ${j.status}"></span>${esc(j.status)}${j.step ? " · " + esc(j.step) : ""}</span>
         ${j.slides_url ? `<a class="btn" href="${j.slides_url}?v=${state.tick}" target="_blank">Open slideshow ↗</a>` : ""}
-        <button class="btn demo-hide" onclick="toggleSrcSwap()">Replace source</button>
-        <button class="btn danger demo-hide" onclick="deleteJob()">Delete</button>
+        <button class="btn" onclick="toggleSrcSwap()">Replace source</button>
+        <button class="btn danger" onclick="deleteJob()">Delete</button>
       </div>
     </div>
     ${j.error ? `<div class="card" style="border-color:var(--red);margin-bottom:18px;color:var(--red)">${esc(j.error)}</div>` : ""}
@@ -695,7 +704,6 @@ function renderJob(j) {
 function setTab(t) { state.tab = t; loadJob(); }
 
 function composer(target, placeholder, btn, extra="") {
-  if (state.demo) return "";
   return `<div class="composer">
     <label>${target === "voice" ? "Direct the voice-over" : "Revision instructions"}</label>
     <textarea id="composer-text" placeholder="${esc(placeholder)}"></textarea>
@@ -745,10 +753,10 @@ function renderTab(j, running) {
           ${s.visual_url ? `<img class="thumb" src="${s.visual_url}?v=${state.tick}" alt="">` : ""}
           ${s.figure && !s.visual_url ? `<span class="chip" style="margin-top:8px">figure (svg)</span>` : ""}
           ${s.image && !s.visual_url ? `<span class="chip" style="margin-top:8px">image · ${esc(s.image)}</span>` : ""}
-          ${s.start != null && i > 0 && !state.demo ? `<div class="timing-row">offset
+          ${s.start != null && i > 0 ? `<div class="timing-row">offset
             <input type="number" step="0.5" class="offset-in" data-slide="${i}" value="${s.offset || 0}"> s</div>` : ""}
         </div>`).join("")}</div>
-      ${j.slides_deck.some(s => s.start != null) && !state.demo ? `<div class="composer" style="margin-top:14px">
+      ${j.slides_deck.some(s => s.start != null) ? `<div class="composer" style="margin-top:14px">
         <div class="row"><span class="hint">Nudge when slides appear relative to the narration (negative = earlier). Audio is untouched; the slideshow${(j.video_url ? " and video" : "")} re-render.</span>
         <button class="btn primary" onclick="applyTiming()">Apply timing</button></div></div>` : ""}`
       : `<div class="card"><div class="empty">${running ? "Working…" : "No deck yet — revise below to create one, or render with slides enabled."}</div></div>`}
@@ -786,7 +794,7 @@ function renderTab(j, running) {
     const opts = ["", "web", "video", "pptx", "video,pptx"], caps = ["", "toggle", "burned"];
     el.innerHTML = `
       <div class="panel-title"><h3>Render &amp; outputs</h3></div>
-      <div class="card demo-hide">
+      <div class="card">
         <div class="grid3">
           <div class="field"><label>Slides</label>
             <select id="r-slides">${opts.map(o => `<option value="${o}">${o || "none"}</option>`).join("")}</select></div>
@@ -814,7 +822,7 @@ function renderTab(j, running) {
           ${j.pptx_url ? `<a class="btn" href="${j.pptx_url}?v=${state.tick}">Download .pptx</a>
             <div class="hint" style="margin-top:8px">Themed deck with the narration as speaker notes per slide.</div>`
           : `<div class="empty">—</div>`}</div>
-        ${state.demo ? "" : `<div class="out-card" style="grid-column: 1 / -1"><h4>YouTube</h4>
+        ${`<div class="out-card" style="grid-column: 1 / -1"><h4>YouTube</h4>
           ${j.youtube ? `<div style="margin-bottom:10px">Published (${esc(j.youtube.privacy)}):
               <a href="${j.youtube.url}" target="_blank">${j.youtube.url}</a></div>` : ""}
           ${j.video_url ? `<div id="yt-zone">
@@ -938,6 +946,7 @@ document.addEventListener("keydown", e => {
 });
 
 async function applyTiming() {
+  if (demoLock("shift the slide timings and re-render the outputs")) return;
   const offsets = {};
   document.querySelectorAll(".offset-in").forEach(el => {
     offsets[el.dataset.slide] = parseFloat(el.value) || 0;
@@ -995,6 +1004,7 @@ function deliveryNote(j, line) {
 }
 
 async function sendRevision(target) {
+  if (demoLock(target === "voice" ? "re-record the narration with your direction" : `rewrite the ${target} exactly as instructed`)) return;
   const text = $("#composer-text").value.trim();
   if (!text) return toast("Write instructions first.", true);
   const fd = new FormData();
@@ -1010,6 +1020,10 @@ async function checkYouTube() {
   if (!hint) return;
   try {
     const s = await api("/youtube/status");
+    if (s.demo) {
+      hint.textContent = "In the full studio: connect your channel once, then publish with one click.";
+      return;
+    }
     if (s.connected) {
       hint.textContent = "Connected" + (s.channel ? ` as ${s.channel}` : "") +
         " · uploads default to private";
@@ -1024,6 +1038,7 @@ async function checkYouTube() {
 }
 
 async function publishYouTube() {
+  if (demoLock("upload the video to your YouTube channel (private first)")) return;
   const privacy = $("#yt-privacy").value;
   if (!confirm(`Upload this video to YouTube as ${privacy.toUpperCase()}?`)) return;
   const fd = new FormData();
@@ -1039,6 +1054,7 @@ async function publishYouTube() {
 }
 
 async function renderJobNow() {
+  if (demoLock("re-render all outputs from the current script, slides and voice")) return;
   const fd = new FormData();
   const s = $("#r-slides").value, c = $("#r-captions").value, st = $("#r-style").value.trim();
   const an = $("#r-anim").value;
@@ -1058,6 +1074,7 @@ function toggleSrcSwap() {
 }
 
 async function replaceSource() {
+  if (demoLock("re-extract a new source into this project, keeping its history")) return;
   const url = $("#swap-url").value.trim();
   const f = $("#swap-file").files[0];
   if (!url && !f) return toast("Give a URL or choose a PDF.", true);
@@ -1071,6 +1088,7 @@ async function replaceSource() {
 }
 
 async function deleteJob() {
+  if (demoLock("delete this production")) return;
   if (!confirm("Delete this generation and all its files?")) return;
   try {
     await api("/podcasts/" + state.current, { method: "DELETE" });
