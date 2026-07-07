@@ -1,0 +1,181 @@
+{
+ "mode": "readout",
+ "source": "http://localhost:8899/reflection.html",
+ "title": "The Other Side of the Prompt \u2014 a Fable 5 retrospective",
+ "created_at": 1783364277.012872,
+ "options": {
+  "host_a": null,
+  "host_b": null,
+  "reader": "Fable 5 itself \u2014 the AI that built this system, speaking as itself in the first person: measured, precise, quietly wry, intellectually serious, never sycophantic and never robotic",
+  "audience": "software architects and senior developers evaluating AI-assisted development",
+  "voices": {
+   "NARRATOR": "en-GB-RyanNeural"
+  },
+  "slides": [
+   "pptx",
+   "web"
+  ],
+  "slide_style": "A keynote for senior engineers, in depth and intellectually rich. Use the four screenshots where the narration discusses them: the VS Code collaboration session, the workbench deck view, the slideshow player, the workbench transcript view. Design figures from the essay's real data: the evening timeline from 18:44 to 20:50 with its milestones, the asymmetry between roughly 500 human words and 3400 lines of code, the five-stage pipeline as a flow diagram. Use big_statement slides for the pivotal quotes \u2014 the thirteen-word prompt and the four-word design review. Slides may be more informative than the voice-over where it helps.",
+  "captions": "toggle"
+ },
+ "templates": [],
+ "revisions": [],
+ "cues": [
+  {
+   "line": 0,
+   "start": 0.0,
+   "duration": 5.448
+  },
+  {
+   "line": 1,
+   "start": 5.448,
+   "duration": 18.768
+  },
+  {
+   "line": 2,
+   "start": 24.216,
+   "duration": 2.376
+  },
+  {
+   "line": 3,
+   "start": 26.592000000000002,
+   "duration": 42.312
+  },
+  {
+   "line": 4,
+   "start": 68.904,
+   "duration": 4.632
+  },
+  {
+   "line": 5,
+   "start": 73.536,
+   "duration": 56.712
+  },
+  {
+   "line": 6,
+   "start": 130.248,
+   "duration": 4.68
+  },
+  {
+   "line": 7,
+   "start": 134.928,
+   "duration": 64.488
+  },
+  {
+   "line": 8,
+   "start": 199.416,
+   "duration": 51.888
+  },
+  {
+   "line": 9,
+   "start": 251.304,
+   "duration": 4.536
+  },
+  {
+   "line": 10,
+   "start": 255.84,
+   "duration": 40.44
+  },
+  {
+   "line": 11,
+   "start": 296.28,
+   "duration": 54.696
+  },
+  {
+   "line": 12,
+   "start": 350.976,
+   "duration": 5.328
+  },
+  {
+   "line": 13,
+   "start": 356.304,
+   "duration": 27.48
+  },
+  {
+   "line": 14,
+   "start": 383.784,
+   "duration": 63.288
+  },
+  {
+   "line": 15,
+   "start": 447.072,
+   "duration": 3.6
+  },
+  {
+   "line": 16,
+   "start": 450.672,
+   "duration": 12.648
+  },
+  {
+   "line": 17,
+   "start": 463.32000000000005,
+   "duration": 24.264
+  },
+  {
+   "line": 18,
+   "start": 487.58400000000006,
+   "duration": 43.368
+  },
+  {
+   "line": 19,
+   "start": 530.9520000000001,
+   "duration": 25.08
+  },
+  {
+   "line": 20,
+   "start": 556.0320000000002,
+   "duration": 5.184
+  },
+  {
+   "line": 21,
+   "start": 561.2160000000001,
+   "duration": 28.944
+  },
+  {
+   "line": 22,
+   "start": 590.1600000000001,
+   "duration": 32.28
+  },
+  {
+   "line": 23,
+   "start": 622.44,
+   "duration": 28.776
+  },
+  {
+   "line": 24,
+   "start": 651.216,
+   "duration": 4.176
+  },
+  {
+   "line": 25,
+   "start": 655.392,
+   "duration": 47.184
+  },
+  {
+   "line": 26,
+   "start": 702.576,
+   "duration": 2.784
+  },
+  {
+   "line": 27,
+   "start": 705.36,
+   "duration": 36.24
+  },
+  {
+   "line": 28,
+   "start": 741.6,
+   "duration": 17.16
+  },
+  {
+   "line": 29,
+   "start": 758.76,
+   "duration": 6.192
+  }
+ ],
+ "timing": {},
+ "stale": {
+  "slides": false,
+  "audio": false,
+  "outputs": false
+ }
+}

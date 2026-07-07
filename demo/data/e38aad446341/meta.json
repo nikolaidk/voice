@@ -1,0 +1,21 @@
+{
+ "mode": "summary",
+ "source": "https://paulgraham.com/vb.html",
+ "title": "Life is Short",
+ "options": {
+  "host_a": null,
+  "host_b": null,
+  "reader": null,
+  "audience": null,
+  "voices": {},
+  "slides": "video",
+  "slide_style": null,
+  "captions": "toggle"
+ },
+ "templates": [
+  "nordlys.pptx",
+  "brand_guide.md"
+ ],
+ "revisions": [],
+ "created_at": 1783361003.9356825
+}

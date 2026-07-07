@@ -1,0 +1,10 @@
+{
+ "background": "#F1F5F9",
+ "panel": "#FFFFFF",
+ "text_color": "#1A2332",
+ "muted_color": "#64748B",
+ "accent": "#0E7C7B",
+ "font_family": "\"Helvetica Neue\", Helvetica, Arial, sans-serif",
+ "heading_font_family": "Georgia, \"Times New Roman\", serif",
+ "content_guidelines": "Clean, light Scandinavian corporate tone with generous whitespace. Use sentence case only — never ALL CAPS. Keep to a maximum of 3 bullets per slide, each short and declarative. Use the fjord teal accent sparingly for emphasis and markers. Favor concise, professional wording."
+}

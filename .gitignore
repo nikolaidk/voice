@@ -10,7 +10,7 @@ venv/
 .env.*
 
 # Generated productions (audio, video, slideshows, transcripts, assets, templates)
-data/
+/data/
 
 # OS / editor
 .DS_Store

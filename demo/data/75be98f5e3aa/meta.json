@@ -1,0 +1,80 @@
+{
+ "mode": "summary",
+ "source": "https://en.wikipedia.org/wiki/Moore%27s_law",
+ "title": "Moore's Law: The Observation That Shaped the Digital Age",
+ "created_at": 1783362446.1448581,
+ "options": {
+  "host_a": null,
+  "host_b": null,
+  "reader": null,
+  "audience": null,
+  "voices": {},
+  "slides": "video",
+  "slide_style": "informative slides: use charts for the numeric trends and the article's images where they fit",
+  "captions": null
+ },
+ "templates": [],
+ "revisions": [
+  {
+   "target": "slides",
+   "instructions": "Redesign the visuals: wherever the article's data supports it, design figures yourself \u2014 the transistor growth trend deserves a proper chart, and consider a timeline or diagram where it helps. Keep the source images where they fit."
+  }
+ ],
+ "cues": [
+  {
+   "line": 0,
+   "start": 0.0,
+   "duration": 7.632
+  },
+  {
+   "line": 1,
+   "start": 7.632,
+   "duration": 17.016
+  },
+  {
+   "line": 2,
+   "start": 24.647999999999996,
+   "duration": 38.328
+  },
+  {
+   "line": 3,
+   "start": 62.976,
+   "duration": 24.024
+  },
+  {
+   "line": 4,
+   "start": 87.0,
+   "duration": 29.28
+  },
+  {
+   "line": 5,
+   "start": 116.28,
+   "duration": 30.504
+  },
+  {
+   "line": 6,
+   "start": 146.784,
+   "duration": 13.824
+  },
+  {
+   "line": 7,
+   "start": 160.608,
+   "duration": 30.72
+  },
+  {
+   "line": 8,
+   "start": 191.328,
+   "duration": 13.32
+  },
+  {
+   "line": 9,
+   "start": 204.648,
+   "duration": 16.056
+  }
+ ],
+ "stale": {
+  "slides": false,
+  "audio": false,
+  "outputs": false
+ }
+}
