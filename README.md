@@ -101,6 +101,12 @@ uvicorn startup command, zips `app/` + `demo/` + `requirements.txt`, deploys
 with a remote build, and verifies the live `/config` endpoint reports demo
 mode before declaring success.
 
+The public demo runs at **https://demo.fluentagents.com** (custom domain on
+the web app: GoDaddy `CNAME demo -> fluentagents-demo.azurewebsites.net` +
+`TXT asuid.demo` for ownership, free App Service managed certificate,
+HTTPS enforced). The certificate auto-renews; redeploys via the script
+don't touch the domain setup.
+
 ## Usage
 
 Start a job (`url` form field or PDF `file` upload — exactly one):
