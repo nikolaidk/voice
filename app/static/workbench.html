@@ -275,10 +275,11 @@ video { width: 100%; border-radius: 10px; background: #000; }
 .radio-row label { display: flex; gap: 6px; align-items: center; text-transform: none;
   letter-spacing: 0; font-size: 13.5px; color: var(--ink); font-weight: 500; cursor: pointer; margin: 0; }
 input[type=radio] { width: auto; accent-color: var(--amber); }
-input[type=file] { padding: 7px; font-size: 12.5px; }
-input[type=file]::file-selector-button { font: inherit; font-size: 12px; margin-right: 10px;
-  background: var(--panel2); color: var(--ink); border: 1px solid var(--line); border-radius: 6px;
-  padding: 4px 10px; cursor: pointer; }
+.filewrap { display: flex; align-items: center; gap: 10px; background: var(--bg2);
+  border: 1px solid var(--line); border-radius: 8px; padding: 6px 8px; }
+.filewrap .file-label { font-size: 12.5px; color: var(--dim); overflow: hidden;
+  text-overflow: ellipsis; white-space: nowrap; }
+.filewrap .file-label.has { color: var(--amber); font-weight: 600; }
 </style>
 </head>
 <body>
@@ -313,8 +314,11 @@ input[type=file]::file-selector-button { font: inherit; font-size: 12px; margin-
         </div>
         <div class="field" id="src-url"><input name="url" placeholder="https://example.com/article"></div>
         <div class="field" id="src-pdf" style="display:none">
-          <input type="file" name="file" accept="application/pdf" onchange="pdfChosen()">
-          <div class="hint" id="pdf-name"></div>
+          <div class="filewrap">
+            <button type="button" class="btn small" onclick="this.parentElement.querySelector('input').click()">Choose PDF…</button>
+            <input type="file" name="file" accept="application/pdf" hidden onchange="fileLabel(this)">
+            <span class="file-label" id="lbl-srcfile">No file chosen</span>
+          </div>
         </div>
         <div class="hint">Tip: drag a PDF from your computer anywhere onto this box.</div>
       </fieldset>
@@ -372,7 +376,11 @@ input[type=file]::file-selector-button { font: inherit; font-size: 12px; margin-
         <div class="field"><label>Slide expectations</label>
           <input name="slide_style" placeholder="e.g. minimal one-phrase slides / much more informative than the voice-over"></div>
         <div class="field"><label>Ad-hoc template files</label>
-          <input type="file" name="templates" multiple accept=".pptx,.potx,.html,.htm,.css,.md,.txt,.pdf,.png,.jpg,.jpeg,.webp">
+<div class="filewrap">
+            <button type="button" class="btn small" onclick="this.parentElement.querySelector('input').click()">Choose files…</button>
+            <input type="file" name="templates" multiple accept=".pptx,.potx,.html,.htm,.css,.md,.txt,.pdf,.png,.jpg,.jpeg,.webp" hidden onchange="fileLabel(this)">
+            <span class="file-label" id="lbl-tplfiles">No file chosen</span>
+          </div>
           <div class="hint">PowerPoint themes, HTML/CSS, screenshots, style guides — combined with the template set if both given.</div></div>
       </fieldset>
 
@@ -391,7 +399,11 @@ input[type=file]::file-selector-button { font: inherit; font-size: 12px; margin-
     <div class="card" style="max-width:560px">
       <form onsubmit="createTemplate(event)">
         <div class="field"><label>Set name</label><input name="name" placeholder="e.g. Nordlys corporate" required></div>
-        <div class="field"><label>Files</label><input type="file" name="files" multiple required></div>
+        <div class="field"><label>Files</label><div class="filewrap">
+            <button type="button" class="btn small" onclick="this.parentElement.querySelector('input').click()">Choose files…</button>
+            <input type="file" name="files" multiple required hidden onchange="fileLabel(this)">
+            <span class="file-label" id="lbl-setfiles">No file chosen</span>
+          </div></div>
         <button class="btn primary" type="submit">Save template set</button>
       </form>
     </div>
@@ -420,6 +432,11 @@ input[type=file]::file-selector-button { font: inherit; font-size: 12px; margin-
 const $ = (s, el=document) => el.querySelector(s);
 const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 const state = { jobs: [], templates: [], current: null, tab: "script", poll: null, tick: Date.now() };
+
+function fmtDate(epoch) {
+  return new Date(epoch * 1000).toLocaleDateString("en-GB",
+    { day: "numeric", month: "short", year: "numeric" });
+}
 
 function toast(msg, err=false) {
   const el = document.createElement("div");
@@ -455,7 +472,7 @@ function renderLibrary() {
         ${j.has_audio ? "<span title='audio'>🎙</span>" : ""}
         ${j.has_slides ? "<span title='slides'>▦</span>" : ""}
         ${j.has_video ? "<span title='video'>▶</span>" : ""}
-        <span>${j.created_at ? new Date(j.created_at * 1000).toLocaleDateString() : ""}</span>
+        <span>${j.created_at ? fmtDate(j.created_at) : ""}</span>
       </div>
     </div>`).join("") : `<div class="lib-empty">Nothing here yet — create your first generation.</div>`;
 }
@@ -481,7 +498,7 @@ async function refreshTemplates() {
         <button class="btn small danger" onclick="deleteTemplate('${t.template_id}')">Delete</button>
       </div>
       <div style="margin-top:8px">${t.files.map(f => `<span class="file-chip">${esc(f)}</span>`).join("")}</div>
-      <div class="hint" style="margin-top:8px">${t.created_at ? new Date(t.created_at * 1000).toLocaleString() : ""}</div>
+      <div class="hint" style="margin-top:8px">${t.created_at ? fmtDate(t.created_at) : ""}</div>
     </div>`).join("") || `<div class="empty">No template sets saved yet.</div>`;
 }
 async function loadTemplateOptions() {
@@ -505,9 +522,18 @@ async function deleteTemplate(id) {
 }
 
 /* ---------------------------------------------------------------- create */
+function fileLabel(input) {
+  const label = input.parentElement.querySelector(".file-label");
+  const files = [...input.files];
+  if (!files.length) { label.textContent = "No file chosen"; label.classList.remove("has"); return; }
+  label.textContent = files.length === 1
+    ? `${files[0].name} (${(files[0].size/1024/1024).toFixed(1)} MB)`
+    : `${files.length} files: ` + files.map(f => f.name).join(", ");
+  label.classList.add("has");
+}
+
 function pdfChosen() {
-  const f = document.querySelector('#new-form [name="file"]').files[0];
-  $("#pdf-name").textContent = f ? `Selected: ${f.name} (${(f.size/1024/1024).toFixed(1)} MB)` : "";
+  fileLabel(document.querySelector('#new-form [name="file"]'));
 }
 
 (function initDropzone() {
@@ -641,7 +667,12 @@ function renderJob(j) {
     <div class="card" id="src-swap" hidden style="margin-bottom:18px">
       <div class="grid2">
         <div class="field"><label>New source URL</label><input id="swap-url" placeholder="https://example.com/article"></div>
-        <div class="field"><label>Or replacement PDF</label><input type="file" id="swap-file" accept="application/pdf"></div>
+        <div class="field"><label>Or replacement PDF</label>
+          <div class="filewrap">
+            <button type="button" class="btn small" onclick="this.parentElement.querySelector('input').click()">Choose PDF…</button>
+            <input type="file" id="swap-file" accept="application/pdf" hidden onchange="fileLabel(this)">
+            <span class="file-label">No file chosen</span>
+          </div></div>
       </div>
       <button class="btn primary" onclick="replaceSource()" ${running ? "disabled" : ""}>Re-extract into this project</button>
       <span class="hint" style="margin-left:10px">Keeps the project's history, options and templates; replaces text + images. Slides are marked stale — revise the script afterwards if the content changed.</span>
