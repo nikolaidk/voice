@@ -433,7 +433,7 @@ _ESCAPE_RE = re.compile(r"\\u([0-9a-fA-F]{4})")
 
 
 def _unescape(text: str) -> str:
-    """Models occasionally emit literal \uXXXX sequences in text fields."""
+    r"""Models occasionally emit literal \uXXXX sequences in text fields."""
     return _ESCAPE_RE.sub(lambda m: chr(int(m.group(1), 16)), text)
 
 
