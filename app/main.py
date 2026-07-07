@@ -1203,7 +1203,7 @@ async def _render_outputs(job_id: str) -> None:
         pptx_path = Path(job["job_dir"]) / "slides.pptx"
         await asyncio.to_thread(
             pptx_out.build_pptx, script.title, deck, script, job["theme_obj"],
-            Path(job["job_dir"]) / "assets", pptx_path,
+            Path(job["job_dir"]) / "assets", pptx_path, opts.get("footer"),
         )
         job["pptx_path"] = str(pptx_path)
 
