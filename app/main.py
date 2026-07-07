@@ -23,7 +23,7 @@ from typing import Optional
 from fastapi import FastAPI, File, Form, HTTPException, UploadFile
 from fastapi.responses import FileResponse
 
-from . import extract, pptx_out, script_gen, slides as slides_mod, text_out, tts
+from . import extract, pptx_out, script_gen, slides as slides_mod, text_out, tts, youtube_out
 from .extract import ExtractionError
 
 app = FastAPI(
@@ -102,6 +102,7 @@ def _load_job_from_disk(job_dir: Path) -> None:
         "timing": {int(k): v for k, v in (meta.get("timing") or {}).items()},
         "usage": meta.get("usage") or {"input": 0, "output": 0, "cache_read": 0,
                                        "cache_write": 0, "calls": 0},
+        "youtube": meta.get("youtube"),
         "cues": meta.get("cues"),
         "stale": meta.get("stale", {"slides": False, "audio": False, "outputs": False}),
         "revisions": meta.get("revisions", []),
@@ -364,6 +365,7 @@ async def create_podcast(
         "slides_path": None,
         "video_path": None,
         "pptx_path": None,
+        "youtube": None,
     }
     task = asyncio.create_task(_create_pipeline(job_id, until, url, pdf_bytes, pdf_name))
     jobs[job_id]["_task"] = task
@@ -595,6 +597,8 @@ async def get_podcast(job_id: str) -> dict:
         body["video_url"] = f"/podcasts/{job_id}/video"
     if job["pptx_path"]:
         body["pptx_url"] = f"/podcasts/{job_id}/pptx"
+    if job.get("youtube"):
+        body["youtube"] = job["youtube"]
     return body
 
 
@@ -721,6 +725,88 @@ async def _revise_task(job_id: str, target: str, instructions: str) -> None:
         job["step"] = None
         job["status"] = "done"
         job["error"] = f"revision failed — {type(e).__name__}: {e}"
+
+
+# ----------------------------------------------------------------- youtube
+
+@app.get("/youtube/status")
+async def youtube_status() -> dict:
+    if DEMO:
+        return {"connected": False, "demo": True}
+    ok = await asyncio.to_thread(youtube_out.connected, DATA_DIR)
+    out = {"connected": ok}
+    if ok:
+        try:
+            out["channel"] = await asyncio.to_thread(
+                youtube_out.channel_title, DATA_DIR
+            )
+        except Exception:
+            pass
+    return out
+
+
+@app.post("/podcasts/{job_id}/publish/youtube", status_code=202)
+async def publish_youtube(
+    job_id: str,
+    title: Optional[str] = Form(None),
+    description: Optional[str] = Form(None),
+    privacy: str = Form("private"),
+    tags: Optional[str] = Form(None, description="comma-separated"),
+) -> dict:
+    """Upload the production's video to the connected YouTube channel.
+
+    Defaults to a PRIVATE upload — flip it to unlisted/public on YouTube (or
+    pass privacy=) once you've reviewed it there.
+    """
+    _block_in_demo()
+    job = _get_job(job_id)
+    _require_idle(job)
+    if not job["video_path"]:
+        raise HTTPException(status_code=409, detail="No video — render with slides=video first.")
+    if privacy not in youtube_out.PRIVACY_VALUES:
+        raise HTTPException(status_code=422, detail="`privacy` must be private, unlisted or public.")
+    if not await asyncio.to_thread(youtube_out.connected, DATA_DIR):
+        raise HTTPException(
+            status_code=409,
+            detail="YouTube is not connected. One-time setup: put your Google "
+            "OAuth client at data/_youtube/client_secret.json, then run "
+            "`.venv/bin/python scripts/youtube_auth.py`.",
+        )
+
+    yt_title = (title or job["title"] or "Untitled").strip()
+    yt_desc = description if description is not None else (
+        f"{job['title']}\n\nProduced with Fluent Agents Studio — fluentagents.com"
+    )
+    tag_list = [t.strip() for t in (tags or "").split(",") if t.strip()]
+
+    job["status"] = "queued"
+    job["error"] = None
+    task = asyncio.create_task(
+        _youtube_task(job_id, yt_title, yt_desc, privacy, tag_list)
+    )
+    job["_task"] = task
+    return {"job_id": job_id, "status": "queued", "status_url": f"/podcasts/{job_id}"}
+
+
+async def _youtube_task(job_id: str, title: str, description: str,
+                        privacy: str, tags: list[str]) -> None:
+    job = jobs[job_id]
+    try:
+        job["status"] = "running"
+        job["step"] = "publishing_youtube"
+        result = await asyncio.to_thread(
+            youtube_out.upload, DATA_DIR, Path(job["video_path"]),
+            title, description, privacy, tags,
+        )
+        job["youtube"] = {**result, "privacy": privacy, "title": title,
+                          "published_at": time.time()}
+        _save_state(job)
+        job["step"] = None
+        job["status"] = "done"
+    except Exception as e:
+        job["step"] = None
+        job["status"] = "done"
+        job["error"] = f"YouTube publish failed — {type(e).__name__}: {e}"
 
 
 # ------------------------------------------------------------------ source
@@ -1292,6 +1378,7 @@ def _save_state(job: dict) -> None:
                 "cues": job["cues"],
                 "timing": job["timing"],
                 "usage": job.get("usage"),
+                "youtube": job.get("youtube"),
                 "stale": job["stale"],
             },
             indent=1,

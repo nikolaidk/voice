@@ -814,6 +814,22 @@ function renderTab(j, running) {
           ${j.pptx_url ? `<a class="btn" href="${j.pptx_url}?v=${state.tick}">Download .pptx</a>
             <div class="hint" style="margin-top:8px">Themed deck with the narration as speaker notes per slide.</div>`
           : `<div class="empty">—</div>`}</div>
+        ${state.demo ? "" : `<div class="out-card" style="grid-column: 1 / -1"><h4>YouTube</h4>
+          ${j.youtube ? `<div style="margin-bottom:10px">Published (${esc(j.youtube.privacy)}):
+              <a href="${j.youtube.url}" target="_blank">${j.youtube.url}</a></div>` : ""}
+          ${j.video_url ? `<div id="yt-zone">
+            <div class="grid3">
+              <div class="field"><label>Title</label><input id="yt-title" value="${esc(j.title || "")}"></div>
+              <div class="field"><label>Privacy</label>
+                <select id="yt-privacy"><option value="private">private (review first)</option>
+                <option value="unlisted">unlisted</option><option value="public">public</option></select></div>
+              <div class="field"><label>Tags (comma-separated)</label><input id="yt-tags" placeholder="ai, podcast"></div>
+            </div>
+            <div class="field"><label>Description</label>
+              <textarea id="yt-desc">${esc((j.title || "") + "\n\nProduced with Fluent Agents Studio — fluentagents.com")}</textarea></div>
+            <button class="btn primary" onclick="publishYouTube()" ${running ? "disabled" : ""}>${j.youtube ? "Publish again" : "Publish to YouTube"}</button>
+            <span class="hint" style="margin-left:10px" id="yt-hint">Checking connection…</span>
+          </div>` : `<div class="empty">Render a video first (slides=video).</div>`}</div>`}
       </div>
       ${j.revisions?.length ? `<div class="panel-title"><h3>Revision history</h3></div>
         <div class="card" style="padding:8px 16px">${j.revisions.map(r =>
@@ -822,6 +838,7 @@ function renderTab(j, running) {
       fetch(j.transcript_url + "?v=" + state.tick).then(r => r.text())
         .then(t => { const p = $("#tr-pre"); if (p) p.textContent = t; });
     }
+    checkYouTube();
   }
 }
 function jCaption(j) { return "as configured"; }
@@ -988,6 +1005,39 @@ async function sendRevision(target) {
     loadJob();
   } catch (e) { toast(e.message, true); }
 }
+async function checkYouTube() {
+  const hint = $("#yt-hint");
+  if (!hint) return;
+  try {
+    const s = await api("/youtube/status");
+    if (s.connected) {
+      hint.textContent = "Connected" + (s.channel ? ` as ${s.channel}` : "") +
+        " · uploads default to private";
+    } else {
+      hint.innerHTML = "Not connected — put your Google OAuth client at " +
+        "<code>data/_youtube/client_secret.json</code> and run " +
+        "<code>scripts/youtube_auth.py</code> once.";
+      const btn = document.querySelector("#yt-zone .btn.primary");
+      if (btn) btn.disabled = true;
+    }
+  } catch (e) { hint.textContent = ""; }
+}
+
+async function publishYouTube() {
+  const privacy = $("#yt-privacy").value;
+  if (!confirm(`Upload this video to YouTube as ${privacy.toUpperCase()}?`)) return;
+  const fd = new FormData();
+  fd.append("title", $("#yt-title").value.trim());
+  fd.append("description", $("#yt-desc").value);
+  fd.append("privacy", privacy);
+  if ($("#yt-tags").value.trim()) fd.append("tags", $("#yt-tags").value.trim());
+  try {
+    await api(`/podcasts/${state.current}/publish/youtube`, { method: "POST", body: fd });
+    toast("Uploading to YouTube…");
+    loadJob();
+  } catch (e) { toast(e.message, true); }
+}
+
 async function renderJobNow() {
   const fd = new FormData();
   const s = $("#r-slides").value, c = $("#r-captions").value, st = $("#r-style").value.trim();

@@ -11,3 +11,5 @@ mutagen>=1.47
 pillow>=10.0
 cairosvg>=2.7
 python-pptx>=1.0
+google-api-python-client>=2.100
+google-auth-oauthlib>=1.2

@@ -284,6 +284,15 @@ Notes on the loop:
 - Sources over 400k characters are rejected — split large documents. Very long
   documents may exceed the readout script budget; use `mode=summary` instead.
 - Scanned PDFs without a text layer and JavaScript-only pages can't be extracted.
+- **Publish to YouTube**: `POST /podcasts/<id>/publish/youtube` (or the
+  YouTube card on the Outputs page) uploads the production's video to your
+  channel — **private by default**; review it on YouTube before flipping to
+  unlisted/public. One-time setup: create a Google Cloud project with the
+  YouTube Data API v3 enabled, create an OAuth "Desktop app" client, save
+  its JSON as `data/_youtube/client_secret.json`, then run
+  `.venv/bin/python scripts/youtube_auth.py` (browser consent; stores a
+  refresh token). Note Google's default quota allows ~6 uploads/day, and
+  unverified apps only accept accounts added as test users.
 - **Cost control**: every job tracks its Claude usage — `usage` in the status
   response (and a spend chip in the workbench) shows tokens, calls, and an
   estimated cost in USD. Revisions use prompt caching: the large stable
