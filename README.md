@@ -88,6 +88,19 @@ disabled in the UI and rejected by the server with 403. A "DEMO ·
 READ-ONLY" badge shows in the sidebar. To refresh the demo content, copy
 `data/` to `demo/data/` and commit.
 
+### Deploy the demo to Azure
+
+```sh
+./scripts/deploy_azure_demo.sh          # defaults: resource group `voice`, app `fluentagents-demo`
+APP=my-name SKU=F1 ./scripts/deploy_azure_demo.sh   # override names/SKU
+```
+
+The script is idempotent — run it again for every redeploy. It creates a
+Linux App Service plan and web app if missing, sets `FLUENT_DEMO=1` and the
+uvicorn startup command, zips `app/` + `demo/` + `requirements.txt`, deploys
+with a remote build, and verifies the live `/config` endpoint reports demo
+mode before declaring success.
+
 ## Usage
 
 Start a job (`url` form field or PDF `file` upload — exactly one):
