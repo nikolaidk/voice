@@ -52,6 +52,8 @@ aside {
 .brand h1 { font-family: var(--serif); font-style: italic; font-weight: 500;
   font-size: 26px; letter-spacing: .01em; }
 .brand h1 .dot { color: var(--amber); font-style: normal; }
+.brand-link { text-decoration: none; color: inherit; }
+.brand-link:hover h1 { color: var(--amber); }
 .brand .sub { font-family: var(--mono); font-size: 10px; letter-spacing: .38em;
   color: var(--muted); text-transform: uppercase; margin-top: 2px; }
 .demo-badge { display: none; font-family: var(--mono); font-size: 10px; letter-spacing: .2em;
@@ -291,7 +293,7 @@ input[type=radio] { width: auto; accent-color: var(--amber); }
 
 <aside>
   <div class="brand">
-    <h1>fluent<span class="dot">·</span>agents</h1>
+    <a href="/" class="brand-link" title="Back to the landing page"><h1>fluent<span class="dot">·</span>agents</h1></a>
     <div class="sub">Studio</div>
     <span class="demo-badge">DEMO · READ-ONLY</span>
   </div>
