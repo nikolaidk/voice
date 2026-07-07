@@ -316,6 +316,16 @@ def _palette_block(theme: SlideTheme | None) -> str:
     )
 
 
+async def _parse_deck_with_retry(**kwargs):
+    """One retry on malformed structured output — rare model glitches
+    (e.g. out-of-range numbers in figure coordinates) fail JSON parsing."""
+    from pydantic import ValidationError
+    try:
+        return await client.messages.parse(**kwargs)
+    except ValidationError:
+        return await client.messages.parse(**kwargs)
+
+
 async def generate_slide_deck(
     script: PodcastScript,
     style: str | None = None,
@@ -341,7 +351,7 @@ async def generate_slide_deck(
         })
     content.append({"type": "text", "text": "Design the slide deck now."})
 
-    response = await client.messages.parse(
+    response = await _parse_deck_with_retry(
         model=MODEL,
         max_tokens=16000,
         thinking={"type": "adaptive"},
@@ -404,7 +414,7 @@ async def revise_deck(
         [s.model_dump() for s in deck.slides], indent=1)})
     content.append({"type": "text", "text": f"Revision instructions:\n{instructions}"})
 
-    response = await client.messages.parse(
+    response = await _parse_deck_with_retry(
         model=MODEL,
         max_tokens=16000,
         thinking={"type": "adaptive"},
