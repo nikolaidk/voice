@@ -14,15 +14,18 @@ This repository is the artifact of a deliberate **under-specification
 experiment**: an empty directory, one prompt — *"Create a web API that takes a
 URL or PDF and converts it into a podcast"* — and only intent, rationale and
 occasional course corrections from the human, while stock **Claude Code
-(Fable 5), with no extra add-ons**, made the engineering decisions. Fewer than
+(Fable 5), with no extra add-ons**, made the engineering decisions — Fable 5
+being the most capable model publicly available at the time: the finding below
+was produced at the frontier, not with a budget model. Fewer than
 500 human words of direction became ~3,400 lines of working code, 17 endpoints
 and a five-stage media pipeline in an evening; the code review that redirected
 the architecture was four words long ("you hardcoded the charts"). The result
 is **experimental, not production-ready** — not security-hardened, not
 load-tested, and deliberately left that way as part of the record.
 
-**The conclusion cuts the other way: humans are needed more than ever.** Not
-once did the model propose a direction or say "this is enough"; it wrote
+**The conclusion cuts the other way: humans are needed more than ever.** Even
+the frontier model is no holy grail: not once did it propose a direction or
+say "this is enough"; it wrote
 thousands of lines and zero tests; twice it reported success on
 changes that silently did nothing; and it missed flaws any user catches at a
 glance (duplicate library entries, mixed-language UI strings, a tutorial video
