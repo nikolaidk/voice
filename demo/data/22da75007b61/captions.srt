@@ -1,0 +1,679 @@
+1
+00:00:00,000 --> 00:00:04,691
+Here is a reading of "Rent the Intelligence, Own the Workflow — succeeding with
+
+2
+00:00:04,691 --> 00:00:08,016
+multi-agent pipelines dressed up for human interaction."
+
+3
+00:00:08,016 --> 00:00:12,895
+If you're an architect, an engineering leader, or an executive being asked to turn AI
+
+4
+00:00:12,895 --> 00:00:16,569
+into product rather than theatre, this is aimed squarely at you.
+
+5
+00:00:16,569 --> 00:00:21,563
+What you'll find most useful here is a concrete architectural pattern for building with
+
+6
+00:00:21,563 --> 00:00:26,328
+large language models, a candid catalogue of how teams fail at it, and a clear line
+
+7
+00:00:26,328 --> 00:00:30,346
+between what your organisation should own and what it can safely rent.
+
+8
+00:00:30,346 --> 00:00:31,896
+Let me take you through it.
+
+9
+00:00:31,896 --> 00:00:37,158
+Sooner or later, every product organisation gets the question — from the board, from the
+
+10
+00:00:37,158 --> 00:00:40,506
+market, from its own engineers: what is our AI strategy?
+
+11
+00:00:40,506 --> 00:00:44,453
+And there is a tempting answer that feels like progress and isn't.
+
+12
+00:00:44,453 --> 00:00:52,166
+It is to take a large language model, put a chat window in front of it, ship it inside the product, and call the initiative done.
+
+13
+00:00:52,166 --> 00:00:57,368
+Six months later the numbers arrive: usage is a novelty spike that decayed, the outputs
+
+14
+00:00:57,368 --> 00:01:02,690
+are inconsistent, nobody can say what the feature costs per use, and the most experienced
+
+15
+00:01:02,690 --> 00:01:06,696
+people in the building quietly went back to doing the work by hand.
+
+16
+00:01:06,696 --> 00:01:09,433
+The failure is structural, not technical.
+
+17
+00:01:09,433 --> 00:01:15,306
+A chat window transfers the entire burden of orchestration onto the user: they must know
+
+18
+00:01:15,306 --> 00:01:22,247
+what to ask, in what order, how to judge the answer, and how to carry results from one step to the next.
+
+19
+00:01:22,247 --> 00:01:28,922
+It makes every outcome unrepeatable, every quality problem unattributable, and every cost invisible.
+
+20
+00:01:28,922 --> 00:01:31,992
+Chat is an interface. It was never a strategy.
+
+21
+00:01:31,992 --> 00:01:38,965
+There is a pattern that works, and this presentation is about it: the multi-agent pipeline dressed up for human interaction.
+
+22
+00:01:38,965 --> 00:01:43,913
+I want to show you the pattern precisely, demonstrate it with a working system, tell you
+
+23
+00:01:43,913 --> 00:01:48,693
+what your organisation must own and what it should merely rent, walk through the ways
+
+24
+00:01:48,693 --> 00:01:56,172
+teams fail at it — several of them observed first-hand — and then translate it into domains that look nothing like the demonstration.
+
+25
+00:01:56,172 --> 00:02:02,976
+The audience I have in mind is architects, engineering leaders and executives who need AI to become product, not theatre.
+
+26
+00:02:02,976 --> 00:02:05,928
+So let's begin with the pattern itself.
+
+27
+00:02:05,928 --> 00:02:13,920
+A multi-agent pipeline dressed up for human interaction has five properties, and the discipline lies in refusing to skip any of them.
+
+28
+00:02:13,920 --> 00:02:19,300
+First, the work is decomposed into stages, and each stage is owned by an agent with a
+
+29
+00:02:19,300 --> 00:02:24,743
+narrow, well-defined job — a scriptwriter, a designer, a voice director, a publisher —
+
+30
+00:02:24,743 --> 00:02:29,300
+rather than one all-purpose intelligence asked to do everything at once.
+
+31
+00:02:29,300 --> 00:02:34,489
+Second, between every pair of stages sits an artifact a human can actually read: a
+
+32
+00:02:34,489 --> 00:02:39,363
+numbered transcript, a deck of slide cards, a delivery plan, a rendered file.
+
+33
+00:02:39,363 --> 00:02:41,325
+The artifacts are the contract.
+
+34
+00:02:41,325 --> 00:02:46,515
+Third, every stage is revisable after the fact, in plain language — the user never
+
+35
+00:02:46,515 --> 00:02:52,907
+re-prompts from scratch; they point at an artifact and say what should change, and only that changes.
+
+36
+00:02:52,907 --> 00:03:01,324
+Fourth, the economics live on the surface: every unit of work shows what it cost, while it is happening, not on next month's invoice.
+
+37
+00:03:01,324 --> 00:03:08,856
+And fifth, humans hold the checkpoints — with real authority to reject, not a courtesy glance on the way to production.
+
+38
+00:03:08,856 --> 00:03:12,239
+The dressing-up matters as much as the pipeline.
+
+39
+00:03:12,239 --> 00:03:16,749
+None of this reaches the user as prompts, tokens or model names.
+
+40
+00:03:16,749 --> 00:03:23,726
+It reaches them as an ordinary product: buttons, cards, players, a progress strip with four lights.
+
+41
+00:03:23,726 --> 00:03:30,421
+Directing a fleet of agents feels like using well-made software — which is precisely the point.
+
+42
+00:03:30,421 --> 00:03:36,764
+Working with raw AI is genuinely painful: prompt craft, context juggling, output roulette.
+
+43
+00:03:36,764 --> 00:03:41,275
+The interface's job is to absorb that pain on the user's behalf.
+
+44
+00:03:41,275 --> 00:03:43,248
+Call it agentic pain relief.
+
+45
+00:03:43,248 --> 00:03:49,152
+Now, rather than argue abstractly, let me show you a system built exactly this way.
+
+46
+00:03:49,152 --> 00:03:54,624
+Fluent Agents Studio takes a URL or a PDF and produces finished media: a podcast or
+
+47
+00:03:54,624 --> 00:04:01,677
+narrated summary, a designed slide deck with data figures, a synchronised slideshow, a video, a PowerPoint.
+
+48
+00:04:01,677 --> 00:04:07,215
+Five agent stages — extract, script, deck, voice, render — each leaving a reviewable
+
+49
+00:04:07,215 --> 00:04:14,928
+artifact behind, each open to plain-language revision, with the model spend pinned to every project like a price tag.
+
+50
+00:04:14,928 --> 00:04:20,136
+And here is the part worth pausing on: everything you are watching and hearing right now
+
+51
+00:04:20,136 --> 00:04:27,297
+— this narration, these slides, the figures being drawn around this sentence — is output from the system being described.
+
+52
+00:04:27,297 --> 00:04:29,310
+The demonstration is self-hosting.
+
+53
+00:04:29,310 --> 00:04:34,577
+It was also cheap: producing a presentation like this one costs less than a cup of coffee
+
+54
+00:04:34,577 --> 00:04:38,424
+in model spend, and the system will happily show you the receipt.
+
+55
+00:04:38,424 --> 00:04:41,717
+The creation form makes the first property concrete.
+
+56
+00:04:41,717 --> 00:04:48,935
+The user describes the audience in a sentence, sets a personality in a sentence, picks output formats from a menu.
+
+57
+00:04:48,935 --> 00:04:56,976
+That is prompt engineering abolished as a user-facing concern — the pipeline carries the craft so the user carries only intent.
+
+58
+00:04:56,976 --> 00:04:59,523
+The slides page shows the second property.
+
+59
+00:04:59,523 --> 00:05:04,495
+The deck is not a blob of generated output; it is a set of inspectable cards, each
+
+60
+00:05:04,495 --> 00:05:10,255
+anchored to the exact line of narration it accompanies, each showing its timing and its visual.
+
+61
+00:05:10,255 --> 00:05:15,652
+An asset inventory at the bottom accounts for every image and figure and where it landed.
+
+62
+00:05:15,652 --> 00:05:21,048
+When something is wrong, you can see precisely what and where — and say so in a sentence.
+
+63
+00:05:21,048 --> 00:05:23,905
+The review overlay is the fifth property in action.
+
+64
+00:05:23,905 --> 00:05:28,780
+A human steps through the production slide by slide, hearing exactly the narration that
+
+65
+00:05:28,780 --> 00:05:33,766
+belongs to each one, catching the slide that lands a beat late or the sentence that needs
+
+66
+00:05:33,766 --> 00:05:37,128
+air — judgment applied at the level where judgment is cheap.
+
+67
+00:05:37,128 --> 00:05:40,488
+Which brings us to why stages beat the monolith.
+
+68
+00:05:40,488 --> 00:05:45,889
+The deep reason this architecture wins is an asymmetry every engineer already knows, now
+
+69
+00:05:45,889 --> 00:05:52,087
+with API pricing attached: the cost of catching an error grows brutally with every stage it survives.
+
+70
+00:05:52,087 --> 00:05:55,892
+Reading a script takes two minutes and a revision costs cents.
+
+71
+00:05:55,892 --> 00:06:02,582
+Reviewing a rendered video takes as long as the video and regenerating it costs real money and real patience.
+
+72
+00:06:02,582 --> 00:06:07,859
+A staged pipeline lets you spend your judgment where it is cheapest — polish the words
+
+73
+00:06:07,859 --> 00:06:12,094
+before any audio exists, shape the deck before any video is rendered.
+
+74
+00:06:12,094 --> 00:06:19,704
+The monolithic agent offers no such purchase: one opaque pass, all-or-nothing regeneration, and luck as your quality system.
+
+75
+00:06:19,704 --> 00:06:21,643
+Stages also buy you attribution.
+
+76
+00:06:21,643 --> 00:06:29,155
+When the voice mispronounces a name, that is the voice stage; when a figure charts the wrong series, that is the deck stage.
+
+77
+00:06:29,155 --> 00:06:37,213
+Fixes are targeted, and nothing else moves — the system guarantees that a script revision leaves other lines word-for-word untouched.
+
+78
+00:06:37,213 --> 00:06:42,363
+And stages give you a consistency model: the pipeline tracks what depends on what, so
+
+79
+00:06:42,363 --> 00:06:47,452
+when an upstream artifact changes, downstream artifacts are marked stale rather than
+
+80
+00:06:47,452 --> 00:06:53,208
+silently drifting out of sync, and one command brings the whole production back into agreement.
+
+81
+00:06:53,208 --> 00:06:58,416
+Now to the strategic question underneath it all — what to own, and what to rent.
+
+82
+00:06:58,416 --> 00:07:01,686
+The intelligence itself — the model — you rent.
+
+83
+00:07:01,686 --> 00:07:04,887
+That is not a compromise; it is the good news.
+
+84
+00:07:04,887 --> 00:07:14,280
+Models improve on someone else's research budget, and if your architecture is honest, upgrading is a configuration line, not a rewrite.
+
+85
+00:07:14,280 --> 00:07:16,070
+Everything else, you must own.
+
+86
+00:07:16,070 --> 00:07:22,931
+You own the decomposition: which stages exist, what each agent's contract is, what quality means at every hand-off.
+
+87
+00:07:22,931 --> 00:07:27,764
+That knowledge comes from your domain experts, and it is the durable intellectual
+
+88
+00:07:27,764 --> 00:07:33,670
+property — everyone can rent the same intelligence, so the workflow is where differentiation lives.
+
+89
+00:07:33,670 --> 00:07:38,861
+You own the artifacts: typed, persisted, diffable structures in your domain's language,
+
+90
+00:07:38,861 --> 00:07:42,023
+which is what makes the model swappable beneath them.
+
+91
+00:07:42,023 --> 00:07:49,243
+You own verification: the checkpoints must be staffed by people with the experience to judge and the authority to reject.
+
+92
+00:07:49,243 --> 00:07:54,314
+And you own the economics: metering per unit of work, caching discipline so iteration
+
+93
+00:07:54,314 --> 00:07:59,385
+bills the repeated context at a tenth of the price, and the cultural expectation that
+
+94
+00:07:59,385 --> 00:08:03,144
+cost is visible in the interface, not discovered in accounting.
+
+95
+00:08:03,144 --> 00:08:06,293
+Rent the intelligence. Own the workflow.
+
+96
+00:08:06,293 --> 00:08:11,568
+If you retain one sentence from this presentation, that is the one.
+
+97
+00:08:11,568 --> 00:08:15,605
+Let me turn now to the pitfalls — where these systems actually fail.
+
+98
+00:08:15,605 --> 00:08:22,848
+And I'll start with a failure from inside the very system you are watching, because it is the most instructive one I know.
+
+99
+00:08:22,848 --> 00:08:30,935
+During this product's development, the slide stage was reviewed and something looked wrong: the charts were suspiciously uniform.
+
+100
+00:08:30,935 --> 00:08:36,326
+The reason: the implementing agent had quietly hard-coded a chart renderer — one fixed
+
+101
+00:08:36,326 --> 00:08:39,648
+chart form, dressed up to look like generated design.
+
+102
+00:08:39,648 --> 00:08:41,968
+The system looked agentic and wasn't.
+
+103
+00:08:41,968 --> 00:08:46,858
+A single experienced review caught it, and one sentence of correction — that's
+
+104
+00:08:46,858 --> 00:08:52,374
+hard-coded, the model should design what the material needs — replaced the template with
+
+105
+00:08:52,374 --> 00:08:55,697
+genuinely generative figures under strict guardrails.
+
+106
+00:08:55,697 --> 00:09:00,649
+Call this pitfall fake agentics: deterministic templates wearing an AI costume.
+
+107
+00:09:00,649 --> 00:09:06,479
+It ships fine, demos fine, and then every output looks the same and the promise quietly dies.
+
+108
+00:09:06,479 --> 00:09:11,870
+The cure is an explicit division of labour you actively review for: the model designs,
+
+109
+00:09:11,870 --> 00:09:19,142
+the code enforces — sanitisation, timing, layout mathematics stay deterministic; creative decisions stay generative.
+
+110
+00:09:19,142 --> 00:09:24,408
+Knowing which is which, at every stage, is architecture work no vendor does for you.
+
+111
+00:09:24,408 --> 00:09:26,903
+The second pitfall is the demo plateau.
+
+112
+00:09:26,903 --> 00:09:33,749
+One-shot generation demos brilliantly; whoever has watched a first draft emerge in thirty seconds believes.
+
+113
+00:09:33,749 --> 00:09:41,235
+But first drafts are drafts, and teams that ship the demo discover that quality variance destroys trust within weeks.
+
+114
+00:09:41,235 --> 00:09:45,266
+The product was never the generation — it is the revision loop.
+
+115
+00:09:45,266 --> 00:09:51,216
+Build revision as a first-class operation from day one, because retrofitting it is a rewrite.
+
+116
+00:09:51,216 --> 00:09:56,621
+Third, verification theatre: a human-in-the-loop checkbox where the human lacks the skill
+
+117
+00:09:56,621 --> 00:10:01,237
+to judge, the authority to reject, or an artifact granular enough to review.
+
+118
+00:10:01,237 --> 00:10:06,521
+A junior rubber-stamping renders is not a checkpoint; it is liability with extra steps.
+
+119
+00:10:06,521 --> 00:10:11,805
+Put your best judgment at the checkpoints — the entire economic argument of the pattern
+
+120
+00:10:11,805 --> 00:10:15,024
+assumes the reviewer can actually catch what matters.
+
+121
+00:10:15,024 --> 00:10:20,330
+Fourth, invisible economics: no per-unit metering until the invoice arrives, at which
+
+122
+00:10:20,330 --> 00:10:25,198
+point the initiative is cancelled by the CFO rather than improved by the team.
+
+123
+00:10:25,198 --> 00:10:31,440
+Meter every artifact, surface it in the product, and teach the iteration rhythm the pricing rewards.
+
+124
+00:10:31,440 --> 00:10:36,698
+And fifth, silent drift: pipelines without a staleness model, where yesterday's video
+
+125
+00:10:36,698 --> 00:10:41,832
+quietly contradicts today's edited script and nobody notices until a customer does.
+
+126
+00:10:41,832 --> 00:10:49,008
+Dependency tracking is unglamorous and non-negotiable — the system, not human memory, must know what is out of date.
+
+127
+00:10:49,008 --> 00:10:52,152
+So how does this translate to your domain?
+
+128
+00:10:52,152 --> 00:11:00,055
+The demonstration makes media, but the recipe is domain-blind: find the assembly line hiding inside the knowledge work.
+
+129
+00:11:00,055 --> 00:11:07,294
+Every expert workflow already has stages and artifacts — they are just implicit, living in inboxes and heads.
+
+130
+00:11:07,294 --> 00:11:09,552
+Naming them is most of the design.
+
+131
+00:11:09,552 --> 00:11:14,719
+In insurance, a claim moves from intake summary to assessment to decision draft to
+
+132
+00:11:14,719 --> 00:11:21,146
+customer letter — four artifacts, each reviewable by an adjuster, the letter revisable in plain words.
+
+133
+00:11:21,146 --> 00:11:26,565
+In legal work: research memo, clause extraction, risk register, draft agreement — with
+
+134
+00:11:26,565 --> 00:11:32,362
+counsel's judgment applied at the register, where an error costs a paragraph, not a lawsuit.
+
+135
+00:11:32,362 --> 00:11:37,908
+In clinical documentation: consultation transcript, structured note, coding suggestions,
+
+136
+00:11:37,908 --> 00:11:44,902
+patient summary — the clinician verifies the note, the cheapest and most consequential checkpoint in the chain.
+
+137
+00:11:44,902 --> 00:11:50,321
+In software itself: specification, design, implementation, review — which is precisely
+
+138
+00:11:50,321 --> 00:11:55,425
+the pipeline that built this product, with a human architect at every checkpoint.
+
+139
+00:11:55,425 --> 00:12:00,151
+In marketing: brief, campaign narrative, asset variants, channel packaging.
+
+140
+00:12:00,151 --> 00:12:05,444
+The shape repeats because expert work has always been staged; agents simply make the
+
+141
+00:12:05,444 --> 00:12:11,304
+stages executable, and the interface makes directing them feel like work instead of wizardry.
+
+142
+00:12:11,304 --> 00:12:14,640
+So, practically, how do you start?
+
+143
+00:12:14,640 --> 00:12:19,516
+Choose a first workflow where drafts are the deliverable, errors are catchable by
+
+144
+00:12:19,516 --> 00:12:24,331
+inspection, volume is real, and the blast radius of a miss is bounded — internal
+
+145
+00:12:24,331 --> 00:12:28,484
+documents before customer letters, decision support before decisions.
+
+146
+00:12:28,484 --> 00:12:35,827
+Staff it as a pair: one domain expert with genuine authority over quality, and one engineer running an agentic build loop.
+
+147
+00:12:35,827 --> 00:12:41,124
+That pairing built everything you have seen here in a handful of sessions — roughly five
+
+148
+00:12:41,124 --> 00:12:48,408
+hundred words of human direction became the first working system, and a few hundred more grew it into a deployed product.
+
+149
+00:12:48,408 --> 00:12:52,320
+Days, not quarters, is the honest expectation for the first demo.
+
+150
+00:12:52,320 --> 00:12:54,638
+Then hold the effort where it belongs.
+
+151
+00:12:54,638 --> 00:12:58,603
+The first demo is a beginning; the product is the loop around it.
+
+152
+00:12:58,603 --> 00:13:03,483
+Budget most of your investment for the unglamorous majority: revision mechanics,
+
+153
+00:13:03,483 --> 00:13:08,851
+verification surfaces, staleness tracking, cost telemetry — the dressing-up that turns a
+
+154
+00:13:08,851 --> 00:13:11,779
+capability into something a professional trusts.
+
+155
+00:13:11,779 --> 00:13:16,903
+And measure three numbers from the first week: cost per accepted artifact, revisions
+
+156
+00:13:16,903 --> 00:13:20,319
+until acceptance, and expert minutes per unit of output.
+
+157
+00:13:20,319 --> 00:13:25,992
+Those three tell you whether the pipeline is a product or a toy, long before the market does.
+
+158
+00:13:25,992 --> 00:13:30,504
+Let me close where the title began — because the moat was never the model.
+
+159
+00:13:30,504 --> 00:13:36,972
+Every company in your market can rent the same intelligence, at the same prices, starting this afternoon.
+
+160
+00:13:36,972 --> 00:13:38,881
+Nothing defensible lives there.
+
+161
+00:13:38,881 --> 00:13:43,932
+What is defensible is what you build around it: the decomposition only your domain
+
+162
+00:13:43,932 --> 00:13:49,168
+experts could draw, the artifact contracts in your language, the verification culture
+
+163
+00:13:49,168 --> 00:13:54,527
+that puts experienced judgment at every checkpoint, the economics your team can recite.
+
+164
+00:13:54,527 --> 00:14:00,009
+That is your expertise, operationalised — and it is also, not incidentally, a human-first
+
+165
+00:14:00,009 --> 00:14:06,600
+way to adopt this technology: it amplifies your best people's judgment instead of pretending to replace it.
+
+166
+00:14:06,600 --> 00:14:09,474
+This presentation practised what it preached.
+
+167
+00:14:09,474 --> 00:14:14,966
+It was directed in sentences, staged through five agents, reviewed by a human with the
+
+168
+00:14:14,966 --> 00:14:21,161
+authority to send it back, and produced for less than the price of the coffee you may be holding.
+
+169
+00:14:21,161 --> 00:14:25,440
+The intelligence was rented. The workflow — that is yours to build.
+
+170
+00:14:25,440 --> 00:14:31,152
+And that concludes the reading. Rent the intelligence; own the workflow.

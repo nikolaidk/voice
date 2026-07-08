@@ -1,0 +1,767 @@
+1
+00:00:00,000 --> 00:00:04,769
+Here's a piece on why QA and testing aren't overhead to be trimmed for AI speed, but the
+
+2
+00:00:04,769 --> 00:00:09,266
+actual memory of a development department — and if you're feeling pressure to trade
+
+3
+00:00:09,266 --> 00:00:13,872
+quality process for velocity, the part you'll want most is why the AI era doubles the
+
+4
+00:00:13,872 --> 00:00:17,232
+stakes, and the five team practices you can start this sprint.
+
+5
+00:00:17,232 --> 00:00:22,719
+There is a question moving through development departments right now, sometimes spoken,
+
+6
+00:00:22,719 --> 00:00:28,080
+mostly implied by budget lines: if AI writes more and more of the code, and writes it
+
+7
+00:00:28,080 --> 00:00:31,548
+fast, do we still need all this process around quality?
+
+8
+00:00:31,548 --> 00:00:39,558
+The reviews, the test suites, the triage meetings, the QA function itself — weren't those mostly there to catch human mistakes?
+
+9
+00:00:39,558 --> 00:00:44,477
+This talk answers that question, and the answer runs opposite to the instinct.
+
+10
+00:00:44,477 --> 00:00:48,072
+QA and testing were never mainly about catching mistakes.
+
+11
+00:00:48,072 --> 00:00:50,872
+Three claims, and the whole talk hangs on them.
+
+12
+00:00:50,872 --> 00:00:56,056
+First: the test suite is a development department's memory — the one place its hard-won
+
+13
+00:00:56,056 --> 00:00:59,333
+knowledge is stored in a form that cannot silently rot.
+
+14
+00:00:59,333 --> 00:01:04,516
+Second: verification is a team dialogue, never the author's monologue — and that is the
+
+15
+00:01:04,516 --> 00:01:09,461
+cardinal rule of this talk: no work is verified by the one who made it, whether the
+
+16
+00:01:09,461 --> 00:01:15,598
+author is a developer or a model, because quality is a property of a team, not a virtue of individuals.
+
+17
+00:01:15,598 --> 00:01:20,781
+Third: in the AI era, where code and even tests can be generated faster than anyone can
+
+18
+00:01:20,781 --> 00:01:25,607
+read them, review is what turns generated output into warranted knowledge — and a
+
+19
+00:01:25,607 --> 00:01:32,280
+department that skips it is not saving time; it is accumulating a new kind of debt with an old kind of interest.
+
+20
+00:01:32,280 --> 00:01:34,442
+This is the third talk in a series.
+
+21
+00:01:34,442 --> 00:01:39,880
+The first argued that AI belongs in staged pipelines with human checkpoints; the second,
+
+22
+00:01:39,880 --> 00:01:44,884
+that organizations lose their connective tissue when the assistant answers first.
+
+23
+00:01:44,884 --> 00:01:50,136
+This one is about where those arguments touch the ground in a development department.
+
+24
+00:01:50,136 --> 00:01:52,181
+Part one: the suite is the memory.
+
+25
+00:01:52,181 --> 00:01:55,550
+Start with what a test actually is, stripped of tooling.
+
+26
+00:01:55,550 --> 00:01:58,136
+A test is a decision that remembers itself.
+
+27
+00:01:58,136 --> 00:02:03,309
+Somebody once decided that this endpoint must reject a negative amount, that this date
+
+28
+00:02:03,309 --> 00:02:08,602
+math must survive a leap year, that this timeout must fall back gracefully — and instead
+
+29
+00:02:08,602 --> 00:02:13,655
+of recording that decision in a document, they recorded it in a form that re-asserts
+
+30
+00:02:13,655 --> 00:02:18,888
+itself on every commit, forever, against every future colleague and every future model.
+
+31
+00:02:18,888 --> 00:02:21,106
+Compare the fates of the two forms.
+
+32
+00:02:21,106 --> 00:02:26,747
+Requirements documents, wiki pages, architecture decks are written once, read seldom, and
+
+33
+00:02:26,747 --> 00:02:32,768
+drift from the truth the day after publication, because nothing happens when they become wrong.
+
+34
+00:02:32,768 --> 00:02:34,606
+A test cannot drift silently.
+
+35
+00:02:34,606 --> 00:02:41,767
+The moment reality disagrees with it, one of them fails loudly, and a human is summoned to decide which is right.
+
+36
+00:02:41,767 --> 00:02:50,197
+That property — knowledge that defends itself — makes the suite the only documentation in the organization that is guaranteed honest.
+
+37
+00:02:50,197 --> 00:02:55,711
+Ask any senior engineer how they approach an unfamiliar codebase: read the tests first.
+
+38
+00:02:55,711 --> 00:03:01,288
+The suite is the fastest truthful map of what a system actually promises — an onboarding
+
+39
+00:03:01,288 --> 00:03:06,168
+document written by everyone, verified continuously, impossible to embellish.
+
+40
+00:03:06,168 --> 00:03:08,906
+Now look at what accumulates in its corners.
+
+41
+00:03:08,906 --> 00:03:14,010
+The fixture with the customer who has two addresses and a name with an apostrophe.
+
+42
+00:03:14,010 --> 00:03:18,428
+The test for the order placed at midnight on the last day of a quarter.
+
+43
+00:03:18,428 --> 00:03:24,216
+The regression case for the rounding error that only appears above one million Danish kroner.
+
+44
+00:03:24,216 --> 00:03:29,693
+That is not test data; that is decades of domain knowledge, crystallized — every strange
+
+45
+00:03:29,693 --> 00:03:36,601
+truth about the business that someone once learned the hard way, kept alive in a form that bites when violated.
+
+46
+00:03:36,601 --> 00:03:38,592
+People leave. The fixtures stay.
+
+47
+00:03:38,592 --> 00:03:42,245
+The memory grows by two mechanisms, and both deserve naming.
+
+48
+00:03:42,245 --> 00:03:47,480
+The first is that writing a test is doing the understanding: to test anything you must
+
+49
+00:03:47,480 --> 00:03:54,420
+first say precisely what correct means — inputs, boundaries, failure behavior, the cases nobody put in the ticket.
+
+50
+00:03:54,420 --> 00:03:59,778
+That act converts a feeling in one head into an artifact a team can inspect and dispute;
+
+51
+00:03:59,778 --> 00:04:06,596
+when behavior is argued about in a meeting, the healthiest possible outcome is that the argument ends in a test.
+
+52
+00:04:06,596 --> 00:04:11,040
+The test is the minutes of the meeting — and unlike minutes, it executes.
+
+53
+00:04:11,040 --> 00:04:13,641
+The second mechanism is that bugs are tuition.
+
+54
+00:04:13,641 --> 00:04:18,221
+Every production defect is expensive education, and the discipline that separates
+
+55
+00:04:18,221 --> 00:04:22,802
+learning departments from lucky ones is what happens next: the incident ends as a
+
+56
+00:04:22,802 --> 00:04:30,153
+regression test plus one written line of why, and the organization acquires scar tissue — it cannot be wounded the same way twice.
+
+57
+00:04:30,153 --> 00:04:35,072
+Google's engineering culture formalized this as the blameless postmortem, and the point
+
+58
+00:04:35,072 --> 00:04:39,822
+of blamelessness is not politeness; it is that failures are treated as team learning
+
+59
+00:04:39,822 --> 00:04:43,554
+events, because that is the only way people surface them honestly.
+
+60
+00:04:43,554 --> 00:04:48,474
+Departments without this discipline pay the same tuition repeatedly — the same class of
+
+61
+00:04:48,474 --> 00:04:53,280
+bug returning in a different jacket, re-diagnosed from scratch by whoever is on call.
+
+62
+00:04:53,280 --> 00:04:57,259
+Part two: quality is a team property, not an individual virtue.
+
+63
+00:04:57,259 --> 00:05:02,816
+Here is where this talk turns, because everything in part one is routinely undermined by
+
+64
+00:05:02,816 --> 00:05:07,868
+a single organizational habit: treating quality as an individual responsibility.
+
+65
+00:05:07,868 --> 00:05:13,110
+It sounds virtuous — every developer tests their own work; the QA engineer down the
+
+66
+00:05:13,110 --> 00:05:17,341
+corridor owns the quality gate; everyone is personally accountable.
+
+67
+00:05:17,341 --> 00:05:21,824
+And it quietly guarantees the opposite of everything we just described.
+
+68
+00:05:21,824 --> 00:05:29,466
+If testing is an individual chore appended to each developer's task, then whatever each test knows stays with its author.
+
+69
+00:05:29,466 --> 00:05:35,907
+If QA is one person's department, then the end-to-end picture of the system lives in exactly one head.
+
+70
+00:05:35,907 --> 00:05:43,296
+Individual quality produces individual knowledge — sealed compartments, individually diligent, collectively ignorant.
+
+71
+00:05:43,296 --> 00:05:46,046
+The oldest rule in the discipline says why.
+
+72
+00:05:46,046 --> 00:05:52,185
+Glenford Myers wrote it down in The Art of Software Testing in 1979: never verify your own work.
+
+73
+00:05:52,185 --> 00:05:57,812
+The familiar argument is bias — the same mental model that produced the bug produces the
+
+74
+00:05:57,812 --> 00:06:02,992
+test that misses it; the author searches for confirmation that it works, a tester
+
+75
+00:06:02,992 --> 00:06:08,875
+searches for the ways it fails, and those are different searches that find different things.
+
+76
+00:06:08,875 --> 00:06:12,648
+The bias argument is true. It is also not the cardinal one.
+
+77
+00:06:12,648 --> 00:06:20,052
+The cardinal argument is this: the moment your work must be verified by someone else, a conversation becomes unavoidable.
+
+78
+00:06:20,052 --> 00:06:27,639
+The verifier has to ask the most knowledge-productive question in a development department — how is this supposed to behave?
+
+79
+00:06:27,639 --> 00:06:32,901
+— and you have to answer it, out loud, to a mind that does not share your assumptions.
+
+80
+00:06:32,901 --> 00:06:37,001
+In that exchange, everything this talk cares about happens at once.
+
+81
+00:06:37,001 --> 00:06:39,815
+Your tacit understanding is forced into words.
+
+82
+00:06:39,815 --> 00:06:45,689
+The unstated requirement surfaces where the verifier's model of the problem collides with yours.
+
+83
+00:06:45,689 --> 00:06:50,707
+The edge case neither of you had written down is discovered in the gap between two
+
+84
+00:06:50,707 --> 00:06:54,011
+perspectives — before production discovers it for you.
+
+85
+00:06:54,011 --> 00:06:59,212
+Self-testing is a monologue: the knowledge never has to survive expression to another
+
+86
+00:06:59,212 --> 00:07:03,373
+human being, so it never becomes shareable, checkable, or teachable.
+
+87
+00:07:03,373 --> 00:07:06,432
+Independent testing is a dialogue with a deadline.
+
+88
+00:07:06,432 --> 00:07:11,629
+The previous talk in this series argued that informal knowledge exchange lost its carrier
+
+89
+00:07:11,629 --> 00:07:14,608
+when the assistant made asking colleagues optional.
+
+90
+00:07:14,608 --> 00:07:19,805
+See what the test handoff is in that light: it is that exchange with the option removed —
+
+91
+00:07:19,805 --> 00:07:25,995
+a conversation built into the structure of the work, one that cannot be quietly skipped on a busy Tuesday.
+
+92
+00:07:25,995 --> 00:07:31,193
+When a department lets developers verify their own work, it is not saving a process step.
+
+93
+00:07:31,193 --> 00:07:34,872
+It is deleting the last mandatory conversation in its pipeline.
+
+94
+00:07:34,872 --> 00:07:39,495
+And the dialogue does something deeper than spread knowledge: it secures it.
+
+95
+00:07:39,495 --> 00:07:44,909
+As long as only its author has exercised a behavior, the organization's grasp of it has a
+
+96
+00:07:44,909 --> 00:07:51,479
+bus factor of one — the author can resign, forget, or have been wrong from the start, and nobody would know.
+
+97
+00:07:51,479 --> 00:07:56,650
+The moment a second mind verifies it, the knowledge is duplicated, hardened against a
+
+98
+00:07:56,650 --> 00:08:01,273
+different model of the problem, and anchored in an artifact both can defend.
+
+99
+00:08:01,273 --> 00:08:06,262
+Verification is how knowledge changes owner — from the author to the organization.
+
+100
+00:08:06,262 --> 00:08:11,433
+Until then, a claim only its author has verified is not yet organizational knowledge.
+
+101
+00:08:11,433 --> 00:08:13,440
+It is a rumor with a commit hash.
+
+102
+00:08:13,440 --> 00:08:18,573
+Follow the logic to its structural conclusion and the team framing stops being a slogan.
+
+103
+00:08:18,573 --> 00:08:23,764
+If verification must be independent, then quality work is collective by construction: the
+
+104
+00:08:23,764 --> 00:08:28,897
+suite belongs to the team, not to whoever happened to write each test; review rotates so
+
+105
+00:08:28,897 --> 00:08:33,972
+no pairing hardens into a private channel; triage happens in a room because the room is
+
+106
+00:08:33,972 --> 00:08:39,163
+where the who-knows-what map gets refreshed and where a junior learns how a senior probes
+
+107
+00:08:39,163 --> 00:08:43,713
+a failure; the definition of done is a team artifact, not a personal standard.
+
+108
+00:08:43,713 --> 00:08:45,171
+None of this is ceremony.
+
+109
+00:08:45,171 --> 00:08:52,695
+Every quality activity done together is simultaneously a gate and an act of knowledge circulation — the same hour does both jobs.
+
+110
+00:08:52,695 --> 00:08:54,912
+Done alone, it is cost without memory.
+
+111
+00:08:54,912 --> 00:09:00,325
+Part three: the AI era, and epistemic debt. Everything so far was true before AI.
+
+112
+00:09:00,325 --> 00:09:02,530
+Here is why it now matters twice.
+
+113
+00:09:02,530 --> 00:09:06,539
+The industry's own data tells the story from two directions.
+
+114
+00:09:06,539 --> 00:09:12,419
+The DORA State of AI-assisted Software Development report — the largest running study of
+
+115
+00:09:12,419 --> 00:09:18,366
+delivery performance — finds AI adoption correlates with higher throughput and with worse
+
+116
+00:09:18,366 --> 00:09:21,774
+delivery stability: teams ship more and break more.
+
+117
+00:09:21,774 --> 00:09:27,722
+And GitClear's analysis of over two hundred million changed lines found that between 2021
+
+118
+00:09:27,722 --> 00:09:33,268
+and 2024, copy-pasted code rose from about eight to over twelve percent, code churn
+
+119
+00:09:33,268 --> 00:09:38,881
+nearly doubled, and refactoring collapsed from a quarter of all changes to under ten
+
+120
+00:09:38,881 --> 00:09:43,826
+percent — the first year on record where duplication outpaced refactoring.
+
+121
+00:09:43,826 --> 00:09:46,766
+Generation got cheap. Understanding did not.
+
+122
+00:09:46,766 --> 00:09:50,040
+The gap between the two is landing in production.
+
+123
+00:09:50,040 --> 00:09:52,817
+Now bring the cardinal rule to the new author.
+
+124
+00:09:52,817 --> 00:09:57,585
+It is tempting to close the gap by having the model test its own output, and as
+
+125
+00:09:57,585 --> 00:10:01,629
+scaffolding it should — generated tests are excellent raw material.
+
+126
+00:10:01,629 --> 00:10:07,182
+But watch what happens when nobody reviews them, because the failure hides inside good news.
+
+127
+00:10:07,182 --> 00:10:13,520
+The model writes the code; the model writes tests that assert what the code already does; the tests pass.
+
+128
+00:10:13,520 --> 00:10:20,643
+A test that restates its own implementation is not evidence — it is a self-fulfilling prophecy with a green checkmark.
+
+129
+00:10:20,643 --> 00:10:25,894
+The suite fills with assertions nobody argued for, the dashboard glows, and the warrant
+
+130
+00:10:25,894 --> 00:10:29,576
+everyone assumes must exist was never manufactured by anyone.
+
+131
+00:10:29,576 --> 00:10:37,423
+This is the oldest distinction in the theory of knowledge, wearing engineering clothes: producing an answer is not justifying one.
+
+132
+00:10:37,423 --> 00:10:38,751
+Output is not warrant.
+
+133
+00:10:38,751 --> 00:10:44,123
+Capability produces candidates; warrant is what makes a candidate safe to act on — and in
+
+134
+00:10:44,123 --> 00:10:52,272
+this story warrant comes from exactly one place: a mind independent of the author deciding that the assertion is the right one to make.
+
+135
+00:10:52,272 --> 00:10:57,361
+There is a name for what accumulates when that step is skipped: epistemic debt — the
+
+136
+00:10:57,361 --> 00:11:02,148
+growing distance between what the system relies on and what is still warranted.
+
+137
+00:11:02,148 --> 00:11:07,298
+It compounds quietly, because every unreviewed generated test adds another assumption
+
+138
+00:11:07,298 --> 00:11:13,902
+nobody owns, and it is repaid the way all debt is repaid: later, with interest, at the worst possible moment.
+
+139
+00:11:13,902 --> 00:11:19,840
+Test review — the team reading the generated assertions and asking, is this actually what we mean?
+
+140
+00:11:19,840 --> 00:11:22,869
+— is not process overhead on top of the real work.
+
+141
+00:11:22,869 --> 00:11:28,261
+It is the step that converts generated candidates into justified claims: the department's
+
+142
+00:11:28,261 --> 00:11:32,684
+defense against paying interest on green builds it never actually earned.
+
+143
+00:11:32,684 --> 00:11:35,532
+This was never a new rule for a new technology.
+
+144
+00:11:35,532 --> 00:11:40,379
+It is Myers' rule, applied to a new kind of author — one that produces plausible
+
+145
+00:11:40,379 --> 00:11:45,408
+verification of its own work at industrial speed, and holds no employment contract.
+
+146
+00:11:45,408 --> 00:11:48,771
+Reframe, finally, what the reviewed suite buys you: speed.
+
+147
+00:11:48,771 --> 00:11:53,583
+The department with a trustworthy regression suite is the one that can accept large
+
+148
+00:11:53,583 --> 00:11:59,148
+AI-generated changes quickly, because the net is strong enough to catch what the reading missed.
+
+149
+00:11:59,148 --> 00:12:04,250
+Tests are not the brakes that slow the car; they are the brakes that let you drive fast.
+
+150
+00:12:04,250 --> 00:12:09,294
+Departments that deleted their quality process to go faster with AI chose to drive fast
+
+151
+00:12:09,294 --> 00:12:14,976
+without brakes — and the DORA stability numbers are what that choice looks like at industry scale.
+
+152
+00:12:14,976 --> 00:12:21,993
+Now, in fairness, the honest failure modes — five concessions, so this survives your most skeptical colleague.
+
+153
+00:12:21,993 --> 00:12:27,288
+Coverage worship: one hundred percent coverage of tests that assert nothing anchors
+
+154
+00:12:27,288 --> 00:12:33,412
+nothing — coverage measures execution, not knowledge; review the assertions, not the percentage.
+
+155
+00:12:33,412 --> 00:12:41,132
+Rubber-stamp review: an approval in forty seconds transfers no judgment; if review is theater, it is cost without memory.
+
+156
+00:12:41,132 --> 00:12:49,680
+Gatekeeping nostalgia: QA as a toll booth deserved its bad name — the case here is for QA as a learning organ, not a department of no.
+
+157
+00:12:49,680 --> 00:12:54,981
+Outsourcing the organ: handing all testing to the cheapest external provider does not
+
+158
+00:12:54,981 --> 00:13:02,341
+outsource a task, it outsources the learning; a department can hollow itself this way while its dashboards stay green.
+
+159
+00:13:02,341 --> 00:13:07,580
+And the newest one, quality as individual scorecard: the moment defect counts become
+
+160
+00:13:07,580 --> 00:13:13,505
+personal KPIs, people stop surfacing failures, the dialogue dies, and the memory stops growing.
+
+161
+00:13:13,505 --> 00:13:18,744
+Measure teams, never heads — blamelessness is not softness; it is a memory strategy.
+
+162
+00:13:18,744 --> 00:13:20,479
+So what do you actually do?
+
+163
+00:13:20,479 --> 00:13:27,420
+The program is small enough to start this sprint, and every item is a team practice, not an individual duty.
+
+164
+00:13:27,420 --> 00:13:33,718
+Every bug that reaches production ends its life as a regression test plus one written line of why.
+
+165
+00:13:33,718 --> 00:13:39,309
+Review AI-generated code and its AI-generated tests together — senior and junior at the
+
+166
+00:13:39,309 --> 00:13:44,450
+same screen, asking whether the assertions say what the team means; that hour is
+
+167
+00:13:44,450 --> 00:13:48,820
+simultaneously the quality gate, the classroom, and the map-refresh.
+
+168
+00:13:48,820 --> 00:13:51,520
+Let disputes about behavior end in a test.
+
+169
+00:13:51,520 --> 00:13:56,661
+Rotate test and review ownership so no knowledge hardens into a private channel.
+
+170
+00:13:56,661 --> 00:14:03,216
+And make the cardinal rule written policy: nothing ships verified only by its author — human or model.
+
+171
+00:14:03,216 --> 00:14:08,385
+Then watch three numbers, and put them on a team dashboard, never a personal one.
+
+172
+00:14:08,385 --> 00:14:12,852
+Same-bug recurrence — the direct measurement of organizational memory.
+
+173
+00:14:12,852 --> 00:14:18,020
+Time-to-reproduce — a live reading of whether the who-knows-what map still works.
+
+174
+00:14:18,020 --> 00:14:24,912
+And regression tests added per incident — whether tuition is being converted into knowledge, or merely paid.
+
+175
+00:14:24,912 --> 00:14:27,736
+And what remains, when you strip it all down?
+
+176
+00:14:27,736 --> 00:14:32,506
+A development department's real asset was never this quarter's feature list.
+
+177
+00:14:32,506 --> 00:14:40,476
+It is the accumulated, hard-won model of the domain — every rule, every exception, every way the system has ever surprised you.
+
+178
+00:14:40,476 --> 00:14:45,935
+That asset has exactly one home that does not evaporate when a person resigns, does not
+
+179
+00:14:45,935 --> 00:14:54,094
+drift when a document ages, and does not depend on a model's context window: the test suite, and the team dialogue that builds it.
+
+180
+00:14:54,094 --> 00:14:59,428
+The code, increasingly, anyone can generate — and unreviewed, it is only a candidate.
+
+181
+00:14:59,428 --> 00:15:07,147
+What your tests know, because your team argued it into them together — that is warranted, that is owned, and that is yours.
+
+182
+00:15:07,147 --> 00:15:09,595
+Quality was never an individual virtue.
+
+183
+00:15:09,595 --> 00:15:13,737
+It is how a team thinks together, and what a department remembers.
+
+184
+00:15:13,737 --> 00:15:19,824
+Anchor it — and guard the door with the cardinal rule: nothing enters on its author's word alone.
+
+185
+00:15:19,824 --> 00:15:22,361
+A note on the research behind this talk.
+
+186
+00:15:22,361 --> 00:15:28,007
+It draws on the DORA State of AI-assisted Software Development report; GitClear's AI code
+
+187
+00:15:28,007 --> 00:15:33,271
+quality research, covering two hundred eleven million lines analyzed; Google's Site
+
+188
+00:15:33,271 --> 00:15:38,853
+Reliability Engineering book and its chapter on postmortem culture; Microsoft's study of
+
+189
+00:15:38,853 --> 00:15:44,118
+collaboration networks published in Nature Human Behaviour; reporting on the junior
+
+190
+00:15:44,118 --> 00:15:52,238
+developer pipeline crisis; and Glenford Myers, The Art of Software Testing, 1979, the classic statement of testing independence.
+
+191
+00:15:52,238 --> 00:15:56,424
+This presentation was produced end to end by Fluent Agents Studio.
+
+192
+00:15:56,424 --> 00:16:03,408
+That's the readout — now go make sure the thing your team knows lives somewhere that can't quit, drift, or forget.

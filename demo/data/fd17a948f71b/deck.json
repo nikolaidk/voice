@@ -1,0 +1,228 @@
+[
+ {
+  "title": "The Coffee Talk Was Load-Bearing",
+  "bullets": [],
+  "big_statement": "What organizations quietly lose when the assistant answers first",
+  "image": null,
+  "figure_svg": null,
+  "first_line": 0
+ },
+ {
+  "title": "The Feeling",
+  "bullets": [
+   "Work got faster",
+   "The workplace got quieter",
+   "Every answer a small rational win",
+   "Yet the organization feels thinner"
+  ],
+  "big_statement": null,
+  "image": null,
+  "figure_svg": null,
+  "first_line": 4
+ },
+ {
+  "title": "The Unasked Question",
+  "bullets": [
+   "The smallest unit of the change",
+   "Notice what silently does not happen"
+  ],
+  "big_statement": null,
+  "image": null,
+  "figure_svg": "<svg viewBox='0 0 1000 620' xmlns='http://www.w3.org/2000/svg'><style>.f{opacity:1;animation:fade 2.4s ease forwards}.f2{animation-delay:.3s}.f3{animation-delay:.6s}.f4{animation-delay:.9s}.f5{animation-delay:1.2s}@keyframes fade{from{opacity:0}to{opacity:1}}</style><rect x='60' y='70' width='260' height='90' rx='10' fill='#e8a13c'/><text x='190' y='122' font-family='sans-serif' font-size='28' fill='#1e222a' text-anchor='middle'>Your question</text><line x1='320' y1='115' x2='430' y2='115' stroke='#9aa0ab' stroke-width='3'/><polygon points='430,108 448,115 430,122' fill='#9aa0ab'/><rect x='448' y='70' width='300' height='90' rx='10' fill='none' stroke='#9aa0ab' stroke-width='2'/><text x='598' y='122' font-family='sans-serif' font-size='28' fill='#f2f0eb' text-anchor='middle'>Assistant answers</text><text x='60' y='230' font-family='sans-serif' font-size='26' fill='#9aa0ab'>What silently did not happen:</text><text class='f f2' x='80' y='300' font-family='sans-serif' font-size='26' fill='#f2f0eb'>\u2014 No one learns what you're working on</text><text class='f f3' x='80' y='360' font-family='sans-serif' font-size='26' fill='#f2f0eb'>\u2014 No mental map of what you know updated</text><text class='f f4' x='80' y='420' font-family='sans-serif' font-size='26' fill='#f2f0eb'>\u2014 No warm signal that experience is valued</text><text class='f f5' x='80' y='480' font-family='sans-serif' font-size='26' fill='#f2f0eb'>\u2014 No junior overhears and learns for free</text><text class='f f5' x='80' y='540' font-family='sans-serif' font-size='26' fill='#e8a13c'>Knowledge now in one head \u2014 gone by lunch</text></svg>",
+  "first_line": 6
+ },
+ {
+  "title": "Load-Bearing",
+  "bullets": [],
+  "big_statement": "The coffee talk was a load-bearing structure nobody engineered \u2014 so nobody notices when it's removed",
+  "image": null,
+  "figure_svg": null,
+  "first_line": 7
+ },
+ {
+  "title": "A Public Autopsy: Stack Overflow",
+  "bullets": [
+   "Questions per month, the shared coffee talk",
+   "Peak 2014 \u2192 ChatGPT 2022 \u2192 collapse"
+  ],
+  "big_statement": null,
+  "image": null,
+  "figure_svg": "<svg viewBox='0 0 1000 620' xmlns='http://www.w3.org/2000/svg'><style>.line{stroke-dasharray:1200;stroke-dashoffset:0;animation:draw 2.6s ease forwards}@keyframes draw{from{stroke-dashoffset:1200}to{stroke-dashoffset:0}}.lb{opacity:1;animation:f 1s ease .6s both}@keyframes f{from{opacity:0}to{opacity:1}}</style><line x1='120' y1='100' x2='920' y2='100' stroke='#9aa0ab' stroke-width='1' opacity='.2'/><line x1='120' y1='293' x2='920' y2='293' stroke='#9aa0ab' stroke-width='1' opacity='.2'/><line x1='120' y1='520' x2='920' y2='520' stroke='#9aa0ab' stroke-width='1' opacity='.4'/><text x='90' y='108' font-family='sans-serif' font-size='22' fill='#9aa0ab' text-anchor='end'>200k</text><text x='90' y='300' font-family='sans-serif' font-size='22' fill='#9aa0ab' text-anchor='end'>108k</text><polyline class='line' points='150,457 400,100 760,293 900,499' fill='none' stroke='#e8a13c' stroke-width='4'/><circle cx='400' cy='100' r='6' fill='#e8a13c'/><circle cx='760' cy='293' r='6' fill='#e8a13c'/><circle cx='900' cy='499' r='6' fill='#e8a13c'/><text class='lb' x='400' y='82' font-family='sans-serif' font-size='24' fill='#f2f0eb' text-anchor='middle'>~200k peak (2014)</text><text class='lb' x='760' y='275' font-family='sans-serif' font-size='24' fill='#f2f0eb' text-anchor='middle'>108k (Nov 2022)</text><text class='lb' x='150' y='445' font-family='sans-serif' font-size='22' fill='#9aa0ab' text-anchor='middle'>2009</text><text class='lb' x='900' y='540' font-family='sans-serif' font-size='22' fill='#e8a13c' text-anchor='middle'>\u221290%+ since</text></svg>",
+  "first_line": 9
+ },
+ {
+  "title": "The Commons",
+  "bullets": [],
+  "big_statement": "The questions did not disappear \u2014 the commons did",
+  "image": null,
+  "figure_svg": null,
+  "first_line": 10
+ },
+ {
+  "title": "Four Things That Stop Happening",
+  "bullets": [
+   "Name them \u2014 you can't defend what you can't point to"
+  ],
+  "big_statement": null,
+  "image": null,
+  "figure_svg": "<svg viewBox='0 0 1000 620' xmlns='http://www.w3.org/2000/svg'><style>.q{opacity:1;animation:pop .7s ease both}.q2{animation-delay:.2s}.q3{animation-delay:.4s}.q4{animation-delay:.6s}@keyframes pop{from{opacity:0;transform:scale(.96)}to{opacity:1;transform:scale(1)}}</style><g class='q'><rect x='60' y='60' width='420' height='230' rx='12' fill='#1e222a' stroke='#e8a13c' stroke-width='2'/><text x='90' y='120' font-family='sans-serif' font-size='30' fill='#e8a13c'>Socialization</text><text x='90' y='165' font-family='sans-serif' font-size='23' fill='#f2f0eb'>Tacit knowledge moves</text><text x='90' y='200' font-family='sans-serif' font-size='23' fill='#f2f0eb'>through shared work &amp; talk</text><text x='90' y='250' font-family='sans-serif' font-size='22' fill='#9aa0ab'>Nonaka</text></g><g class='q q2'><rect x='520' y='60' width='420' height='230' rx='12' fill='#1e222a' stroke='#e8a13c' stroke-width='2'/><text x='550' y='120' font-family='sans-serif' font-size='30' fill='#e8a13c'>Weak ties</text><text x='550' y='165' font-family='sans-serif' font-size='23' fill='#f2f0eb'>New information travels</text><text x='550' y='200' font-family='sans-serif' font-size='23' fill='#f2f0eb'>through acquaintances</text><text x='550' y='250' font-family='sans-serif' font-size='22' fill='#9aa0ab'>Nature: 61,000 employees</text></g><g class='q q3'><rect x='60' y='320' width='420' height='230' rx='12' fill='#1e222a' stroke='#e8a13c' stroke-width='2'/><text x='90' y='380' font-family='sans-serif' font-size='30' fill='#e8a13c'>Who-knows-what</text><text x='90' y='425' font-family='sans-serif' font-size='23' fill='#f2f0eb'>The map that routes</text><text x='90' y='460' font-family='sans-serif' font-size='23' fill='#f2f0eb'>problems to the right head</text><text x='90' y='510' font-family='sans-serif' font-size='22' fill='#9aa0ab'>Transactive memory</text></g><g class='q q4'><rect x='520' y='320' width='420' height='230' rx='12' fill='#1e222a' stroke='#e8a13c' stroke-width='2'/><text x='550' y='380' font-family='sans-serif' font-size='30' fill='#e8a13c'>Apprenticeship</text><text x='550' y='425' font-family='sans-serif' font-size='23' fill='#f2f0eb'>Juniors become seniors</text><text x='550' y='460' font-family='sans-serif' font-size='23' fill='#f2f0eb'>by legitimate eavesdropping</text><text x='550' y='510' font-family='sans-serif' font-size='22' fill='#9aa0ab'>MIT: cognitive debt</text></g></svg>",
+  "first_line": 11
+ },
+ {
+  "title": "The Weak Tie",
+  "bullets": [
+   "Microsoft: remote work siloed the network",
+   "Cross-group time fell ~a quarter",
+   "Weak ties withered first",
+   "AI is the accelerant"
+  ],
+  "big_statement": null,
+  "image": null,
+  "figure_svg": null,
+  "first_line": 13
+ },
+ {
+  "title": "The Who-Knows-What Map",
+  "bullets": [
+   "Teams know who knows things",
+   "Asking around refreshes the map",
+   "Ask only the assistant \u2192 map goes stale",
+   "Full of experts, unable to find them"
+  ],
+  "big_statement": null,
+  "image": null,
+  "figure_svg": null,
+  "first_line": 14
+ },
+ {
+  "title": "Cognitive Debt",
+  "bullets": [
+   "MIT: weakest brain connectivity, lowest recall",
+   "CMU: more trust in AI, less critical thinking",
+   "Juniors ship more, understand less",
+   "Seniors mentor less"
+  ],
+  "big_statement": null,
+  "image": null,
+  "figure_svg": null,
+  "first_line": 15
+ },
+ {
+  "title": "The Mirror: We've Run This Before",
+  "bullets": [
+   "Work across an interface without shared context",
+   "Two decades called it outsourcing"
+  ],
+  "big_statement": null,
+  "image": null,
+  "figure_svg": "<svg viewBox='0 0 1000 620' xmlns='http://www.w3.org/2000/svg'><style>.c{opacity:1;animation:f 1s ease both}.c2{animation-delay:.5s}@keyframes f{from{opacity:0}to{opacity:1}}</style><g class='c'><rect x='70' y='90' width='380' height='420' rx='14' fill='#1e222a' stroke='#9aa0ab' stroke-width='2'/><text x='260' y='150' font-family='sans-serif' font-size='30' fill='#9aa0ab' text-anchor='middle'>Codified interface</text><text x='100' y='220' font-family='sans-serif' font-size='24' fill='#f2f0eb'>\u2022 Tickets &amp; handoffs</text><text x='100' y='270' font-family='sans-serif' font-size='24' fill='#f2f0eb'>\u2022 Generated documents</text><text x='100' y='320' font-family='sans-serif' font-size='24' fill='#f2f0eb'>\u2022 Tacit knowledge lost</text><text x='100' y='390' font-family='sans-serif' font-size='24' fill='#e8a13c'>Then: the hollow</text><text x='100' y='425' font-family='sans-serif' font-size='24' fill='#e8a13c'>corporation</text><text x='100' y='475' font-family='sans-serif' font-size='24' fill='#e8a13c'>Now: quiet outsourcing</text></g><g class='c c2'><rect x='550' y='90' width='380' height='420' rx='14' fill='#1e222a' stroke='#e8a13c' stroke-width='2'/><text x='740' y='150' font-family='sans-serif' font-size='30' fill='#e8a13c' text-anchor='middle'>Shared context</text><text x='580' y='220' font-family='sans-serif' font-size='24' fill='#f2f0eb'>\u2022 Joint rituals</text><text x='580' y='270' font-family='sans-serif' font-size='24' fill='#f2f0eb'>\u2022 Rotating across interface</text><text x='580' y='320' font-family='sans-serif' font-size='24' fill='#f2f0eb'>\u2022 Shared ownership</text><text x='580' y='370' font-family='sans-serif' font-size='24' fill='#f2f0eb'>\u2022 Co-located phases</text><text x='580' y='445' font-family='sans-serif' font-size='24' fill='#e8a13c'>The cure: engineered</text><text x='580' y='480' font-family='sans-serif' font-size='24' fill='#e8a13c'>human contact</text></g></svg>",
+  "first_line": 18
+ },
+ {
+  "title": "Co-located Strangers",
+  "bullets": [
+   "Share an employer and a floor plan",
+   "Exchange context through tickets alone",
+   "Outsource the org to the model, no contract",
+   "Human connection is now the hard argument"
+  ],
+  "big_statement": null,
+  "image": null,
+  "figure_svg": null,
+  "first_line": 19
+ },
+ {
+  "title": "What This Is Not Saying",
+  "bullets": [
+   "Much AI displaced deserved to die",
+   "Valuable exchange free-rode on the necessary",
+   "Remote work loosened the fabric first",
+   "DORA: AI amplifies what's already there"
+  ],
+  "big_statement": null,
+  "image": null,
+  "figure_svg": null,
+  "first_line": 21
+ },
+ {
+  "title": "The Merge Ritual",
+  "bullets": [
+   "Status reporting is dead \u2014 a gift",
+   "Failure mode: everyone aligns with their own assistant",
+   "Ask where do we disagree \u2014 and is it right?"
+  ],
+  "big_statement": null,
+  "image": null,
+  "figure_svg": null,
+  "first_line": 25
+ },
+ {
+  "title": "Argument",
+  "bullets": [],
+  "big_statement": "Argument is not friction in the process \u2014 argument is the process",
+  "image": null,
+  "figure_svg": null,
+  "first_line": 26
+ },
+ {
+  "title": "Documentation & Review",
+  "bullets": [
+   "Argued document is cement; unresisted is wallpaper",
+   "Keep the decision record a human argument",
+   "Review together: quality gate + apprenticeship + map-refresh",
+   "The last place your next seniors are made"
+  ],
+  "big_statement": null,
+  "image": null,
+  "figure_svg": null,
+  "first_line": 27
+ },
+ {
+  "title": "At Eye Level",
+  "bullets": [
+   "Leaders: measure the fabric, not just velocity",
+   "ICs: take one question a day to a human",
+   "Being findable keeps you a colleague"
+  ],
+  "big_statement": null,
+  "image": null,
+  "figure_svg": null,
+  "first_line": 30
+ },
+ {
+  "title": "Being a Good Colleague",
+  "bullets": [],
+  "big_statement": "Being a good colleague was always kindness \u2014 it turns out it's also infrastructure",
+  "image": null,
+  "figure_svg": null,
+  "first_line": 31
+ },
+ {
+  "title": "Take the Long Way Around",
+  "bullets": [
+   "The machine holds what we tell it",
+   "Not what we are together",
+   "Some questions should still pass a human",
+   "The answer was never all the question was for"
+  ],
+  "big_statement": null,
+  "image": null,
+  "figure_svg": null,
+  "first_line": 32
+ },
+ {
+  "title": "Sources",
+  "bullets": [
+   "Nature Human Behaviour, Microsoft 61k: nature.com/articles/s41562-021-01196-4",
+   "Your Brain on ChatGPT, MIT: media.mit.edu/publications/your-brain-on-chatgpt",
+   "GenAI & Critical Thinking, MSR + CMU, CHI 2025: microsoft.com/en-us/research",
+   "Stack Overflow decline: blog.pragmaticengineer.com/stack-overflow-is-almost-dead",
+   "DORA 2025: dora.dev/dora-report-2025 \u00b7 Transactive memory: tepperspectives.cmu.edu",
+   "Tacit knowledge in outsourcing: sciencedirect.com \u00b7 Produced by fluentagents.com"
+  ],
+  "big_statement": null,
+  "image": null,
+  "figure_svg": null,
+  "first_line": 33
+ }
+]

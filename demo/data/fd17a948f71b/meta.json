@@ -1,0 +1,212 @@
+{
+ "mode": "readout",
+ "source": "http://localhost:8898/coffeetalk.html",
+ "title": "The Coffee Talk Was Load-Bearing \u2014 what organizations quietly lose when the assistant answers first",
+ "created_at": 1783433614.3912609,
+ "options": {
+  "host_a": null,
+  "host_b": null,
+  "reader": "a warm, clear-eyed senior colleague speaking at eye level to an entire organization \u2014 from the boardroom to the team room",
+  "audience": "everyone in an organization adopting AI \u2014 executives, managers, architects and individual contributors alike",
+  "voices": {
+   "NARRATOR": "en-GB-SoniaNeural"
+  },
+  "slides": [
+   "video",
+   "pptx",
+   "web"
+  ],
+  "slide_style": "A keynote for everyone in an organization: warm, composed, minimal text \u2014 the slides give names to phenomena, so let coined terms carry slides (the unasked question, the who-knows-what map, co-located strangers, quiet outsourcing, the merge ritual, cognitive debt). Design figures that teach: the unasked-question flow (what silently does not happen when the assistant answers), the Stack Overflow question-volume cliff (peak ~200k/month 2014, ~108k Nov 2022, collapse >90% since \u2014 from the data in the source), the four losses as a map (socialization, weak ties, who-knows-what, apprenticeship), and the outsourcing mirror (codified interface vs shared context, then vs now). Use big_statement slides for the load-bearing lines: 'The coffee talk was load-bearing', 'The questions did not disappear \u2014 the commons did', 'Argument is the process', 'Being a good colleague is infrastructure'. End with a Sources slide (or two) listing every reference with its URL in small text, taken from the Sources section.",
+  "captions": "toggle",
+  "animations": "on",
+  "footer": "https://fluentagents.com"
+ },
+ "templates": [],
+ "revisions": [],
+ "cues": [
+  {
+   "line": 0,
+   "start": 0.0,
+   "duration": 30.936
+  },
+  {
+   "line": 1,
+   "start": 30.936,
+   "duration": 2.328
+  },
+  {
+   "line": 2,
+   "start": 33.264,
+   "duration": 6.192
+  },
+  {
+   "line": 3,
+   "start": 39.456,
+   "duration": 37.608
+  },
+  {
+   "line": 4,
+   "start": 77.064,
+   "duration": 34.752
+  },
+  {
+   "line": 5,
+   "start": 111.816,
+   "duration": 4.704
+  },
+  {
+   "line": 6,
+   "start": 116.52,
+   "duration": 35.712
+  },
+  {
+   "line": 7,
+   "start": 152.232,
+   "duration": 23.592
+  },
+  {
+   "line": 8,
+   "start": 175.824,
+   "duration": 8.184
+  },
+  {
+   "line": 9,
+   "start": 184.008,
+   "duration": 61.296
+  },
+  {
+   "line": 10,
+   "start": 245.304,
+   "duration": 16.536
+  },
+  {
+   "line": 11,
+   "start": 261.84000000000003,
+   "duration": 10.872
+  },
+  {
+   "line": 12,
+   "start": 272.71200000000005,
+   "duration": 24.168
+  },
+  {
+   "line": 13,
+   "start": 296.88000000000005,
+   "duration": 42.312
+  },
+  {
+   "line": 14,
+   "start": 339.19200000000006,
+   "duration": 32.328
+  },
+  {
+   "line": 15,
+   "start": 371.5200000000001,
+   "duration": 64.056
+  },
+  {
+   "line": 16,
+   "start": 435.5760000000001,
+   "duration": 5.544
+  },
+  {
+   "line": 17,
+   "start": 441.12000000000006,
+   "duration": 19.968
+  },
+  {
+   "line": 18,
+   "start": 461.0880000000001,
+   "duration": 40.08
+  },
+  {
+   "line": 19,
+   "start": 501.16800000000006,
+   "duration": 64.8
+  },
+  {
+   "line": 20,
+   "start": 565.9680000000001,
+   "duration": 12.192
+  },
+  {
+   "line": 21,
+   "start": 578.1600000000001,
+   "duration": 31.824
+  },
+  {
+   "line": 22,
+   "start": 609.984,
+   "duration": 14.88
+  },
+  {
+   "line": 23,
+   "start": 624.864,
+   "duration": 21.456
+  },
+  {
+   "line": 24,
+   "start": 646.32,
+   "duration": 19.104
+  },
+  {
+   "line": 25,
+   "start": 665.4240000000001,
+   "duration": 42.936
+  },
+  {
+   "line": 26,
+   "start": 708.3600000000001,
+   "duration": 30.624
+  },
+  {
+   "line": 27,
+   "start": 738.9840000000002,
+   "duration": 49.824
+  },
+  {
+   "line": 28,
+   "start": 788.8080000000001,
+   "duration": 4.512
+  },
+  {
+   "line": 29,
+   "start": 793.32,
+   "duration": 19.224
+  },
+  {
+   "line": 30,
+   "start": 812.5440000000001,
+   "duration": 24.288
+  },
+  {
+   "line": 31,
+   "start": 836.8320000000001,
+   "duration": 23.04
+  },
+  {
+   "line": 32,
+   "start": 859.8720000000001,
+   "duration": 35.928
+  },
+  {
+   "line": 33,
+   "start": 895.8000000000001,
+   "duration": 9.912
+  }
+ ],
+ "timing": {},
+ "usage": {
+  "input": 16659,
+  "output": 11195,
+  "cache_read": 0,
+  "cache_write": 0,
+  "calls": 2
+ },
+ "youtube": null,
+ "stale": {
+  "slides": false,
+  "audio": false,
+  "outputs": false
+ }
+}

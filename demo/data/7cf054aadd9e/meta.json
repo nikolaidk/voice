@@ -1,0 +1,229 @@
+{
+ "mode": "readout",
+ "source": "http://localhost:8898/qa_knowledge.html",
+ "title": "The Test Is the Memory \u2014 QA as team dialogue, organizational memory, and the answer to epistemic debt",
+ "created_at": 1783435413.251143,
+ "options": {
+  "host_a": null,
+  "host_b": null,
+  "reader": "a seasoned engineering leader speaking to a development department \u2014 engineers, testers, leads",
+  "audience": "development departments: software engineers, QA engineers, tech leads and engineering managers under pressure to trade quality process for AI velocity",
+  "voices": {
+   "NARRATOR": "en-GB-RyanNeural"
+  },
+  "slides": [
+   "video",
+   "pptx",
+   "web"
+  ],
+  "slide_style": "A technical keynote for a development department in three parts (memory / team / epistemic debt) \u2014 composed, evidence-forward, minimal text",
+  "captions": "toggle",
+  "animations": "on",
+  "footer": "https://fluentagents.com"
+ },
+ "templates": [],
+ "revisions": [
+  {
+   "target": "slides",
+   "instructions": "Figure hygiene only, change nothing else: in every figure_svg, keep all text labels fully inside the canvas (end labels must not touch or cross the right edge \u2014 shorten them or move them left of the line ends), and never use arrow characters (\u2192) or other special symbols inside figures \u2014 write 'to' or a hyphen instead (e.g. 'churn 3.1 to 5.7 percent'). Keep every slide's content, titles, bullets and narration anchors exactly as they are."
+  },
+  {
+   "target": "source",
+   "instructions": "replaced source with http://localhost:8898/qa_knowledge.html"
+  },
+  {
+   "target": "script",
+   "instructions": "The source gained a new section 'Why you should not test your own work' (placed just before the AI section), and two small additions: the grading-its-own-homework line now ends by citing Myers' 1979 rule applied to a new kind of author, and the Sources section adds Glenford Myers, The Art of Software Testing, 1979. Insert the new section faithfully at that position and apply the two additions. Keep every other line word-for-word unchanged."
+  },
+  {
+   "target": "source",
+   "instructions": "replaced source with http://localhost:8898/qa_knowledge.html"
+  },
+  {
+   "target": "script",
+   "instructions": "The source elevated testing independence from a section to the talk's cardinal rule, with four changes: (1) the opening series paragraph now ends by announcing the cardinal rule as the talk's spine \u2014 verification must never belong to the author, human or model, because independence turns private claims into secured organizational knowledge"
+  },
+  {
+   "target": "script",
+   "instructions": "Insert ONE new line immediately after line 18 (the knowledge-pump line ending in 'how a department comes to know itself'), spoken in the same voice, faithful to this source passage: 'But the deepest consequence is this: independent verification secures the knowledge itself. As long as only its author has exercised a behavior, the organization's grasp of it has a bus factor of one \u2014 the author can resign, forget, or simply have been wrong from the start, and no one would know. The moment a second mind verifies it, the knowledge is duplicated into another head, hardened against a different model of the problem, and anchored in an artifact both can defend. That is the real transaction hiding inside every review and every independent test: verification is how knowledge changes owner \u2014 from the author to the organization. Until then, a claim only its author has verified is not yet organizational knowledge. It is a rumor with a commit hash. Keep this rule in hand, because we are about to meet a brand-new author with exactly the same blind spot \u2014 and no employment contract.' Also, if line 18 currently ends with a transition into the next section, trim that transition since the new line now carries it. Keep every other line word-for-word unchanged."
+  },
+  {
+   "target": "slides",
+   "instructions": "The deck is missing its teaching figures \u2014 keep all slides, titles, statements and narration anchors exactly as they are, but ADD figure_svg visuals to the slides where the narration presents data or mechanisms: (1) the GitClear trends chart on the generation-got-cheap slide (duplication 8.3 to 12.3 percent rising, refactoring 25 to under 10 percent falling, churn 3.1 to 5.7 percent rising, 2021 to 2024 \u2014 labels fully inside the canvas, no special characters)"
+  },
+  {
+   "target": "source",
+   "instructions": "replaced source with http://localhost:8898/qa_knowledge.html"
+  },
+  {
+   "target": "script",
+   "instructions": "The cardinal-rule section was strengthened: the team dialogue is now THE cardinal argument, not bias. Three changes to apply faithfully: (1) in the opening, the cardinal-rule announcement now says independence 'is not a courtesy of process, and it is not mainly about bias \u2014 it is that independent verification forces a team dialogue, and the dialogue is where knowledge anchors'"
+  },
+  {
+   "target": "script",
+   "instructions": "Line 18 only \u2014 extend it with the material that was dropped, keeping everything already there intact: after 'Independent testing is a dialogue with a deadline.' insert: 'And notice what this means in the light of the previous talk in this series: the informal knowledge exchange lost its carrier when the assistant made asking colleagues optional. The independent test handoff is that exchange with the option removed \u2014 a conversation built into the structure of the work, one that cannot be quietly skipped on a busy Tuesday. When a department lets developers verify their own work, it is not saving a process step. It is deleting the last mandatory conversation in its pipeline.' Also in the consequences that follow, add that the junior in the review thread learns both the feature and how a senior probes one, and change 'Cross-testing is how a department comes to know itself.' to 'Cross-testing is how a department talks to itself, and therefore how it comes to know itself.' Every other line stays word-for-word unchanged."
+  },
+  {
+   "target": "source",
+   "instructions": "replaced source with http://localhost:8898/qa_knowledge.html"
+  },
+  {
+   "target": "script",
+   "instructions": "The source gained one new paragraph, inserted immediately after the Myers-1979-rule-applied-to-a-new-kind-of-author line: the epistemic-debt argument. Insert it faithfully as new narration at exactly that point: there is a name for what accumulates when the rule is ignored \u2014 epistemic debt, the growing distance between what the system relies on and what is still warranted"
+  },
+  {
+   "target": "source",
+   "instructions": "replaced source with http://localhost:8898/qa_knowledge.html"
+  },
+  {
+   "target": "script",
+   "instructions": "The source document has been COMPLETELY REWRITTEN with a new three-part architecture (part one: the suite is the memory"
+  }
+ ],
+ "cues": [
+  {
+   "line": 0,
+   "start": 0.0,
+   "duration": 17.232
+  },
+  {
+   "line": 1,
+   "start": 17.232,
+   "duration": 30.84
+  },
+  {
+   "line": 2,
+   "start": 48.072,
+   "duration": 44.208
+  },
+  {
+   "line": 3,
+   "start": 92.28,
+   "duration": 17.856
+  },
+  {
+   "line": 4,
+   "start": 110.136,
+   "duration": 28.752
+  },
+  {
+   "line": 5,
+   "start": 138.888,
+   "duration": 47.28
+  },
+  {
+   "line": 6,
+   "start": 186.168,
+   "duration": 32.424
+  },
+  {
+   "line": 7,
+   "start": 218.592,
+   "duration": 32.448
+  },
+  {
+   "line": 8,
+   "start": 251.04000000000002,
+   "duration": 42.24
+  },
+  {
+   "line": 9,
+   "start": 293.28000000000003,
+   "duration": 50.016
+  },
+  {
+   "line": 10,
+   "start": 343.29600000000005,
+   "duration": 29.352
+  },
+  {
+   "line": 11,
+   "start": 372.648,
+   "duration": 53.784
+  },
+  {
+   "line": 12,
+   "start": 426.432,
+   "duration": 28.44
+  },
+  {
+   "line": 13,
+   "start": 454.872,
+   "duration": 38.568
+  },
+  {
+   "line": 14,
+   "start": 493.44,
+   "duration": 41.472
+  },
+  {
+   "line": 15,
+   "start": 534.912,
+   "duration": 55.128
+  },
+  {
+   "line": 16,
+   "start": 590.0400000000001,
+   "duration": 62.232
+  },
+  {
+   "line": 17,
+   "start": 652.272,
+   "duration": 53.136
+  },
+  {
+   "line": 18,
+   "start": 705.408,
+   "duration": 29.568
+  },
+  {
+   "line": 19,
+   "start": 734.976,
+   "duration": 34.704
+  },
+  {
+   "line": 20,
+   "start": 769.68,
+   "duration": 29.064
+  },
+  {
+   "line": 21,
+   "start": 798.7439999999999,
+   "duration": 44.472
+  },
+  {
+   "line": 22,
+   "start": 843.2159999999999,
+   "duration": 21.696
+  },
+  {
+   "line": 23,
+   "start": 864.9119999999999,
+   "duration": 54.912
+  },
+  {
+   "line": 24,
+   "start": 919.824,
+   "duration": 36.6
+  },
+  {
+   "line": 25,
+   "start": 956.424,
+   "duration": 6.984
+  }
+ ],
+ "timing": {},
+ "usage": {
+  "input": 97872,
+  "output": 105123,
+  "cache_read": 11271,
+  "cache_write": 47886,
+  "calls": 14
+ },
+ "youtube": null,
+ "stale": {
+  "slides": false,
+  "audio": false,
+  "outputs": false
+ }
+}

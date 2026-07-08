@@ -1,0 +1,231 @@
+{
+ "mode": "readout",
+ "source": "http://localhost:8898/pipelines.html",
+ "title": "Rent the Intelligence, Own the Workflow \u2014 succeeding with multi-agent pipelines dressed up for human interaction",
+ "created_at": 1783425842.000524,
+ "options": {
+  "host_a": null,
+  "host_b": null,
+  "reader": "a seasoned software architect and strategy advisor delivering a keynote to fellow architects and executives \u2014 composed, precise, quietly confident, zero hype",
+  "audience": "software architects, engineering managers and executives deciding how AI should enter their products \u2014 strategically minded, sceptical of hype, time-poor, allergic to fluff",
+  "voices": {
+   "NARRATOR": "en-GB-RyanNeural"
+  },
+  "slides": [
+   "video",
+   "pptx",
+   "web"
+  ],
+  "slide_style": "An executive keynote deck: composed, authoritative, minimal text per slide \u2014 this is a keynote, not a tutorial. Place the five screenshots on the slides where the narration demonstrates the studio. Design framework figures that teach: the generic pipeline pattern (agent stages, human-legible artifacts between them, human checkpoints with authority), the cost-of-correction asymmetry across stages, a rent-versus-own map, a pitfalls-and-cures overview, and a domain-translation table (insurance claims, legal, clinical documentation, software, marketing). Use big_statement slides for the load-bearing principles: 'Chat is an interface, not a strategy', 'Rent the intelligence. Own the workflow.', 'The product is the revision loop', 'Find the assembly line inside the knowledge work'.",
+  "captions": "toggle",
+  "animations": "on"
+ },
+ "templates": [],
+ "revisions": [],
+ "cues": [
+  {
+   "line": 0,
+   "start": 0.0,
+   "duration": 8.016
+  },
+  {
+   "line": 1,
+   "start": 8.016,
+   "duration": 23.88
+  },
+  {
+   "line": 2,
+   "start": 31.896,
+   "duration": 34.8
+  },
+  {
+   "line": 3,
+   "start": 66.696,
+   "duration": 25.296
+  },
+  {
+   "line": 4,
+   "start": 91.99199999999999,
+   "duration": 30.984
+  },
+  {
+   "line": 5,
+   "start": 122.976,
+   "duration": 2.952
+  },
+  {
+   "line": 6,
+   "start": 125.928,
+   "duration": 7.992
+  },
+  {
+   "line": 7,
+   "start": 133.92,
+   "duration": 54.936
+  },
+  {
+   "line": 8,
+   "start": 188.856,
+   "duration": 34.392
+  },
+  {
+   "line": 9,
+   "start": 223.248,
+   "duration": 5.904
+  },
+  {
+   "line": 10,
+   "start": 229.152,
+   "duration": 25.776
+  },
+  {
+   "line": 11,
+   "start": 254.928,
+   "duration": 23.496
+  },
+  {
+   "line": 12,
+   "start": 278.424,
+   "duration": 18.552
+  },
+  {
+   "line": 13,
+   "start": 296.976,
+   "duration": 24.072
+  },
+  {
+   "line": 14,
+   "start": 321.048,
+   "duration": 16.08
+  },
+  {
+   "line": 15,
+   "start": 337.128,
+   "duration": 3.36
+  },
+  {
+   "line": 16,
+   "start": 340.488,
+   "duration": 39.216
+  },
+  {
+   "line": 17,
+   "start": 379.704,
+   "duration": 33.504
+  },
+  {
+   "line": 18,
+   "start": 413.208,
+   "duration": 5.208
+  },
+  {
+   "line": 19,
+   "start": 418.41600000000005,
+   "duration": 15.864
+  },
+  {
+   "line": 20,
+   "start": 434.28000000000003,
+   "duration": 48.864
+  },
+  {
+   "line": 21,
+   "start": 483.144,
+   "duration": 8.424
+  },
+  {
+   "line": 22,
+   "start": 491.568,
+   "duration": 11.28
+  },
+  {
+   "line": 23,
+   "start": 502.84799999999996,
+   "duration": 61.56
+  },
+  {
+   "line": 24,
+   "start": 564.4079999999999,
+   "duration": 26.808
+  },
+  {
+   "line": 25,
+   "start": 591.2159999999999,
+   "duration": 23.808
+  },
+  {
+   "line": 26,
+   "start": 615.0239999999999,
+   "duration": 16.416
+  },
+  {
+   "line": 27,
+   "start": 631.4399999999999,
+   "duration": 17.568
+  },
+  {
+   "line": 28,
+   "start": 649.0079999999999,
+   "duration": 3.144
+  },
+  {
+   "line": 29,
+   "start": 652.1519999999999,
+   "duration": 17.4
+  },
+  {
+   "line": 30,
+   "start": 669.5519999999999,
+   "duration": 61.752
+  },
+  {
+   "line": 31,
+   "start": 731.3039999999999,
+   "duration": 3.336
+  },
+  {
+   "line": 32,
+   "start": 734.6399999999999,
+   "duration": 37.68
+  },
+  {
+   "line": 33,
+   "start": 772.3199999999998,
+   "duration": 33.672
+  },
+  {
+   "line": 34,
+   "start": 805.9919999999998,
+   "duration": 4.512
+  },
+  {
+   "line": 35,
+   "start": 810.5039999999998,
+   "duration": 36.096
+  },
+  {
+   "line": 36,
+   "start": 846.5999999999998,
+   "duration": 18.84
+  },
+  {
+   "line": 37,
+   "start": 865.4399999999998,
+   "duration": 5.712
+  }
+ ],
+ "timing": {},
+ "usage": {
+  "input": 22677,
+  "output": 15725,
+  "cache_read": 0,
+  "cache_write": 0,
+  "calls": 2
+ },
+ "youtube": null,
+ "stale": {
+  "slides": false,
+  "audio": false,
+  "outputs": false
+ }
+}
