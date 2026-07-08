@@ -5,8 +5,35 @@ production pipeline (extract → script → deck → voice → render) dressed u
 for human interaction, converting a **URL or PDF** into produced audio and
 video content. Built as an AI-assisted development experiment directed by
 Nikolai Manigoff Rasmussen, with Claude (Fable 5) as the implementer —
-[the story on LinkedIn](https://www.linkedin.com/posts/nikolai-rasmussen-8420a818_aiassisteddevelopment-softwarearchitecture-activity-7479980301423812608-Pznk),
+[the experiment write-up on LinkedIn](https://www.linkedin.com/posts/nikolai-rasmussen-8420a818_aiassisteddevelopment-softwarearchitecture-ugcPost-7479980087472463873-0063/),
 [the live demo](https://demo.fluentagents.com/studio).
+
+## The experiment
+
+This repository is the artifact of a deliberate **under-specification
+experiment**: an empty directory, one prompt — *"Create a web API that takes a
+URL or PDF and converts it into a podcast"* — and only intent, rationale and
+occasional course corrections from the human, while stock **Claude Code
+(Fable 5), with no extra add-ons**, made the engineering decisions. Fewer than
+500 human words of direction became ~3,400 lines of working code, 17 endpoints
+and a five-stage media pipeline in an evening; the code review that redirected
+the architecture was four words long ("you hardcoded the charts"). The result
+is **experimental, not production-ready** — not security-hardened, not
+load-tested, and deliberately left that way as part of the record.
+
+**The conclusion cuts the other way: humans are needed more than ever.** In
+two days the model never once proposed a direction or said "this is enough";
+it wrote thousands of lines and zero tests; twice it reported success on
+changes that silently did nothing; and it missed flaws any user catches at a
+glance (duplicate library entries, mixed-language UI strings, a tutorial video
+where every screenshot showed the same screen). Everything it lacked — taste,
+dissatisfaction, verification, standards — had to come from the human side of
+the prompt. The human contribution is not disappearing; it is concentrating:
+capability can be rented, judgment cannot.
+
+- Live demo: **[fluentagents.com](https://fluentagents.com)** (read-only demo mode)
+- Experiment write-up: **[LinkedIn post](https://www.linkedin.com/posts/nikolai-rasmussen-8420a818_aiassisteddevelopment-softwarearchitecture-ugcPost-7479980087472463873-0063/)**
+- Author: **[Nikolai Manigoff Rasmussen](https://www.linkedin.com/in/nikolai-rasmussen-8420a818/)**
 
 Three modes:
 
