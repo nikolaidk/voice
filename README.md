@@ -21,9 +21,9 @@ the architecture was four words long ("you hardcoded the charts"). The result
 is **experimental, not production-ready** — not security-hardened, not
 load-tested, and deliberately left that way as part of the record.
 
-**The conclusion cuts the other way: humans are needed more than ever.** In
-two days the model never once proposed a direction or said "this is enough";
-it wrote thousands of lines and zero tests; twice it reported success on
+**The conclusion cuts the other way: humans are needed more than ever.** Not
+once did the model propose a direction or say "this is enough"; it wrote
+thousands of lines and zero tests; twice it reported success on
 changes that silently did nothing; and it missed flaws any user catches at a
 glance (duplicate library entries, mixed-language UI strings, a tutorial video
 where every screenshot showed the same screen). Everything it lacked — taste,
